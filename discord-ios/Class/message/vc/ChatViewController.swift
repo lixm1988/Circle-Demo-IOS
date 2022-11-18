@@ -36,7 +36,6 @@ class ChatViewController: BaseViewController {
     init(chatType: ChatType) {
         self.chatType = chatType
         super.init(nibName: nil, bundle: nil)
-        self.hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {

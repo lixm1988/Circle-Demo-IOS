@@ -131,6 +131,26 @@ class ServerJoinAlertViewController: UIViewController {
                 }
                 self.dismiss(animated: true)
             }
+        case .joinChannel:
+            self.joinChannel(showType: self.showType)
+        case .inviteServer(serverId: let serverId, inviter: let inviter, joinHandle: let handle, _):
+            EMClient.shared().circleManager?.acceptServerInvitation(serverId, inviter: inviter) { server, error in
+                HUD.hide()
+                if let error = error {
+                    Toast.show(error.errorDescription, duration: 2)
+                } else if let server = server {
+                    self.didJoinServer(serverId: serverId, server: server)
+                    handle(server)
+                }
+                self.dismiss(animated: true)
+            }
+        case .inviteChannel:
+            self.acceptChannelInvitation(showType: self.showType)
+        }
+    }
+    
+    private func joinChannel(showType: ShowType) {
+        switch showType {
         case .joinChannel(serverId: let serverId, channelId: let channelId, joinHandle: let handle):
             EMClient.shared().circleManager?.joinChannel(serverId, channelId: channelId) { channel, error in
                 HUD.hide()
@@ -149,17 +169,13 @@ class ServerJoinAlertViewController: UIViewController {
                 }
                 self.dismiss(animated: true)
             }
-        case .inviteServer(serverId: let serverId, inviter: let inviter, joinHandle: let handle, _):
-            EMClient.shared().circleManager?.acceptServerInvitation(serverId, inviter: inviter) { server, error in
-                HUD.hide()
-                if let error = error {
-                    Toast.show(error.errorDescription, duration: 2)
-                } else if let server = server {
-                    self.didJoinServer(serverId: serverId, server: server)
-                    handle(server)
-                }
-                self.dismiss(animated: true)
-            }
+        default:
+            break
+        }
+    }
+    
+    private func acceptChannelInvitation(showType: ShowType) {
+        switch showType {
         case .inviteChannel(inviteInfo: let inviteInfo, inviter: let inviter, joinHandle: let handle, _):
             EMClient.shared().circleManager?.acceptChannelInvitation(inviteInfo.serverId, channelId: inviteInfo.channelId, inviter: inviter) { channel, error in
                 HUD.hide()
@@ -173,6 +189,8 @@ class ServerJoinAlertViewController: UIViewController {
                 }
                 self.dismiss(animated: true)
             }
+        default:
+            break
         }
     }
     

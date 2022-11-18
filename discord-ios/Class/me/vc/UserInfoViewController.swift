@@ -14,6 +14,15 @@ class UserInfoViewController: UIViewController {
     public enum ShowType {
         case me
         case other(userId: String)
+        
+        var userId: String? {
+            switch self {
+            case .me:
+                return EMClient.shared().currentUsername
+            case .other(userId: let userId):
+                return userId
+            }
+        }
     }
     
     @IBOutlet private weak var placeholderImageViewBottomConstraint: NSLayoutConstraint!
@@ -48,10 +57,8 @@ class UserInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.backButton.isHidden = self.navigationController?.viewControllers.count ?? 0 <= 1
-        var userId: String?
         switch self.showType {
         case .me:
-            userId = EMClient.shared().currentUsername
             self.addContactButton.isHidden = true
             self.chatButton.isHidden = true
             self.settingButton.isHidden = false
@@ -60,28 +67,20 @@ class UserInfoViewController: UIViewController {
             self.statusView.status = .online
             NotificationCenter.default.addObserver(self, selector: #selector(onRecvCurrentUserInfoChangeNotification(notification:)), name: EMCurrentUserInfoUpdate, object: nil)
         case .other(userId: let value):
-            userId = value
             self.addContactButton.isHidden = true
             self.chatButton.isHidden = false
             self.settingButton.isHidden = true
             self.moreButton.isHidden = true
             self.mineLabel.isHidden = true
-            if let contacts = EMClient.shared().contactManager?.getContacts() {
-                DispatchQueue.global().async {
-                    let isContact = contacts.contains(value)
-                    DispatchQueue.main.async {
-                        if isContact {
-                            self.moreButton.isHidden = false
-                            self.chatButton.snp.updateConstraints { make in
-                                make.left.equalTo(24)
-                            }
-                        } else {
-                            self.addContactButton.isHidden = false
-                        }
-                    }
+            if let contacts = EMClient.shared().contactManager?.getContacts(), contacts.contains(value) {
+                self.moreButton.isHidden = false
+                self.chatButton.snp.updateConstraints { make in
+                    make.left.equalTo(24)
                 }
+            } else {
+                self.addContactButton.isHidden = false
             }
-            self.placeholderImageViewBottomConstraint.constant = self.view.bounds.height - self.chatButton.frame.minY
+            self.placeholderImageViewBottomConstraint.constant = 88
             
             self.statusView.status = .offline
             EMClient.shared().presenceManager?.fetchPresenceStatus([value]) { presences, error in
@@ -97,6 +96,7 @@ class UserInfoViewController: UIViewController {
                 }
             }
         }
+        let userId = self.showType.userId
         self.userIdLabel.text = userId
         if let userId = userId {
             UserInfoManager.share.queryUserInfo(userId: userId, loadCache: false) { userInfo, _ in
@@ -115,7 +115,6 @@ class UserInfoViewController: UIViewController {
     
     @IBAction func settingAction() {
         let vc = MeSettingViewController()
-        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

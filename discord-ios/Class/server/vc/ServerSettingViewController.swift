@@ -172,7 +172,11 @@ class ServerSettingViewController: UIViewController {
         vc.didInviteHandle = { userId, complete in
             EMClient.shared().circleManager?.inviteUserToServer(serverId: self.serverId, userId: userId, welcome: nil) { error in
                 if let error = error {
-                    Toast.show(error.errorDescription, duration: 2)
+                    if error.code == .repeatedOperation {
+                        Toast.show("该用户已加入社区", duration: 2)
+                    } else {
+                        Toast.show(error.errorDescription, duration: 2)
+                    }
                     complete(false)
                 } else {
                     Toast.show("邀请成功", duration: 2)

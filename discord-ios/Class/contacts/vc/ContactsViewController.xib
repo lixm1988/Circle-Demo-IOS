@@ -181,6 +181,9 @@
                                     <integer key="value" value="15"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="searchKeywordChangeAction:" destination="-1" eventType="editingChanged" id="n1Y-pr-TAj"/>
+                            </connections>
                         </textField>
                     </subviews>
                     <viewLayoutGuide key="safeArea" id="4Et-Ef-w2O"/>

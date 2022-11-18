@@ -49,7 +49,6 @@ class MessageViewController: UIViewController {
             self.rightView.addSubview(self.conversationVC.view)
         case .add:
             let vc = ServerCreateViewController()
-            vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
             return
         case .serverItem(serverId: let serverId):

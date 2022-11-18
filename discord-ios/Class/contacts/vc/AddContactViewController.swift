@@ -78,7 +78,6 @@ extension AddContactViewController: UITableViewDataSource {
                                 DispatchQueue.main.async {
                                     Toast.show(error.errorDescription, duration: 3)
                                 }
-                                
                             } else {
                                 DispatchQueue.main.async {
                                     self.addingSet.insert(userId)

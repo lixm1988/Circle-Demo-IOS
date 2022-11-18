@@ -7,7 +7,7 @@
 
 import UIKit
 import HyphenateChat
-// 48 0
+
 class ContactsViewController: UIViewController {
 
     @IBOutlet private weak var segmentBgCenterXConstraint: NSLayoutConstraint!
@@ -16,8 +16,8 @@ class ContactsViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var noDataView: UIView!
     @IBOutlet private weak var newRequestView: UIView!
-    @IBOutlet weak var searchView: UIView!
-    @IBOutlet weak var tableViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var searchView: UIView!
+    @IBOutlet private weak var tableViewTopConstraint: NSLayoutConstraint!
     private var segmentSelectedIndex = 0
     
     private var contactList: [String]?
@@ -50,33 +50,28 @@ class ContactsViewController: UIViewController {
         EMClient.shared().contactManager?.getContactsFromServer { [weak self] userIds, error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
-                return
-            }
-            guard let userIds = userIds, let self = self else {
-                return
-            }
-            self.contactList = userIds
-            self.tableView.reloadData()
-            if userIds.count > 0 {
-                UserOnlineManager.shared.subscribe(members: userIds) {
-                    if self.segmentSelectedIndex == 0 {
-                        self.updateOnlineList()
-                    } else {
+            } else if let userIds = userIds, let self = self {
+                self.contactList = userIds
+                self.tableView.reloadData()
+                if userIds.count > 0 {
+                    UserOnlineManager.shared.subscribe(members: userIds) {
+                        if self.segmentSelectedIndex == 0 {
+                            self.updateOnlineList()
+                        } else {
+                            self.updateVisiableCell()
+                            self.needUpdateOnlineList = true
+                        }
+                    }
+                    UserInfoManager.share.queryUserInfo(userIds: userIds) {
                         self.updateVisiableCell()
-                        self.needUpdateOnlineList = true
                     }
                 }
-                UserInfoManager.share.queryUserInfo(userIds: userIds) {
-                    self.updateVisiableCell()
-                }
             }
-            self.updateNoDataView()
+            self?.updateNoDataView()
         }
         
         EMClient.shared().presenceManager?.add(self, delegateQueue: nil)
-        
-        self.textField.addTarget(self, action: #selector(searchKeywordChangeAction), for: .editingChanged)
-        
+                
         self.newRequestView.isHidden = self.friendRequestList.count <= 0
         
         NotificationCenter.default.addObserver(self, selector: #selector(onRecvUserInfoUpdateNotification(notification:)), name: EMUserInfoUpdate, object: nil)
@@ -89,13 +84,11 @@ class ContactsViewController: UIViewController {
     
     @IBAction func addContactAction() {
         let vc = AddContactViewController()
-        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
     @IBAction func segmentAction(_ sender: UIButton) {
         self.segmentBgCenterXConstraint.constant = (sender.frame.width + 12) * CGFloat(sender.tag)
-        
         self.newRequestView.isHidden = sender.tag == 2 || self.friendRequestList.count <= 0
         (self.segmentView.viewWithTag(self.segmentSelectedIndex) as? UIButton)?.isSelected = false
         self.segmentSelectedIndex = sender.tag
@@ -164,12 +157,8 @@ class ContactsViewController: UIViewController {
                 for i in userIds {
                     if i.contains(keyword) {
                         result.append(i)
-                    } else {
-                        if let userInfo = UserInfoManager.share.userInfo(userId: i) {
-                            if userInfo.nickname?.contains(keyword) ?? false {
-                                result.append(i)
-                            }
-                        }
+                    } else if let nickName = UserInfoManager.share.userInfo(userId: i)?.nickname, nickName.contains(keyword) {
+                        result.append(i)
                     }
                 }
                 self.searchResult = result
@@ -182,8 +171,8 @@ class ContactsViewController: UIViewController {
         self.updateNoDataView()
     }
     
-    @objc private func searchKeywordChangeAction() {
-        self.search(keyword: self.textField.text)
+    @IBAction private func searchKeywordChangeAction(_ sender: UITextField) {
+        self.search(keyword: sender.text)
     }
     
     @objc private func onRecvUserInfoUpdateNotification(notification: Notification) {
@@ -252,7 +241,6 @@ extension ContactsViewController: UITableViewDataSource {
     private func removeFriendInvite(userId: String) {
         if let index = self.friendRequestList.firstIndex(of: userId) {
             self.friendRequestList.remove(at: index)
-            self.newRequestView.isHidden = self.friendRequestList.count <= 0
             if self.friendRequestList.count <= 0 {
                 self.newRequestView.isHidden = true
                 (UIApplication.shared.keyWindow?.rootViewController as? UITabBarController)?.tabBar.hiddenBadge(index: 2)
@@ -316,7 +304,6 @@ extension ContactsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let userId = self.currentShowList(isSearching: self.isSearching)?[indexPath.row] {
             let vc = UserInfoViewController(showType: .other(userId: userId))
-            vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

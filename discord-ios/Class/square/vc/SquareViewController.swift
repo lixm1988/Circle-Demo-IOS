@@ -88,10 +88,7 @@ class SquareViewController: UIViewController {
     }
     
     private func loadRecommendServer() {
-        guard let baseUrl = HTTP.baseUrlWithAppKey else {
-            return
-        }
-        guard let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
+        guard let baseUrl = HTTP.baseUrlWithAppKey, let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
             return
         }
         let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -107,37 +104,7 @@ class SquareViewController: UIViewController {
                 }
                 return
             }
-            guard let data = data, let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-                return
-            }
-            guard let code = obj["code"] as? Int, code == 200 else {
-                return
-            }
-            guard let list = obj["servers"] as? [[String: Any]] else {
-                return
-            }
-            
-            var result: [EMCircleServer] = []
-            for item in list {
-                if let serverId = item["server_id"] as? String, let name = item["name"] as? String, let defaultChannelId = item["default_channel_id"] as? String {
-                    let server = EMCircleServer(serverId: serverId, name: name, defaultChannelId: defaultChannelId)
-                    server.owner = item["owner"] as? String
-                    server.desc = item["description"] as? String
-                    server.ext = item["custom"] as? String
-                    server.icon = item["icon_url"] as? String
-                    var tags: [EMCircleServerTag] = []
-                    if let tagsList = item["tags"] as? [[String: String]] {
-                        for item in tagsList {
-                            let tag = EMCircleServerTag()
-                            tag.tagId = item["server_tag_id"]
-                            tag.name = item["tag_name"]
-                            tags.append(tag)
-                        }
-                    }
-                    server.tags = tags
-                    result.append(server)
-                }
-            }
+            let result = self.parseRecommendServers(data: data)
             DispatchQueue.main.async {
                 self.recommendServers = result
                 self.collectionView.reloadData()
@@ -146,6 +113,41 @@ class SquareViewController: UIViewController {
             }
         }
         task.resume()
+    }
+    
+    private func parseRecommendServers(data: Data?) -> [EMCircleServer]? {
+        guard let data = data, let obj = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+            return nil
+        }
+        guard let code = obj["code"] as? Int, code == 200 else {
+            return nil
+        }
+        guard let list = obj["servers"] as? [[String: Any]] else {
+            return nil
+        }
+        
+        var result: [EMCircleServer] = []
+        for item in list {
+            if let serverId = item["server_id"] as? String, let name = item["name"] as? String, let defaultChannelId = item["default_channel_id"] as? String {
+                let server = EMCircleServer(serverId: serverId, name: name, defaultChannelId: defaultChannelId)
+                server.owner = item["owner"] as? String
+                server.desc = item["description"] as? String
+                server.ext = item["custom"] as? String
+                server.icon = item["icon_url"] as? String
+                var tags: [EMCircleServerTag] = []
+                if let tagsList = item["tags"] as? [[String: String]] {
+                    for item in tagsList {
+                        let tag = EMCircleServerTag()
+                        tag.tagId = item["server_tag_id"]
+                        tag.name = item["tag_name"]
+                        tags.append(tag)
+                    }
+                }
+                server.tags = tags
+                result.append(server)
+            }
+        }
+        return result
     }
 }
 

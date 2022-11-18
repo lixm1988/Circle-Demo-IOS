@@ -39,7 +39,7 @@ class MessageServerViewController: UIViewController {
     
     init(serverId: String) {
         self.serverId = serverId
-        super.init(nibName: "MessageServerViewController", bundle: nil)
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -123,7 +123,11 @@ class MessageServerViewController: UIViewController {
             }
             EMClient.shared().circleManager?.inviteUserToServer(serverId: self.serverId, userId: userId, welcome: nil) { error in
                 if let error = error {
-                    Toast.show(error.errorDescription, duration: 2)
+                    if error.code == .repeatedOperation {
+                        Toast.show("该用户已加入社区", duration: 2)
+                    } else {
+                        Toast.show(error.errorDescription, duration: 2)
+                    }
                 } else {
                     Toast.show("邀请成功", duration: 2)
                     let server = ServerInfoManager.shared.getServerInfo(serverId: self.serverId)
@@ -641,7 +645,7 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
     }
     
     func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
-        if member == EMClient.shared().currentUsername, let channel = self.channel(channelId: channelId), channel.type == .private {
+        if serverId == self.serverId, member == EMClient.shared().currentUsername, let channel = self.channel(channelId: channelId), channel.type == .private {
             ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
                 if channel.serverId == self.serverId && role == .user {
                     self.removeChannel(channelId: channelId)
@@ -704,10 +708,8 @@ extension MessageServerViewController: EMMultiDevicesDelegate {
             self.removeChannel(channelId: channelId)
         case .circleChannelUpdate:
             if let channel = self.channel(channelId: channelId) {
-                EMClient.shared().circleManager?.fetchChannelDetail(channel.serverId, channelId: channelId, completion: { channel, error in
-                    if let error = error {
-                        Toast.show(error.errorDescription, duration: 2)
-                    } else if let channel = channel {
+                EMClient.shared().circleManager?.fetchChannelDetail(channel.serverId, channelId: channelId, completion: { channel, _ in
+                    if let channel = channel {
                         self.updateChannel(channel)
                     }
                 })
