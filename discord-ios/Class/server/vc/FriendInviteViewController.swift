@@ -9,7 +9,7 @@ import UIKit
 import HyphenateChat
 import CoreMIDI
 
-class FriendInviteViewController: UIViewController {
+class FriendInviteViewController: BaseViewController {
 
     @IBOutlet private weak var textField: UITextField!
     @IBOutlet private weak var tableView: UITableView!
@@ -56,6 +56,11 @@ class FriendInviteViewController: UIViewController {
         }
         EMClient.shared().presenceManager?.add(self, delegateQueue: nil)
         self.textField.addTarget(self, action: #selector(textChangeAction(textField:)), for: .editingChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     private func updateVisiableCell() {

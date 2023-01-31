@@ -14,7 +14,7 @@ class UserOnlineManager: NSObject {
     
     private var onlineMap: [String: Bool] = [:]
     
-    public func addDelete() {
+    public func addDelegate() {
         EMClient.shared().presenceManager?.add(self, delegateQueue: nil)
     }
     

@@ -53,7 +53,7 @@ class ConversationViewController: UIViewController {
         }
         self.tableView.reloadData()
         self.noDataView.isHidden = (self.conversations?.count ?? 0) > 0
-        NotificationCenter.default.post(name: EMMessageUnreadCountChange, object: unreadCount)
+        NotificationCenter.default.post(name: EMChatMessageUnreadCountChange, object: unreadCount)
     }
     
     deinit {

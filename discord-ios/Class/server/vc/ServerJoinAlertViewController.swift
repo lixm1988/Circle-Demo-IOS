@@ -165,6 +165,9 @@ class ServerJoinAlertViewController: UIViewController {
                             self.sendJoinChannelMessage(serverId: serverId, channelId: channelId, serverName: server?.name ?? "", channelName: channel?.name ?? "")
                         }
                     }
+                    if channel.mode == .voice {
+                        VoiceChatManager.shared.joinChannel(serverId: channel.serverId, channel: channel.channelId)
+                    }
                     handle(channel)
                 }
                 self.dismiss(animated: true)

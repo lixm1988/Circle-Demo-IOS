@@ -10,12 +10,30 @@ import HyphenateChat
 
 class MessageServerChannelCell: UITableViewCell {
 
+    enum ShowType {
+        case threads(threads: [EMChatThread])
+        case members(members: [(EMCircleUser, EMUserInfo)])
+    }
+    
+    @IBOutlet private weak var channelButton: UIButton!
     @IBOutlet private weak var privateImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
     @IBOutlet private weak var foldImageView: UIImageView!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var unreadView: UIView!
     @IBOutlet private weak var unreadCountLabel: UILabel!
+    @IBOutlet private weak var sublevelLabel: UILabel!
+
+    var speakSet: Set<String>? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
+    var muteSet: Set<String>? {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     var isFold = true {
         didSet {
@@ -28,27 +46,46 @@ class MessageServerChannelCell: UITableViewCell {
     var channel: EMCircleChannel? {
         didSet {
             self.nameLabel.text = channel?.name
-            self.privateImageView.image = UIImage(named: channel?.type == .private ? "#_channel_private" : "#_channel_public")
-            if let channelId = self.channel?.channelId, let conversation = EMClient.shared.chatManager?.getConversation(channelId, type: .groupChat, createIfNotExist: true, isThread: false, isChannel: true) {
-                if conversation.unreadMessagesCount > 0 {
-                    self.unreadView.isHidden = false
-                    self.unreadCountLabel.text = "\(conversation.unreadMessagesCount)"
+            if channel?.mode == .chat {
+                self.privateImageView.image = UIImage(named: channel?.type == .private ? "#_channel_private" : "#_channel_public")
+                self.sublevelLabel.text = "子区"
+                if let channelId = self.channel?.channelId, let conversation = EMClient.shared.chatManager?.getConversation(channelId, type: .groupChat, createIfNotExist: true, isThread: false, isChannel: true) {
+                    if conversation.unreadMessagesCount > 0 {
+                        self.unreadView.isHidden = false
+                        self.unreadCountLabel.text = "\(conversation.unreadMessagesCount)"
+                        self.unreadView.backgroundColor = UIColor(named: ColorName_FF1477)
+                        self.unreadCountLabel.textColor = .white
+                    } else {
+                        self.unreadView.isHidden = true
+                    }
                 } else {
                     self.unreadView.isHidden = true
                 }
             } else {
-                self.unreadView.isHidden = true
+                self.privateImageView.image = UIImage(named: channel?.type == .private ? "mic_channel_private" : "mic_channel_public")
+                self.sublevelLabel.text = "语聊房成员"
+                self.unreadCountLabel.text = "\((self.channel as? EMCircleVoiceChannel)?.seatCount ?? 0)"
+                self.unreadView.isHidden = false
+                if self.channel?.channelId == VoiceChatManager.shared.currentChannel?.channelId {
+                    self.unreadView.backgroundColor = UIColor(named: ColorName_14FF72)
+                    self.unreadCountLabel.textColor = UIColor(named: ColorName_181818)
+                } else {
+                    self.unreadView.backgroundColor = nil
+                    self.unreadCountLabel.textColor = UIColor(named: ColorName_757575)
+                }
             }
         }
     }
     
-    var threads: [EMChatThread]?
+    var showType: ShowType?
     var hasNoMoreData: Bool?
     
     var channelClickHandle: ((_ channel: EMCircleChannel) -> Void)?
+    var memberClickHandle: ((_ channel: EMCircleChannel, _ member: (EMCircleUser, EMUserInfo)) -> Void)?
     var foldClickHandle: ((_ channel: EMCircleChannel) -> Void)?
     var threadClickHandle: ((_ thread: EMChatThread) -> Void)?
     var moreClickHandle: ((_ channel: EMCircleChannel) -> Void)?
+    var channelLongPressHandle: ((_ channel: EMCircleChannel) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -56,8 +93,11 @@ class MessageServerChannelCell: UITableViewCell {
         self.tableView.tableFooterView = UIView()
         self.tableView.separatorStyle = .none
         self.tableView.separatorColor = UIColor.clear
-        self.tableView.register(UINib(nibName: "MessageServerThreadCell", bundle: nil), forCellReuseIdentifier: "cell")
+        self.tableView.register(UINib(nibName: "MessageServerThreadCell", bundle: nil), forCellReuseIdentifier: "ThreadCell")
+        self.tableView.register(UINib(nibName: "VoiceChannelMemberTableViewCell", bundle: nil), forCellReuseIdentifier: "MemberCell")
         self.tableView.register(UINib(nibName: "MessageServerThreadListFooter", bundle: nil), forHeaderFooterViewReuseIdentifier: "footer")
+            
+        self.channelButton.addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(channelLongPressAction)))
     }
     
     @IBAction func channelAction() {
@@ -77,9 +117,29 @@ class MessageServerChannelCell: UITableViewCell {
         if self.isFold {
             return
         }
-        self.threads = threads
+        self.showType = .threads(threads: threads)
         self.hasNoMoreData = hasNoMoreData
         self.tableView.reloadData()
+    }
+    
+    func setMembers(_ members: [(EMCircleUser, EMUserInfo)]) {
+        self.tableView.isHidden = self.isFold
+        if self.isFold {
+            return
+        }
+        self.showType = .members(members: members)
+        self.hasNoMoreData = true
+        self.tableView.reloadData()
+        let total = (self.channel as? EMCircleVoiceChannel)?.seatCount ?? 0
+        let max = max(members.count, Int(total))
+        self.unreadCountLabel.text = "\(members.count)/\(max)"
+        self.unreadView.backgroundColor = self.channel?.channelId == VoiceChatManager.shared.currentChannel?.channelId ? UIColor(named: ColorName_14FF72) : nil
+    }
+    
+    @objc private func channelLongPressAction() {
+        if let channel = self.channel {
+            self.channelLongPressHandle?(channel)
+        }
     }
 }
 
@@ -88,15 +148,31 @@ extension MessageServerChannelCell: UITableViewDataSource {
         if self.isFold {
             return 0
         }
-        return self.threads?.count ?? 0
+        return self.showType?.count() ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        if let cell = cell as? MessageServerThreadCell {
-            cell.nameLabel.text = self.threads?[indexPath.row].threadName
+        switch self.showType {
+        case .threads(let threads):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ThreadCell", for: indexPath)
+            if let cell = cell as? MessageServerThreadCell {
+                cell.nameLabel.text = threads[indexPath.row].threadName
+            }
+            return cell
+        case .members(let members):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "MemberCell", for: indexPath)
+            if let cell = cell as? VoiceChannelMemberTableViewCell {
+                let member = members[indexPath.row]
+                cell.showType = .sublist
+                cell.avatarImageView.setImage(withUrl: member.1.avatarUrl, placeholder: "head_placeholder")
+                cell.nameLabel.text = member.1.showname
+                cell.muteImageView.isHidden = !(self.muteSet?.contains(member.0.userId) ?? false)
+                cell.isSpeak = self.speakSet?.contains(member.0.userId) ?? false
+            }
+            return cell
+        default:
+            return UITableViewCell()
         }
-        return cell
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -117,8 +193,15 @@ extension MessageServerChannelCell: UITableViewDataSource {
 
 extension MessageServerChannelCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let item = self.threads?[indexPath.row] {
-            self.threadClickHandle?(item)
+        switch self.showType {
+        case .threads(let threads):
+            self.threadClickHandle?(threads[indexPath.row])
+        case .members(let members):
+            if let channel = self.channel {
+                self.memberClickHandle?(channel, members[indexPath.row])
+            }
+        default:
+            break
         }
     }
     
@@ -127,5 +210,16 @@ extension MessageServerChannelCell: UITableViewDelegate {
             return 0
         }
         return 32
+    }
+}
+
+extension MessageServerChannelCell.ShowType {
+    func count() -> Int {
+        switch self {
+        case .members(let members):
+            return members.count
+        case .threads(let threads):
+            return threads.count
+        }
     }
 }

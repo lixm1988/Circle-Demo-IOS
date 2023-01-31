@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -31,6 +31,9 @@
                                 <integer key="value" value="24"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mic_server_joined" translatesAutoresizingMaskIntoConstraints="NO" id="2Un-Zd-95R">
+                        <rect key="frame" x="8" y="12" width="48" height="48"/>
                     </imageView>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRj-4S-zmz">
                         <rect key="frame" x="26" y="44" width="34" height="18"/>
@@ -79,19 +82,24 @@
             <color key="backgroundColor" name="#1F1F1F"/>
             <constraints>
                 <constraint firstItem="HRj-4S-zmz" firstAttribute="bottom" secondItem="Pds-Wt-Xwb" secondAttribute="bottom" constant="2" id="7YL-cK-Ajc"/>
+                <constraint firstItem="2Un-Zd-95R" firstAttribute="height" secondItem="Pds-Wt-Xwb" secondAttribute="height" id="8oZ-7z-Ize"/>
                 <constraint firstItem="Pds-Wt-Xwb" firstAttribute="top" secondItem="Be8-PD-xbg" secondAttribute="top" constant="4" id="GFm-vz-cSs"/>
                 <constraint firstItem="Be8-PD-xbg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="HRS-LG-9vP"/>
                 <constraint firstItem="Pds-Wt-Xwb" firstAttribute="bottom" secondItem="Be8-PD-xbg" secondAttribute="bottom" constant="-4" id="KwR-CG-YPq"/>
                 <constraint firstItem="Be8-PD-xbg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="Niz-vy-e18"/>
                 <constraint firstItem="HRj-4S-zmz" firstAttribute="trailing" secondItem="Be8-PD-xbg" secondAttribute="trailing" id="OML-B6-Sgk"/>
+                <constraint firstItem="2Un-Zd-95R" firstAttribute="leading" secondItem="Pds-Wt-Xwb" secondAttribute="leading" id="aKc-wb-nAB"/>
                 <constraint firstItem="Pds-Wt-Xwb" firstAttribute="trailing" secondItem="Be8-PD-xbg" secondAttribute="trailing" constant="-4" id="kW0-7n-Rt8"/>
                 <constraint firstAttribute="bottom" secondItem="Be8-PD-xbg" secondAttribute="bottom" constant="8" id="lvi-ao-rAD"/>
                 <constraint firstAttribute="trailing" secondItem="Be8-PD-xbg" secondAttribute="trailing" constant="6" id="vNa-wT-CVF"/>
+                <constraint firstItem="2Un-Zd-95R" firstAttribute="width" secondItem="Pds-Wt-Xwb" secondAttribute="width" id="y7H-Iz-hzd"/>
+                <constraint firstItem="2Un-Zd-95R" firstAttribute="top" secondItem="Pds-Wt-Xwb" secondAttribute="top" id="yY5-NV-1IE"/>
             </constraints>
             <size key="customSize" width="152" height="147"/>
             <connections>
                 <outlet property="bgImageView" destination="Be8-PD-xbg" id="bee-e8-9JK"/>
                 <outlet property="itemImageView" destination="Pds-Wt-Xwb" id="bCx-lM-vcX"/>
+                <outlet property="micImageView" destination="2Un-Zd-95R" id="LGF-aG-tht"/>
                 <outlet property="unreadCountLabel" destination="aTZ-lr-i9q" id="KSb-Hj-EOf"/>
                 <outlet property="unreadCountView" destination="HRj-4S-zmz" id="S8N-yS-G06"/>
             </connections>
@@ -100,6 +108,7 @@
     </objects>
     <resources>
         <image name="message_item_bg" width="60" height="56"/>
+        <image name="mic_server_joined" width="48" height="48"/>
         <namedColor name="#1F1F1F">
             <color red="0.12156862745098039" green="0.12156862745098039" blue="0.12156862745098039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

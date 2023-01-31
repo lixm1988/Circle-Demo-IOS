@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -37,7 +37,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uv-lR-4hG">
-                        <rect key="frame" x="265" y="15" width="23" height="14"/>
+                        <rect key="frame" x="260" y="15" width="23" height="14"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="36v-FY-vjc">
                                 <rect key="frame" x="3" y="0.0" width="17" height="14"/>
@@ -62,11 +62,11 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="message_server_arrow_jump" translatesAutoresizingMaskIntoConstraints="NO" id="WlT-NT-pZd">
-                        <rect key="frame" x="290" y="14" width="16" height="16"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_right" translatesAutoresizingMaskIntoConstraints="NO" id="WlT-NT-pZd">
+                        <rect key="frame" x="285" y="9" width="26" height="26"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="16" id="cOU-yC-SNF"/>
-                            <constraint firstAttribute="height" constant="16" id="ptG-BL-7ko"/>
+                            <constraint firstAttribute="width" constant="26" id="cOU-yC-SNF"/>
+                            <constraint firstAttribute="height" constant="26" id="ptG-BL-7ko"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JoU-Ca-6P7" customClass="UserStatusView" customModule="discord_ios" customModuleProvider="target">
@@ -85,9 +85,9 @@
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="9Uv-lR-4hG" secondAttribute="trailing" constant="32" id="5SF-7K-A1N"/>
+                    <constraint firstAttribute="trailing" secondItem="9Uv-lR-4hG" secondAttribute="trailing" constant="37" id="5SF-7K-A1N"/>
                     <constraint firstItem="WlT-NT-pZd" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="EJj-eJ-f1f"/>
-                    <constraint firstAttribute="trailing" secondItem="WlT-NT-pZd" secondAttribute="trailing" constant="14" id="L60-4n-bgd"/>
+                    <constraint firstAttribute="trailing" secondItem="WlT-NT-pZd" secondAttribute="trailing" constant="9" id="L60-4n-bgd"/>
                     <constraint firstItem="JoU-Ca-6P7" firstAttribute="trailing" secondItem="m5w-2b-OGa" secondAttribute="trailing" constant="1" id="O7f-XV-0HL"/>
                     <constraint firstItem="JoU-Ca-6P7" firstAttribute="bottom" secondItem="m5w-2b-OGa" secondAttribute="bottom" constant="3" id="aqd-Le-ysJ"/>
                     <constraint firstItem="m5w-2b-OGa" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="cLy-j5-shZ"/>
@@ -111,7 +111,7 @@
     </objects>
     <resources>
         <image name="head_placeholder" width="800" height="800"/>
-        <image name="message_server_arrow_jump" width="16" height="16"/>
+        <image name="icon_right" width="26" height="26"/>
         <namedColor name="#181818">
             <color red="0.093999996781349182" green="0.093999996781349182" blue="0.093999996781349182" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

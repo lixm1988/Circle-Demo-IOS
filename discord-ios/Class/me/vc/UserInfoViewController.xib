@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -37,7 +37,7 @@
                     </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1lF-h4-PO3">
-                    <rect key="frame" x="370" y="54" width="28" height="28"/>
+                    <rect key="frame" x="370" y="58" width="28" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="DR0-2t-C2d"/>
                         <constraint firstAttribute="width" constant="28" id="JLy-xI-XhF"/>
@@ -49,25 +49,25 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ypq-7x-ni3">
-                    <rect key="frame" x="330" y="54" width="28" height="28"/>
+                    <rect key="frame" x="330" y="58" width="28" height="28"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="28" id="U9s-hd-B3R"/>
                         <constraint firstAttribute="width" constant="28" id="rOk-5A-hut"/>
                     </constraints>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                    <state key="normal" backgroundImage="server_setting"/>
+                    <state key="normal" backgroundImage="setting"/>
                     <connections>
                         <action selector="settingAction" destination="-1" eventType="touchUpInside" id="S8e-Ok-AAj"/>
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOF-AV-wdn">
-                    <rect key="frame" x="16" y="57" width="32" height="22.5"/>
+                    <rect key="frame" x="16" y="61" width="32" height="22.5"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eKz-Fq-BNH">
-                    <rect key="frame" x="16" y="54" width="28" height="28"/>
+                    <rect key="frame" x="16" y="58" width="28" height="28"/>
                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                     <state key="normal" image="back_white"/>
                     <connections>
@@ -75,7 +75,7 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dfr-KT-33Z">
-                    <rect key="frame" x="0.0" y="152" width="414" height="710"/>
+                    <rect key="frame" x="0.0" y="156" width="414" height="706"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BcH-eO-3tp">
                             <rect key="frame" x="24" y="61" width="47" height="24"/>
@@ -105,17 +105,17 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="DcJ-hY-amA">
-                            <rect key="frame" x="0.0" y="109" width="414" height="601"/>
+                            <rect key="frame" x="0.0" y="109" width="414" height="597"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iB5-CV-HLK">
-                            <rect key="frame" x="0.0" y="710" width="414" height="0.0"/>
+                            <rect key="frame" x="0.0" y="706" width="414" height="0.0"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" id="nKq-8u-Doe"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdm-Ud-cSV">
-                            <rect key="frame" x="24" y="622" width="177" height="48"/>
+                            <rect key="frame" x="24" y="618" width="177" height="48"/>
                             <color key="backgroundColor" name="#3E3F40"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="F3t-SN-Zu3"/>
@@ -135,7 +135,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QJx-CG-gW8">
-                            <rect key="frame" x="213" y="622" width="177" height="48"/>
+                            <rect key="frame" x="213" y="618" width="177" height="48"/>
                             <color key="backgroundColor" name="#27AE60"/>
                             <fontDescription key="fontDescription" name="PingFangHK-Regular" family="PingFang HK" pointSize="16"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
@@ -176,7 +176,7 @@
                     </constraints>
                 </view>
                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="head_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="woF-cC-U0X">
-                    <rect key="frame" x="16" y="107" width="90" height="90"/>
+                    <rect key="frame" x="16" y="111" width="90" height="90"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="90" id="Bgg-wQ-0Q8"/>
                         <constraint firstAttribute="width" constant="90" id="Wmc-t3-Aeo"/>
@@ -188,7 +188,7 @@
                     </userDefinedRuntimeAttributes>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uph-qA-FTA" customClass="UserStatusView" customModule="discord_ios" customModuleProvider="target">
-                    <rect key="frame" x="78" y="169" width="32" height="32"/>
+                    <rect key="frame" x="78" y="173" width="32" height="32"/>
                     <color key="backgroundColor" name="#181818"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="32" id="QgV-AI-UQB"/>
@@ -236,7 +236,7 @@
         <image name="head_placeholder" width="800" height="800"/>
         <image name="more_white" width="28" height="28"/>
         <image name="placeholder" width="212" height="214"/>
-        <image name="server_setting" width="36" height="36"/>
+        <image name="setting" width="36" height="36"/>
         <image name="vc_top_bg" width="360" height="200"/>
         <namedColor name="#181818">
             <color red="0.093999996781349182" green="0.093999996781349182" blue="0.093999996781349182" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

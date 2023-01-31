@@ -12,6 +12,7 @@ class MessageItemCell: UICollectionViewCell {
 
     @IBOutlet private weak var bgImageView: UIImageView!
     @IBOutlet private weak var itemImageView: UIImageView!
+    @IBOutlet private weak var micImageView: UIImageView!
     @IBOutlet private weak var unreadCountView: UIView!
     @IBOutlet private weak var unreadCountLabel: UILabel!
     
@@ -46,6 +47,12 @@ class MessageItemCell: UICollectionViewCell {
             } else {
                 self.unreadCountView.isHidden = true
             }
+        }
+    }
+    
+    var isJoinedVoiceChannel: Bool = false {
+        didSet {
+            self.micImageView.isHidden = !isJoinedVoiceChannel
         }
     }
     

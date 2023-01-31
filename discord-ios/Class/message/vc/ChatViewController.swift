@@ -311,7 +311,7 @@ class ChatViewController: BaseViewController {
         switch self.chatType {
         case .single(userId: let userId):
             let v = BubbleMenuView(baseView: sender)
-            v.addMenuItem(image: UIImage(named: "server_delete")!, title: "删除会话") {
+            v.addMenuItem(image: UIImage(named: "delete")!, title: "删除会话") {
                 let vc = UIAlertController(title: "删除会话", message: "确认删除后，将清空聊天记录。", preferredStyle: .alert)
                 vc.addAction(UIAlertAction(title: "取消", style: .default))
                 vc.addAction(UIAlertAction(title: "确定", style: .destructive, handler: { _ in
@@ -324,11 +324,8 @@ class ChatViewController: BaseViewController {
         case .group(groupId: _):
             break
         case .channel(serverId: let serverId, channelId: let channelId):
-            let vc = ChannelSettingViewController(serverId: serverId, channelId: channelId)
-            vc.didDeleteHandle = { [weak self] in
-                self?.navigationController?.popViewController(animated: true)
-            }
-            self.presentNavigationController(rootViewController: vc)
+            let vc = ChannelSettingViewController(serverId: serverId, channelId: channelId, fromViewController: self)
+            self.present(vc, animated: true)
         case .thread(threadId: let threadId):
             let vc = ThreadSettingViewController(threadId: threadId)
             vc.didDeleteHandle = { [weak self] in

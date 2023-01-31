@@ -7,3 +7,10 @@ disabled_rules: # 以下规则不生效
   - trailing_whitespace
   - large_tuple
   - legacy_random
+type_body_length:
+  - 500
+  - 1000
+
+file_length:
+  - 1000
+  - 1500

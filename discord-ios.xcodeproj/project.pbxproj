@@ -20,14 +20,24 @@
 		5D1EC129287E741E0016D766 /* ThreadListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1EC127287E741E0016D766 /* ThreadListTableViewCell.xib */; };
 		5D3C7F86287D1C44007E322D /* ThreadEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3C7F84287D1C44007E322D /* ThreadEditViewController.swift */; };
 		5D3C7F87287D1C44007E322D /* ThreadEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D3C7F85287D1C44007E322D /* ThreadEditViewController.xib */; };
+		5D4EFDB62955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDB42955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.swift */; };
+		5D4EFDB72955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D4EFDB52955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.xib */; };
+		5D4EFDB92959A3E20044BF6C /* CategorySettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDB82959A3E20044BF6C /* CategorySettingViewController.swift */; };
+		5D4EFDBD296400980044BF6C /* VoiceChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDBC296400980044BF6C /* VoiceChatManager.swift */; };
+		5D4EFDBF296569180044BF6C /* VoiceChatManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDBE296569170044BF6C /* VoiceChatManagerDelegate.swift */; };
+		5D4EFDC4296828170044BF6C /* VoiceChannelMiniView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDC3296828170044BF6C /* VoiceChannelMiniView.swift */; };
+		5D4EFDC6296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDC5296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift */; };
+		5D4EFDCA296D134D0044BF6C /* ServerChannelMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDC9296D134D0044BF6C /* ServerChannelMapManager.swift */; };
+		5D4EFDCC296D44C20044BF6C /* MessageServerViewController+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDCB296D44C20044BF6C /* MessageServerViewController+Common.swift */; };
+		5D4EFDCF296FBB170044BF6C /* HyphenateChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D969DCE2876E8E5008BEBC2 /* HyphenateChat.framework */; };
+		5D4EFDD0296FBB170044BF6C /* HyphenateChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D969DCE2876E8E5008BEBC2 /* HyphenateChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5D4EFDD329768C390044BF6C /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDD229768C390044BF6C /* NavigationTitleView.swift */; };
 		5D521D092872C18900BD9A43 /* EmojiListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D082872C18900BD9A43 /* EmojiListView.swift */; };
 		5D521D0C2872C38800BD9A43 /* EmojiKeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D0B2872C38800BD9A43 /* EmojiKeyboardLayout.swift */; };
 		5D521D0F2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D0D2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift */; };
 		5D521D102872C8D200BD9A43 /* EmojiListCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D521D0E2872C8D200BD9A43 /* EmojiListCollectionViewCell.xib */; };
 		5D521D122872DE7F00BD9A43 /* ChatInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D112872DE7F00BD9A43 /* ChatInputView.swift */; };
 		5D521D142872DF6300BD9A43 /* ChatInputView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D521D132872DF6300BD9A43 /* ChatInputView.xib */; };
-		5D521D172873D60D00BD9A43 /* ChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D152873D60D00BD9A43 /* ChannelSettingViewController.swift */; };
-		5D521D182873D60D00BD9A43 /* ChannelSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D521D162873D60D00BD9A43 /* ChannelSettingViewController.xib */; };
 		5D521D1B28741C2500BD9A43 /* FriendInviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D1928741C2500BD9A43 /* FriendInviteViewController.swift */; };
 		5D521D1C28741C2500BD9A43 /* FriendInviteViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D521D1A28741C2500BD9A43 /* FriendInviteViewController.xib */; };
 		5D61A92328922D7200AC1F4E /* MessageFileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D61A92228922D7200AC1F4E /* MessageFileCell.swift */; };
@@ -56,6 +66,9 @@
 		5D8B54692875370E0058FF77 /* ChatBottomMenuLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B54682875370E0058FF77 /* ChatBottomMenuLayout.swift */; };
 		5D8B5470287538660058FF77 /* ChatBottomMenuViewItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8B546E287538660058FF77 /* ChatBottomMenuViewItemCell.swift */; };
 		5D8B5471287538660058FF77 /* ChatBottomMenuViewItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8B546F287538660058FF77 /* ChatBottomMenuViewItemCell.xib */; };
+		5D8BA96B2950742E00470139 /* ChannelChangeGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8BA96A2950742E00470139 /* ChannelChangeGroupViewController.swift */; };
+		5D8BA96E29544D1300470139 /* VoiceChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8BA96C29544D1300470139 /* VoiceChannelViewController.swift */; };
+		5D8BA96F29544D1300470139 /* VoiceChannelViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8BA96D29544D1300470139 /* VoiceChannelViewController.xib */; };
 		5D96270B28BCBF9B00A4F615 /* Pods_discord_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1A4184C8D2737A08014A87A /* Pods_discord_ios.framework */; };
 		5D96271028BE0FE300A4F615 /* UserStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D96270F28BE0FE300A4F615 /* UserStatusView.swift */; };
 		5D96271228BE167A00A4F615 /* EMPresence+userStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D96271128BE167A00A4F615 /* EMPresence+userStatus.swift */; };
@@ -87,6 +100,35 @@
 		5DB0072A2861C8DD00EA3A66 /* ServerTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB007292861C8DD00EA3A66 /* ServerTagView.swift */; };
 		5DB0072D2861D91E00EA3A66 /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB0072B2861D91E00EA3A66 /* UserInfoViewController.swift */; };
 		5DB0072E2861D91E00EA3A66 /* UserInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DB0072C2861D91E00EA3A66 /* UserInfoViewController.xib */; };
+		5DC4E914292C62A900928EAB /* ChannelInfoEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E910292C62A900928EAB /* ChannelInfoEditViewController.xib */; };
+		5DC4E915292C62A900928EAB /* ChannelInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E911292C62A900928EAB /* ChannelInfoEditViewController.swift */; };
+		5DC4E916292C62A900928EAB /* ChannelSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E912292C62A900928EAB /* ChannelSettingViewController.swift */; };
+		5DC4E919292C62FB00928EAB /* ServerBaseSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E917292C62FB00928EAB /* ServerBaseSettingViewController.swift */; };
+		5DC4E91A292C62FB00928EAB /* ServerBaseSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E918292C62FB00928EAB /* ServerBaseSettingViewController.xib */; };
+		5DC4E91D292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E91B292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.swift */; };
+		5DC4E91E292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E91C292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.xib */; };
+		5DC4E921292C6F5800928EAB /* ServerBaseSettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E91F292C6F5800928EAB /* ServerBaseSettingTableViewCell.swift */; };
+		5DC4E922292C6F5800928EAB /* ServerBaseSettingTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E920292C6F5800928EAB /* ServerBaseSettingTableViewCell.xib */; };
+		5DC4E929292CDA2100928EAB /* ServerNotificationSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E927292CDA2100928EAB /* ServerNotificationSettingViewController.swift */; };
+		5DC4E92D292DB2FD00928EAB /* ServerChooseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E92B292DB2FD00928EAB /* ServerChooseCell.swift */; };
+		5DC4E92E292DB2FD00928EAB /* ServerChooseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E92C292DB2FD00928EAB /* ServerChooseCell.xib */; };
+		5DC4E935292DBEF100928EAB /* ServerEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E933292DBEF100928EAB /* ServerEditViewController.swift */; };
+		5DC4E936292DBEF100928EAB /* ServerEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E934292DBEF100928EAB /* ServerEditViewController.xib */; };
+		5DC4E93B292DEEDE00928EAB /* ChannelGroupCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E939292DEEDE00928EAB /* ChannelGroupCreateViewController.swift */; };
+		5DC4E93C292DEEDE00928EAB /* ChannelGroupCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E93A292DEEDE00928EAB /* ChannelGroupCreateViewController.xib */; };
+		5DC4E93F292DF3D600928EAB /* ServerMemberListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E93D292DF3D600928EAB /* ServerMemberListViewController.swift */; };
+		5DC4E940292DF3D600928EAB /* ServerMemberListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E93E292DF3D600928EAB /* ServerMemberListViewController.xib */; };
+		5DC4E943292E17C100928EAB /* ChannelEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E941292E17C100928EAB /* ChannelEditViewController.swift */; };
+		5DC4E944292E17C100928EAB /* ChannelEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E942292E17C100928EAB /* ChannelEditViewController.xib */; };
+		5DC4E947292F0F1500928EAB /* ServerPermissionSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E945292F0F1500928EAB /* ServerPermissionSettingViewController.swift */; };
+		5DC4E948292F0F1500928EAB /* ServerPermissionSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E946292F0F1500928EAB /* ServerPermissionSettingViewController.xib */; };
+		5DC4E94B292F1C1600928EAB /* ServerStratum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E94A292F1C1600928EAB /* ServerStratum.swift */; };
+		5DC4E94E292F511D00928EAB /* ServerDetailAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E94C292F511D00928EAB /* ServerDetailAlertViewController.swift */; };
+		5DC4E94F292F511D00928EAB /* ServerDetailAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E94D292F511D00928EAB /* ServerDetailAlertViewController.xib */; };
+		5DC4E977293DCF6C00928EAB /* ChannelGroupEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E975293DCF6C00928EAB /* ChannelGroupEditViewController.swift */; };
+		5DC4E978293DCF6C00928EAB /* ChannelGroupEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E976293DCF6C00928EAB /* ChannelGroupEditViewController.xib */; };
+		5DC4E981293DEC5900928EAB /* ChannelCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC4E97F293DEC5900928EAB /* ChannelCreateViewController.swift */; };
+		5DC4E982293DEC5900928EAB /* ChannelCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC4E980293DEC5900928EAB /* ChannelCreateViewController.xib */; };
 		5DC7A038287BCA1700B1BA3E /* ThreadCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC7A036287BCA1700B1BA3E /* ThreadCreateViewController.swift */; };
 		5DC7A039287BCA1700B1BA3E /* ThreadCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DC7A037287BCA1700B1BA3E /* ThreadCreateViewController.xib */; };
 		5DC7A03C287BF69100B1BA3E /* ThreadSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC7A03A287BF69100B1BA3E /* ThreadSettingViewController.swift */; };
@@ -94,15 +136,12 @@
 		5DCA3A70286C60A400311D57 /* MessageServerChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A6E286C60A400311D57 /* MessageServerChannelCell.swift */; };
 		5DCA3A71286C60A400311D57 /* MessageServerChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A6F286C60A400311D57 /* MessageServerChannelCell.xib */; };
 		5DCA3A74286C64E000311D57 /* ServerSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A72286C64E000311D57 /* ServerSettingViewController.swift */; };
-		5DCA3A75286C64E000311D57 /* ServerSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A73286C64E000311D57 /* ServerSettingViewController.xib */; };
 		5DCA3A77286C6F7F00311D57 /* ServerEditItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A76286C6F7F00311D57 /* ServerEditItemButton.swift */; };
 		5DCA3A7A286D362600311D57 /* ServerMemberTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A78286D362600311D57 /* ServerMemberTableViewCell.swift */; };
 		5DCA3A7B286D362600311D57 /* ServerMemberTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A79286D362600311D57 /* ServerMemberTableViewCell.xib */; };
 		5DCA3A7E286D4CD300311D57 /* ServerJoinAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A7C286D4CD300311D57 /* ServerJoinAlertViewController.swift */; };
 		5DCA3A7F286D4CD300311D57 /* ServerJoinAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A7D286D4CD300311D57 /* ServerJoinAlertViewController.xib */; };
 		5DCA3A81286D542B00311D57 /* BubbleMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A80286D542B00311D57 /* BubbleMenuView.swift */; };
-		5DCA3A86286D8DAF00311D57 /* ChannelCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A84286D8DAF00311D57 /* ChannelCreateViewController.swift */; };
-		5DCA3A87286D8DAF00311D57 /* ChannelCreateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A85286D8DAF00311D57 /* ChannelCreateViewController.xib */; };
 		5DCA3A89286DB5BF00311D57 /* UserOnlineManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A88286DB5BF00311D57 /* UserOnlineManager.swift */; };
 		5DCA3A8C286E9F3A00311D57 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCA3A8A286E9F3A00311D57 /* ConversationCell.swift */; };
 		5DCA3A8D286E9F3A00311D57 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DCA3A8B286E9F3A00311D57 /* ConversationCell.xib */; };
@@ -139,9 +178,23 @@
 		5DFC440B286BF7EC00FB4483 /* ConversationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFC4409286BF7EC00FB4483 /* ConversationViewController.xib */; };
 		5DFC440E286BF95100FB4483 /* MessageServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC440C286BF95100FB4483 /* MessageServerViewController.swift */; };
 		5DFC440F286BF95100FB4483 /* MessageServerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFC440D286BF95100FB4483 /* MessageServerViewController.xib */; };
-		5DFC4412286C27A900FB4483 /* ServerEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC4410286C27A900FB4483 /* ServerEditViewController.swift */; };
-		5DFC4413286C27A900FB4483 /* ServerEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFC4411286C27A900FB4483 /* ServerEditViewController.xib */; };
+		5DFC4412286C27A900FB4483 /* ServerInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC4410286C27A900FB4483 /* ServerInfoEditViewController.swift */; };
+		5DFC4413286C27A900FB4483 /* ServerInfoEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFC4411286C27A900FB4483 /* ServerInfoEditViewController.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5D4EFDD1296FBB170044BF6C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5D4EFDD0296FBB170044BF6C /* HyphenateChat.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5D055D3628801FE00069D580 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
@@ -159,14 +212,22 @@
 		5D1EC127287E741E0016D766 /* ThreadListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThreadListTableViewCell.xib; sourceTree = "<group>"; };
 		5D3C7F84287D1C44007E322D /* ThreadEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadEditViewController.swift; sourceTree = "<group>"; };
 		5D3C7F85287D1C44007E322D /* ThreadEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThreadEditViewController.xib; sourceTree = "<group>"; };
+		5D4EFDB42955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChannelMemberTableViewCell.swift; sourceTree = "<group>"; };
+		5D4EFDB52955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoiceChannelMemberTableViewCell.xib; sourceTree = "<group>"; };
+		5D4EFDB82959A3E20044BF6C /* CategorySettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySettingViewController.swift; sourceTree = "<group>"; };
+		5D4EFDBC296400980044BF6C /* VoiceChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChatManager.swift; sourceTree = "<group>"; };
+		5D4EFDBE296569170044BF6C /* VoiceChatManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChatManagerDelegate.swift; sourceTree = "<group>"; };
+		5D4EFDC3296828170044BF6C /* VoiceChannelMiniView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChannelMiniView.swift; sourceTree = "<group>"; };
+		5D4EFDC5296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VoiceChatManagerDelegate+Default.swift"; sourceTree = "<group>"; };
+		5D4EFDC9296D134D0044BF6C /* ServerChannelMapManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerChannelMapManager.swift; sourceTree = "<group>"; };
+		5D4EFDCB296D44C20044BF6C /* MessageServerViewController+Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MessageServerViewController+Common.swift"; sourceTree = "<group>"; };
+		5D4EFDD229768C390044BF6C /* NavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleView.swift; sourceTree = "<group>"; };
 		5D521D082872C18900BD9A43 /* EmojiListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiListView.swift; sourceTree = "<group>"; };
 		5D521D0B2872C38800BD9A43 /* EmojiKeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiKeyboardLayout.swift; sourceTree = "<group>"; };
 		5D521D0D2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiListCollectionViewCell.swift; sourceTree = "<group>"; };
 		5D521D0E2872C8D200BD9A43 /* EmojiListCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmojiListCollectionViewCell.xib; sourceTree = "<group>"; };
 		5D521D112872DE7F00BD9A43 /* ChatInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputView.swift; sourceTree = "<group>"; };
 		5D521D132872DF6300BD9A43 /* ChatInputView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatInputView.xib; sourceTree = "<group>"; };
-		5D521D152873D60D00BD9A43 /* ChannelSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewController.swift; sourceTree = "<group>"; };
-		5D521D162873D60D00BD9A43 /* ChannelSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelSettingViewController.xib; sourceTree = "<group>"; };
 		5D521D1928741C2500BD9A43 /* FriendInviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendInviteViewController.swift; sourceTree = "<group>"; };
 		5D521D1A28741C2500BD9A43 /* FriendInviteViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FriendInviteViewController.xib; sourceTree = "<group>"; };
 		5D61A92228922D7200AC1F4E /* MessageFileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageFileCell.swift; sourceTree = "<group>"; };
@@ -199,6 +260,10 @@
 		5D8B54682875370E0058FF77 /* ChatBottomMenuLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBottomMenuLayout.swift; sourceTree = "<group>"; };
 		5D8B546E287538660058FF77 /* ChatBottomMenuViewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBottomMenuViewItemCell.swift; sourceTree = "<group>"; };
 		5D8B546F287538660058FF77 /* ChatBottomMenuViewItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatBottomMenuViewItemCell.xib; sourceTree = "<group>"; };
+		5D8BA95D294FFA6100470139 /* discord-ios-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "discord-ios-Bridging-Header.h"; sourceTree = "<group>"; };
+		5D8BA96A2950742E00470139 /* ChannelChangeGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelChangeGroupViewController.swift; sourceTree = "<group>"; };
+		5D8BA96C29544D1300470139 /* VoiceChannelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceChannelViewController.swift; sourceTree = "<group>"; };
+		5D8BA96D29544D1300470139 /* VoiceChannelViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VoiceChannelViewController.xib; sourceTree = "<group>"; };
 		5D96270F28BE0FE300A4F615 /* UserStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStatusView.swift; sourceTree = "<group>"; };
 		5D96271128BE167A00A4F615 /* EMPresence+userStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EMPresence+userStatus.swift"; sourceTree = "<group>"; };
 		5D96271428BE199D00A4F615 /* UserOnlineStateCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOnlineStateCache.swift; sourceTree = "<group>"; };
@@ -231,6 +296,36 @@
 		5DB007292861C8DD00EA3A66 /* ServerTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTagView.swift; sourceTree = "<group>"; };
 		5DB0072B2861D91E00EA3A66 /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
 		5DB0072C2861D91E00EA3A66 /* UserInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoViewController.xib; sourceTree = "<group>"; };
+		5DC4E910292C62A900928EAB /* ChannelInfoEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChannelInfoEditViewController.xib; sourceTree = "<group>"; };
+		5DC4E911292C62A900928EAB /* ChannelInfoEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelInfoEditViewController.swift; sourceTree = "<group>"; };
+		5DC4E912292C62A900928EAB /* ChannelSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelSettingViewController.swift; sourceTree = "<group>"; };
+		5DC4E917292C62FB00928EAB /* ServerBaseSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerBaseSettingViewController.swift; sourceTree = "<group>"; };
+		5DC4E918292C62FB00928EAB /* ServerBaseSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerBaseSettingViewController.xib; sourceTree = "<group>"; };
+		5DC4E91B292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerBaseSettingCollectionViewCell.swift; sourceTree = "<group>"; };
+		5DC4E91C292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerBaseSettingCollectionViewCell.xib; sourceTree = "<group>"; };
+		5DC4E91F292C6F5800928EAB /* ServerBaseSettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerBaseSettingTableViewCell.swift; sourceTree = "<group>"; };
+		5DC4E920292C6F5800928EAB /* ServerBaseSettingTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerBaseSettingTableViewCell.xib; sourceTree = "<group>"; };
+		5DC4E927292CDA2100928EAB /* ServerNotificationSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerNotificationSettingViewController.swift; sourceTree = "<group>"; };
+		5DC4E92B292DB2FD00928EAB /* ServerChooseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerChooseCell.swift; sourceTree = "<group>"; };
+		5DC4E92C292DB2FD00928EAB /* ServerChooseCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerChooseCell.xib; sourceTree = "<group>"; };
+		5DC4E933292DBEF100928EAB /* ServerEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditViewController.swift; sourceTree = "<group>"; };
+		5DC4E934292DBEF100928EAB /* ServerEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerEditViewController.xib; sourceTree = "<group>"; };
+		5DC4E939292DEEDE00928EAB /* ChannelGroupCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelGroupCreateViewController.swift; sourceTree = "<group>"; };
+		5DC4E93A292DEEDE00928EAB /* ChannelGroupCreateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelGroupCreateViewController.xib; sourceTree = "<group>"; };
+		5DC4E93D292DF3D600928EAB /* ServerMemberListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerMemberListViewController.swift; sourceTree = "<group>"; };
+		5DC4E93E292DF3D600928EAB /* ServerMemberListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerMemberListViewController.xib; sourceTree = "<group>"; };
+		5DC4E941292E17C100928EAB /* ChannelEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelEditViewController.swift; sourceTree = "<group>"; };
+		5DC4E942292E17C100928EAB /* ChannelEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelEditViewController.xib; sourceTree = "<group>"; };
+		5DC4E945292F0F1500928EAB /* ServerPermissionSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerPermissionSettingViewController.swift; sourceTree = "<group>"; };
+		5DC4E946292F0F1500928EAB /* ServerPermissionSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerPermissionSettingViewController.xib; sourceTree = "<group>"; };
+		5DC4E94A292F1C1600928EAB /* ServerStratum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerStratum.swift; sourceTree = "<group>"; };
+		5DC4E94C292F511D00928EAB /* ServerDetailAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailAlertViewController.swift; sourceTree = "<group>"; };
+		5DC4E94D292F511D00928EAB /* ServerDetailAlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerDetailAlertViewController.xib; sourceTree = "<group>"; };
+		5DC4E950293452E800928EAB /* HyphenateChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = HyphenateChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5DC4E975293DCF6C00928EAB /* ChannelGroupEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelGroupEditViewController.swift; sourceTree = "<group>"; };
+		5DC4E976293DCF6C00928EAB /* ChannelGroupEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelGroupEditViewController.xib; sourceTree = "<group>"; };
+		5DC4E97F293DEC5900928EAB /* ChannelCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCreateViewController.swift; sourceTree = "<group>"; };
+		5DC4E980293DEC5900928EAB /* ChannelCreateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelCreateViewController.xib; sourceTree = "<group>"; };
 		5DC7A036287BCA1700B1BA3E /* ThreadCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadCreateViewController.swift; sourceTree = "<group>"; };
 		5DC7A037287BCA1700B1BA3E /* ThreadCreateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ThreadCreateViewController.xib; sourceTree = "<group>"; };
 		5DC7A03A287BF69100B1BA3E /* ThreadSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSettingViewController.swift; sourceTree = "<group>"; };
@@ -238,15 +333,12 @@
 		5DCA3A6E286C60A400311D57 /* MessageServerChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageServerChannelCell.swift; sourceTree = "<group>"; };
 		5DCA3A6F286C60A400311D57 /* MessageServerChannelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageServerChannelCell.xib; sourceTree = "<group>"; };
 		5DCA3A72286C64E000311D57 /* ServerSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSettingViewController.swift; sourceTree = "<group>"; };
-		5DCA3A73286C64E000311D57 /* ServerSettingViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerSettingViewController.xib; sourceTree = "<group>"; };
 		5DCA3A76286C6F7F00311D57 /* ServerEditItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditItemButton.swift; sourceTree = "<group>"; };
 		5DCA3A78286D362600311D57 /* ServerMemberTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerMemberTableViewCell.swift; sourceTree = "<group>"; };
 		5DCA3A79286D362600311D57 /* ServerMemberTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerMemberTableViewCell.xib; sourceTree = "<group>"; };
 		5DCA3A7C286D4CD300311D57 /* ServerJoinAlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerJoinAlertViewController.swift; sourceTree = "<group>"; };
 		5DCA3A7D286D4CD300311D57 /* ServerJoinAlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerJoinAlertViewController.xib; sourceTree = "<group>"; };
 		5DCA3A80286D542B00311D57 /* BubbleMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleMenuView.swift; sourceTree = "<group>"; };
-		5DCA3A84286D8DAF00311D57 /* ChannelCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCreateViewController.swift; sourceTree = "<group>"; };
-		5DCA3A85286D8DAF00311D57 /* ChannelCreateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChannelCreateViewController.xib; sourceTree = "<group>"; };
 		5DCA3A88286DB5BF00311D57 /* UserOnlineManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserOnlineManager.swift; sourceTree = "<group>"; };
 		5DCA3A8A286E9F3A00311D57 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		5DCA3A8B286E9F3A00311D57 /* ConversationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationCell.xib; sourceTree = "<group>"; };
@@ -289,8 +381,8 @@
 		5DFC4409286BF7EC00FB4483 /* ConversationViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationViewController.xib; sourceTree = "<group>"; };
 		5DFC440C286BF95100FB4483 /* MessageServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageServerViewController.swift; sourceTree = "<group>"; };
 		5DFC440D286BF95100FB4483 /* MessageServerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageServerViewController.xib; sourceTree = "<group>"; };
-		5DFC4410286C27A900FB4483 /* ServerEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerEditViewController.swift; sourceTree = "<group>"; };
-		5DFC4411286C27A900FB4483 /* ServerEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerEditViewController.xib; sourceTree = "<group>"; };
+		5DFC4410286C27A900FB4483 /* ServerInfoEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerInfoEditViewController.swift; sourceTree = "<group>"; };
+		5DFC4411286C27A900FB4483 /* ServerInfoEditViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServerInfoEditViewController.xib; sourceTree = "<group>"; };
 		7FD133DC21750EE76EE627C8 /* Pods-discord-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-discord-ios.release.xcconfig"; path = "Target Support Files/Pods-discord-ios/Pods-discord-ios.release.xcconfig"; sourceTree = "<group>"; };
 		A1A4184C8D2737A08014A87A /* Pods_discord_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_discord_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9000D2A8E9A26AAC3E93CE5 /* Pods-discord-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-discord-ios.debug.xcconfig"; path = "Target Support Files/Pods-discord-ios/Pods-discord-ios.debug.xcconfig"; sourceTree = "<group>"; };
@@ -302,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D96270B28BCBF9B00A4F615 /* Pods_discord_ios.framework in Frameworks */,
+				5D4EFDCF296FBB170044BF6C /* HyphenateChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,7 +474,6 @@
 			isa = PBXGroup;
 			children = (
 				5DC7A034287BC8C100B1BA3E /* thread */,
-				5DCA3A82286D8D0D00311D57 /* channel */,
 				5DB0070828616EDC00EA3A66 /* contacts */,
 				5DB0070A28616EDC00EA3A66 /* me */,
 				5DB0070628616EDC00EA3A66 /* square */,
@@ -390,6 +482,7 @@
 				5DB006ED285C676A00EA3A66 /* main */,
 				5DB006E9285C675C00EA3A66 /* common */,
 				5DB006EA285C675C00EA3A66 /* login */,
+				5D8BA95D294FFA6100470139 /* discord-ios-Bridging-Header.h */,
 			);
 			path = Class;
 			sourceTree = "<group>";
@@ -448,6 +541,7 @@
 		5DB006FA285C896200EA3A66 /* server */ = {
 			isa = PBXGroup;
 			children = (
+				5DC4E949292F1BCE00928EAB /* model */,
 				5DEBCE322865C33800886437 /* view */,
 				5DB006FB285C896F00EA3A66 /* vc */,
 			);
@@ -457,18 +551,43 @@
 		5DB006FB285C896F00EA3A66 /* vc */ = {
 			isa = PBXGroup;
 			children = (
-				5DB006FC285C897E00EA3A66 /* ServerCreateViewController.swift */,
-				5DB006FD285C897E00EA3A66 /* ServerCreateViewController.xib */,
-				5DFC4410286C27A900FB4483 /* ServerEditViewController.swift */,
-				5DFC4411286C27A900FB4483 /* ServerEditViewController.xib */,
-				5DCA3A72286C64E000311D57 /* ServerSettingViewController.swift */,
-				5DCA3A73286C64E000311D57 /* ServerSettingViewController.xib */,
-				5DCA3A7C286D4CD300311D57 /* ServerJoinAlertViewController.swift */,
-				5DCA3A7D286D4CD300311D57 /* ServerJoinAlertViewController.xib */,
+				5D8BA96A2950742E00470139 /* ChannelChangeGroupViewController.swift */,
+				5DC4E97F293DEC5900928EAB /* ChannelCreateViewController.swift */,
+				5DC4E980293DEC5900928EAB /* ChannelCreateViewController.xib */,
+				5DC4E941292E17C100928EAB /* ChannelEditViewController.swift */,
+				5DC4E942292E17C100928EAB /* ChannelEditViewController.xib */,
+				5DC4E939292DEEDE00928EAB /* ChannelGroupCreateViewController.swift */,
+				5DC4E93A292DEEDE00928EAB /* ChannelGroupCreateViewController.xib */,
+				5DC4E975293DCF6C00928EAB /* ChannelGroupEditViewController.swift */,
+				5DC4E976293DCF6C00928EAB /* ChannelGroupEditViewController.xib */,
+				5DC4E911292C62A900928EAB /* ChannelInfoEditViewController.swift */,
+				5DC4E910292C62A900928EAB /* ChannelInfoEditViewController.xib */,
+				5DC4E912292C62A900928EAB /* ChannelSettingViewController.swift */,
 				5D521D1928741C2500BD9A43 /* FriendInviteViewController.swift */,
 				5D521D1A28741C2500BD9A43 /* FriendInviteViewController.xib */,
+				5DC4E917292C62FB00928EAB /* ServerBaseSettingViewController.swift */,
+				5DC4E918292C62FB00928EAB /* ServerBaseSettingViewController.xib */,
+				5DB006FC285C897E00EA3A66 /* ServerCreateViewController.swift */,
+				5DB006FD285C897E00EA3A66 /* ServerCreateViewController.xib */,
+				5DC4E94C292F511D00928EAB /* ServerDetailAlertViewController.swift */,
+				5DC4E94D292F511D00928EAB /* ServerDetailAlertViewController.xib */,
+				5DC4E933292DBEF100928EAB /* ServerEditViewController.swift */,
+				5DC4E934292DBEF100928EAB /* ServerEditViewController.xib */,
+				5DFC4410286C27A900FB4483 /* ServerInfoEditViewController.swift */,
+				5DFC4411286C27A900FB4483 /* ServerInfoEditViewController.xib */,
+				5DCA3A7C286D4CD300311D57 /* ServerJoinAlertViewController.swift */,
+				5DCA3A7D286D4CD300311D57 /* ServerJoinAlertViewController.xib */,
+				5DC4E93D292DF3D600928EAB /* ServerMemberListViewController.swift */,
+				5DC4E93E292DF3D600928EAB /* ServerMemberListViewController.xib */,
+				5DC4E927292CDA2100928EAB /* ServerNotificationSettingViewController.swift */,
+				5DC4E945292F0F1500928EAB /* ServerPermissionSettingViewController.swift */,
+				5DC4E946292F0F1500928EAB /* ServerPermissionSettingViewController.xib */,
+				5DCA3A72286C64E000311D57 /* ServerSettingViewController.swift */,
 				5D969DCA2876CCCA008BEBC2 /* ServerUserMenuViewController.swift */,
 				5D969DCB2876CCCA008BEBC2 /* ServerUserMenuViewController.xib */,
+				5D8BA96C29544D1300470139 /* VoiceChannelViewController.swift */,
+				5D8BA96D29544D1300470139 /* VoiceChannelViewController.xib */,
+				5D4EFDB82959A3E20044BF6C /* CategorySettingViewController.swift */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -576,8 +695,17 @@
 			children = (
 				5DB007232861B5BB00EA3A66 /* Toast.swift */,
 				5D88B1E728AA223200117F03 /* BigImageView.swift */,
+				5D4EFDD229768C390044BF6C /* NavigationTitleView.swift */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		5DC4E949292F1BCE00928EAB /* model */ = {
+			isa = PBXGroup;
+			children = (
+				5DC4E94A292F1C1600928EAB /* ServerStratum.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 		5DC7A034287BC8C100B1BA3E /* thread */ = {
@@ -601,25 +729,6 @@
 				5D3C7F85287D1C44007E322D /* ThreadEditViewController.xib */,
 				5D1EC121287E72B60016D766 /* ThreadListViewController.swift */,
 				5D1EC122287E72B60016D766 /* ThreadListViewController.xib */,
-			);
-			path = vc;
-			sourceTree = "<group>";
-		};
-		5DCA3A82286D8D0D00311D57 /* channel */ = {
-			isa = PBXGroup;
-			children = (
-				5DCA3A83286D8D6B00311D57 /* vc */,
-			);
-			path = channel;
-			sourceTree = "<group>";
-		};
-		5DCA3A83286D8D6B00311D57 /* vc */ = {
-			isa = PBXGroup;
-			children = (
-				5DCA3A84286D8DAF00311D57 /* ChannelCreateViewController.swift */,
-				5DCA3A85286D8DAF00311D57 /* ChannelCreateViewController.xib */,
-				5D521D152873D60D00BD9A43 /* ChannelSettingViewController.swift */,
-				5D521D162873D60D00BD9A43 /* ChannelSettingViewController.xib */,
 			);
 			path = vc;
 			sourceTree = "<group>";
@@ -662,6 +771,10 @@
 				5DCA3A88286DB5BF00311D57 /* UserOnlineManager.swift */,
 				5D055D4A28865CB30069D580 /* ServerInfoManager.swift */,
 				5D1CCCFB28C219B500E67897 /* ServerRoleManager.swift */,
+				5D4EFDBC296400980044BF6C /* VoiceChatManager.swift */,
+				5D4EFDBE296569170044BF6C /* VoiceChatManagerDelegate.swift */,
+				5D4EFDC5296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift */,
+				5D4EFDC9296D134D0044BF6C /* ServerChannelMapManager.swift */,
 			);
 			path = manager;
 			sourceTree = "<group>";
@@ -674,6 +787,7 @@
 				5DFC4408286BF7EC00FB4483 /* ConversationViewController.swift */,
 				5DFC4409286BF7EC00FB4483 /* ConversationViewController.xib */,
 				5DFC440C286BF95100FB4483 /* MessageServerViewController.swift */,
+				5D4EFDCB296D44C20044BF6C /* MessageServerViewController+Common.swift */,
 				5DFC440D286BF95100FB4483 /* MessageServerViewController.xib */,
 				5DCA3A8E286EC7BA00311D57 /* ChatViewController.swift */,
 				5DCA3A8F286EC7BA00311D57 /* ChatViewController.xib */,
@@ -684,30 +798,31 @@
 		5DEBCE2228655E5200886437 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				5DCA3A9C286EEB5300311D57 /* message_cell */,
-				5DEBCE2528655E7800886437 /* MessageServerListView.swift */,
-				5DFC4404286BE8CC00FB4483 /* MessageItemCell.swift */,
-				5DFC4405286BE8CC00FB4483 /* MessageItemCell.xib */,
-				5DCA3A6E286C60A400311D57 /* MessageServerChannelCell.swift */,
-				5DCA3A6F286C60A400311D57 /* MessageServerChannelCell.xib */,
-				5DCA3A8A286E9F3A00311D57 /* ConversationCell.swift */,
-				5DCA3A8B286E9F3A00311D57 /* ConversationCell.xib */,
-				5D521D082872C18900BD9A43 /* EmojiListView.swift */,
-				5D521D0D2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift */,
-				5D521D0E2872C8D200BD9A43 /* EmojiListCollectionViewCell.xib */,
-				5D521D112872DE7F00BD9A43 /* ChatInputView.swift */,
-				5D521D132872DF6300BD9A43 /* ChatInputView.xib */,
 				5D8B5464287533AD0058FF77 /* ChatBottomMenuView.swift */,
 				5D8B5466287533B90058FF77 /* ChatBottomMenuView.xib */,
 				5D8B546E287538660058FF77 /* ChatBottomMenuViewItemCell.swift */,
 				5D8B546F287538660058FF77 /* ChatBottomMenuViewItemCell.xib */,
 				5D055D50288A3BD90069D580 /* ChatInputMoreView.swift */,
+				5D521D112872DE7F00BD9A43 /* ChatInputView.swift */,
+				5D521D132872DF6300BD9A43 /* ChatInputView.xib */,
+				5DCA3A8A286E9F3A00311D57 /* ConversationCell.swift */,
+				5DCA3A8B286E9F3A00311D57 /* ConversationCell.xib */,
+				5D521D0D2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift */,
+				5D521D0E2872C8D200BD9A43 /* EmojiListCollectionViewCell.xib */,
+				5D521D082872C18900BD9A43 /* EmojiListView.swift */,
+				5DCA3A9C286EEB5300311D57 /* message_cell */,
+				5DFC4404286BE8CC00FB4483 /* MessageItemCell.swift */,
+				5DFC4405286BE8CC00FB4483 /* MessageItemCell.xib */,
+				5DCA3A6E286C60A400311D57 /* MessageServerChannelCell.swift */,
+				5DCA3A6F286C60A400311D57 /* MessageServerChannelCell.xib */,
 				5D61A9352897B6BA00AC1F4E /* MessageServerChannelHeader.swift */,
 				5D61A9372897B73900AC1F4E /* MessageServerChannelHeader.xib */,
+				5DEBCE2528655E7800886437 /* MessageServerListView.swift */,
 				5D61A9392897D26700AC1F4E /* MessageServerThreadCell.swift */,
 				5D61A93A2897D26700AC1F4E /* MessageServerThreadCell.xib */,
 				5DEADCDE2898BB570082F203 /* MessageServerThreadListFooter.swift */,
 				5DEADCE02898BB5F0082F203 /* MessageServerThreadListFooter.xib */,
+				5D4EFDC3296828170044BF6C /* VoiceChannelMiniView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -729,6 +844,14 @@
 				5DCA3A76286C6F7F00311D57 /* ServerEditItemButton.swift */,
 				5DCA3A78286D362600311D57 /* ServerMemberTableViewCell.swift */,
 				5DCA3A79286D362600311D57 /* ServerMemberTableViewCell.xib */,
+				5DC4E91B292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.swift */,
+				5DC4E91C292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.xib */,
+				5DC4E91F292C6F5800928EAB /* ServerBaseSettingTableViewCell.swift */,
+				5DC4E920292C6F5800928EAB /* ServerBaseSettingTableViewCell.xib */,
+				5DC4E92B292DB2FD00928EAB /* ServerChooseCell.swift */,
+				5DC4E92C292DB2FD00928EAB /* ServerChooseCell.xib */,
+				5D4EFDB42955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.swift */,
+				5D4EFDB52955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.xib */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -775,6 +898,7 @@
 		B4803B6E341E40965E819AE5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5DC4E950293452E800928EAB /* HyphenateChat.framework */,
 				5DDDB71128B61DC5002827C6 /* libeasemob.a */,
 				5DDDB70D28B61DC2002827C6 /* HyphenateChat.framework */,
 				5DDDB70B28B5D4DC002827C6 /* libeasemob.a */,
@@ -803,6 +927,7 @@
 				5DF53CA1284EE6110007EEED /* Resources */,
 				F6EC55447CA9E8A182237AE1 /* [CP] Embed Pods Frameworks */,
 				5D88B1E228A5F8A300117F03 /* Run Script */,
+				5D4EFDD1296FBB170044BF6C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -825,6 +950,7 @@
 				TargetAttributes = {
 					5DF53CA2284EE6110007EEED = {
 						CreatedOnToolsVersion = 13.3;
+						LastSwiftMigration = 1410;
 					};
 				};
 			};
@@ -854,9 +980,9 @@
 			files = (
 				5D969DCD2876CCCA008BEBC2 /* ServerUserMenuViewController.xib in Resources */,
 				5DB0071C2861739400EA3A66 /* SquareCollectionViewCell.xib in Resources */,
+				5DC4E978293DCF6C00928EAB /* ChannelGroupEditViewController.xib in Resources */,
 				5DE7031328699E2D00C4A099 /* AddContactViewController.xib in Resources */,
 				5DF53CB3284EE6130007EEED /* LaunchScreen.storyboard in Resources */,
-				5D521D182873D60D00BD9A43 /* ChannelSettingViewController.xib in Resources */,
 				5DB0071728616F1500EA3A66 /* SquareViewController.xib in Resources */,
 				5D61A93C2897D26700AC1F4E /* MessageServerThreadCell.xib in Resources */,
 				5D521D102872C8D200BD9A43 /* EmojiListCollectionViewCell.xib in Resources */,
@@ -864,25 +990,35 @@
 				5DFC4407286BE8CC00FB4483 /* MessageItemCell.xib in Resources */,
 				5DFC440B286BF7EC00FB4483 /* ConversationViewController.xib in Resources */,
 				5D521D1C28741C2500BD9A43 /* FriendInviteViewController.xib in Resources */,
+				5DC4E94F292F511D00928EAB /* ServerDetailAlertViewController.xib in Resources */,
 				5D1EC129287E741E0016D766 /* ThreadListTableViewCell.xib in Resources */,
+				5D4EFDB72955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.xib in Resources */,
 				5D1CCCF028C09EFA00E67897 /* Localizable.strings in Resources */,
 				5DB0070F28616EF300EA3A66 /* ContactsViewController.xib in Resources */,
 				5DCA3A7F286D4CD300311D57 /* ServerJoinAlertViewController.xib in Resources */,
+				5DC4E944292E17C100928EAB /* ChannelEditViewController.xib in Resources */,
 				5D1EC124287E72B60016D766 /* ThreadListViewController.xib in Resources */,
 				5D9E42C62890D62B00388A73 /* MessageThreadView.xib in Resources */,
 				5DEADCE12898BB5F0082F203 /* MessageServerThreadListFooter.xib in Resources */,
-				5DCA3A87286D8DAF00311D57 /* ChannelCreateViewController.xib in Resources */,
+				5DC4E940292DF3D600928EAB /* ServerMemberListViewController.xib in Resources */,
+				5DC4E922292C6F5800928EAB /* ServerBaseSettingTableViewCell.xib in Resources */,
 				5DF53CB0284EE6130007EEED /* Assets.xcassets in Resources */,
+				5DC4E982293DEC5900928EAB /* ChannelCreateViewController.xib in Resources */,
 				5DB006FF285C897E00EA3A66 /* ServerCreateViewController.xib in Resources */,
-				5DCA3A75286C64E000311D57 /* ServerSettingViewController.xib in Resources */,
-				5DFC4413286C27A900FB4483 /* ServerEditViewController.xib in Resources */,
+				5DC4E914292C62A900928EAB /* ChannelInfoEditViewController.xib in Resources */,
+				5DFC4413286C27A900FB4483 /* ServerInfoEditViewController.xib in Resources */,
+				5DC4E91E292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.xib in Resources */,
+				5DC4E91A292C62FB00928EAB /* ServerBaseSettingViewController.xib in Resources */,
+				5DC4E948292F0F1500928EAB /* ServerPermissionSettingViewController.xib in Resources */,
 				5D61A92E28938B3300AC1F4E /* ThreadMessageHeadView.xib in Resources */,
 				5DC7A03D287BF69100B1BA3E /* ThreadSettingViewController.xib in Resources */,
 				5D8B5467287533B90058FF77 /* ChatBottomMenuView.xib in Resources */,
 				5DFC440F286BF95100FB4483 /* MessageServerViewController.xib in Resources */,
 				5D61A92728922F2300AC1F4E /* MessageFileView.xib in Resources */,
+				5DC4E936292DBEF100928EAB /* ServerEditViewController.xib in Resources */,
 				5DCA3A7B286D362600311D57 /* ServerMemberTableViewCell.xib in Resources */,
 				5DE7030F286995DC00C4A099 /* ContactsTableViewCell.xib in Resources */,
+				5D8BA96F29544D1300470139 /* VoiceChannelViewController.xib in Resources */,
 				5D6B082328992C67003066AD /* MessageCircleInviteView.xib in Resources */,
 				5D8B5471287538660058FF77 /* ChatBottomMenuViewItemCell.xib in Resources */,
 				5DB0072E2861D91E00EA3A66 /* UserInfoViewController.xib in Resources */,
@@ -890,10 +1026,12 @@
 				5D3C7F87287D1C44007E322D /* ThreadEditViewController.xib in Resources */,
 				5DCA3A91286EC7BA00311D57 /* ChatViewController.xib in Resources */,
 				5DC7A039287BCA1700B1BA3E /* ThreadCreateViewController.xib in Resources */,
+				5DC4E93C292DEEDE00928EAB /* ChannelGroupCreateViewController.xib in Resources */,
 				5D521D142872DF6300BD9A43 /* ChatInputView.xib in Resources */,
 				5DB006F1285C67DE00EA3A66 /* LoginViewController.xib in Resources */,
 				5DCA3A8D286E9F3A00311D57 /* ConversationCell.xib in Resources */,
 				5D61A9382897B73900AC1F4E /* MessageServerChannelHeader.xib in Resources */,
+				5DC4E92E292DB2FD00928EAB /* ServerChooseCell.xib in Resources */,
 				5DEBCE2328655E5200886437 /* MessageViewController.xib in Resources */,
 				5DCA3AA8286F093700311D57 /* MessageCommonView.xib in Resources */,
 			);
@@ -970,11 +1108,12 @@
 				5DB006FE285C897E00EA3A66 /* ServerCreateViewController.swift in Sources */,
 				5D521D122872DE7F00BD9A43 /* ChatInputView.swift in Sources */,
 				5DFC440E286BF95100FB4483 /* MessageServerViewController.swift in Sources */,
-				5DCA3A86286D8DAF00311D57 /* ChannelCreateViewController.swift in Sources */,
 				5DE0751D289CE7C0008B26E6 /* IEMChatManager+send.swift in Sources */,
+				5D8BA96B2950742E00470139 /* ChannelChangeGroupViewController.swift in Sources */,
 				5D96271028BE0FE300A4F615 /* UserStatusView.swift in Sources */,
 				5D6B081D28991545003066AD /* EMChatMessage+showText.swift in Sources */,
 				5D1CCD0228C5D3B500E67897 /* EMChatMessage+ChatType.swift in Sources */,
+				5DC4E93B292DEEDE00928EAB /* ChannelGroupCreateViewController.swift in Sources */,
 				5DE703162869BE1B00C4A099 /* UserInfoManager.swift in Sources */,
 				5D6B081F28992C47003066AD /* MessageCircleInviteCell.swift in Sources */,
 				5DFC440A286BF7EC00FB4483 /* ConversationViewController.swift in Sources */,
@@ -983,8 +1122,11 @@
 				5D96271528BE199D00A4F615 /* UserOnlineStateCache.swift in Sources */,
 				5D3C7F86287D1C44007E322D /* ThreadEditViewController.swift in Sources */,
 				5DFC4406286BE8CC00FB4483 /* MessageItemCell.swift in Sources */,
+				5D4EFDCA296D134D0044BF6C /* ServerChannelMapManager.swift in Sources */,
+				5DC4E916292C62A900928EAB /* ChannelSettingViewController.swift in Sources */,
 				5DCA3A8C286E9F3A00311D57 /* ConversationCell.swift in Sources */,
 				5D8B5465287533AD0058FF77 /* ChatBottomMenuView.swift in Sources */,
+				5DC4E947292F0F1500928EAB /* ServerPermissionSettingViewController.swift in Sources */,
 				5DCA3A81286D542B00311D57 /* BubbleMenuView.swift in Sources */,
 				5DB007242861B5BB00EA3A66 /* Toast.swift in Sources */,
 				5D969DCC2876CCCA008BEBC2 /* ServerUserMenuViewController.swift in Sources */,
@@ -995,16 +1137,20 @@
 				5D1EC123287E72B60016D766 /* ThreadListViewController.swift in Sources */,
 				5DEBCE2428655E5200886437 /* MessageViewController.swift in Sources */,
 				5DC7A038287BCA1700B1BA3E /* ThreadCreateViewController.swift in Sources */,
+				5DC4E977293DCF6C00928EAB /* ChannelGroupEditViewController.swift in Sources */,
 				5D88B1E828AA223200117F03 /* BigImageView.swift in Sources */,
 				5D6D096F28B318E100AFA2ED /* ColorNames.swift in Sources */,
 				5D61A92C28938B2800AC1F4E /* ThreadMessageHeadView.swift in Sources */,
 				5D61A9312893C89600AC1F4E /* ThreadUtils.swift in Sources */,
 				5DE7030A2869840C00C4A099 /* BaseViewController.swift in Sources */,
 				5DCA3A7A286D362600311D57 /* ServerMemberTableViewCell.swift in Sources */,
+				5DC4E93F292DF3D600928EAB /* ServerMemberListViewController.swift in Sources */,
 				5D6B081B28990A20003066AD /* UIViewController+popover.swift in Sources */,
-				5DFC4412286C27A900FB4483 /* ServerEditViewController.swift in Sources */,
+				5DC4E919292C62FB00928EAB /* ServerBaseSettingViewController.swift in Sources */,
+				5DFC4412286C27A900FB4483 /* ServerInfoEditViewController.swift in Sources */,
 				5DB0072A2861C8DD00EA3A66 /* ServerTagView.swift in Sources */,
 				5D96271228BE167A00A4F615 /* EMPresence+userStatus.swift in Sources */,
+				5D4EFDB62955A5AE0044BF6C /* VoiceChannelMemberTableViewCell.swift in Sources */,
 				5DB006F0285C67DE00EA3A66 /* LoginViewController.swift in Sources */,
 				5DB0071B2861739400EA3A66 /* SquareCollectionViewCell.swift in Sources */,
 				5D88B1E128A4E78500117F03 /* NSAttributedString+emoji.swift in Sources */,
@@ -1016,43 +1162,60 @@
 				5DEADCDF2898BB570082F203 /* MessageServerThreadListFooter.swift in Sources */,
 				5DB0070528615BD000EA3A66 /* MainViewController.swift in Sources */,
 				5D61A9362897B6BA00AC1F4E /* MessageServerChannelHeader.swift in Sources */,
+				5DC4E981293DEC5900928EAB /* ChannelCreateViewController.swift in Sources */,
 				5D969DD928783C0C008BEBC2 /* UIImageView+urlstr.swift in Sources */,
 				5D61A93B2897D26700AC1F4E /* MessageServerThreadCell.swift in Sources */,
 				5DB0071E286174CE00EA3A66 /* ServerTagListView.swift in Sources */,
+				5DC4E935292DBEF100928EAB /* ServerEditViewController.swift in Sources */,
 				5D1CCCFC28C219B500E67897 /* ServerRoleManager.swift in Sources */,
+				5D4EFDBF296569180044BF6C /* VoiceChatManagerDelegate.swift in Sources */,
 				5DC7A03C287BF69100B1BA3E /* ThreadSettingViewController.swift in Sources */,
 				5DCA3AAA28727F3800311D57 /* MessageBaseCell.swift in Sources */,
+				5DC4E92D292DB2FD00928EAB /* ServerChooseCell.swift in Sources */,
+				5DC4E94E292F511D00928EAB /* ServerDetailAlertViewController.swift in Sources */,
 				5D521D092872C18900BD9A43 /* EmojiListView.swift in Sources */,
 				5D521D1B28741C2500BD9A43 /* FriendInviteViewController.swift in Sources */,
 				5DCA3A74286C64E000311D57 /* ServerSettingViewController.swift in Sources */,
 				5DEBCE3D28695BEF00886437 /* MeSettingViewController.swift in Sources */,
+				5DC4E91D292C6E9E00928EAB /* ServerBaseSettingCollectionViewCell.swift in Sources */,
 				5D055D3728801FE00069D580 /* NotificationNames.swift in Sources */,
 				5D61A92A289272EB00AC1F4E /* HTTP.swift in Sources */,
 				5D6D096828AE490700AFA2ED /* UITabBar+badge.swift in Sources */,
+				5D4EFDBD296400980044BF6C /* VoiceChatManager.swift in Sources */,
 				5DCA3AA6286F092700311D57 /* MessageCommonView.swift in Sources */,
 				5D1CCD0028C5CBF300E67897 /* MessageServerListLayout.swift in Sources */,
 				5D969DC72875869B008BEBC2 /* MessageReactionListView.swift in Sources */,
+				5DC4E929292CDA2100928EAB /* ServerNotificationSettingViewController.swift in Sources */,
+				5DC4E915292C62A900928EAB /* ChannelInfoEditViewController.swift in Sources */,
 				5DCA3AA4286F045F00311D57 /* MessageTextCell.swift in Sources */,
+				5D4EFDCC296D44C20044BF6C /* MessageServerViewController+Common.swift in Sources */,
 				5DE7030E286995DC00C4A099 /* ContactsTableViewCell.swift in Sources */,
+				5DC4E943292E17C100928EAB /* ChannelEditViewController.swift in Sources */,
 				5D1EC128287E741E0016D766 /* ThreadListTableViewCell.swift in Sources */,
 				5DF53CA7284EE6110007EEED /* AppDelegate.swift in Sources */,
 				5DB0071628616F1500EA3A66 /* SquareViewController.swift in Sources */,
 				5D9E42C42890D61B00388A73 /* MessageThreadView.swift in Sources */,
-				5D521D172873D60D00BD9A43 /* ChannelSettingViewController.swift in Sources */,
+				5D4EFDC6296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift in Sources */,
+				5D8BA96E29544D1300470139 /* VoiceChannelViewController.swift in Sources */,
 				5D969DC9287586A9008BEBC2 /* MessageReactionItemView.swift in Sources */,
+				5D4EFDD329768C390044BF6C /* NavigationTitleView.swift in Sources */,
+				5D4EFDC4296828170044BF6C /* VoiceChannelMiniView.swift in Sources */,
 				5DCA3A77286C6F7F00311D57 /* ServerEditItemButton.swift in Sources */,
 				5DEBCE4028695C6400886437 /* NavigationController.swift in Sources */,
 				5DCA3AAC2872985F00311D57 /* MessageImageCell.swift in Sources */,
+				5DC4E921292C6F5800928EAB /* ServerBaseSettingTableViewCell.swift in Sources */,
 				5DCA3A7E286D4CD300311D57 /* ServerJoinAlertViewController.swift in Sources */,
 				5D969DD7287839F3008BEBC2 /* EMUserInfo+extension.swift in Sources */,
 				5D6B082128992C5B003066AD /* MessageCircleInviteView.swift in Sources */,
 				5D61A92328922D7200AC1F4E /* MessageFileCell.swift in Sources */,
 				5DCA3A90286EC7BA00311D57 /* ChatViewController.swift in Sources */,
 				5DB007202861A11A00EA3A66 /* SquareSearchView.swift in Sources */,
+				5DC4E94B292F1C1600928EAB /* ServerStratum.swift in Sources */,
 				5D9E42C2288FD0D700388A73 /* ChatType.swift in Sources */,
 				5D61A92528922F1700AC1F4E /* MessageFileView.swift in Sources */,
 				5DCA3A70286C60A400311D57 /* MessageServerChannelCell.swift in Sources */,
 				5D521D0F2872C8D200BD9A43 /* EmojiListCollectionViewCell.swift in Sources */,
+				5D4EFDB92959A3E20044BF6C /* CategorySettingViewController.swift in Sources */,
 				5D521D0C2872C38800BD9A43 /* EmojiKeyboardLayout.swift in Sources */,
 				5DEBCE342865C5AB00886437 /* ServerCreateIconButton.swift in Sources */,
 				5DDDB71A28BC9691002827C6 /* UITextField+maxLength.swift in Sources */,
@@ -1205,11 +1368,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = JC854K845H;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/discord-ios/Class",
@@ -1219,6 +1385,7 @@
 				INFOPLIST_FILE = "discord-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "环信超级社区";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用于发送图片以及设置头像";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "用于语音通话";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于发送图片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1236,7 +1403,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.circle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = circle_appstore;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "discord-ios/Class/discord-ios-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1248,10 +1418,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JC854K845H;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = JC854K845H;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/discord-ios/Class",
@@ -1261,6 +1434,7 @@
 				INFOPLIST_FILE = "discord-ios/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "环信超级社区";
 				INFOPLIST_KEY_NSCameraUsageDescription = "用于发送图片以及设置头像";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "用于语音通话";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "用于发送图片";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -1278,7 +1452,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.easemob.circle;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = circle_appstore;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "discord-ios/Class/discord-ios-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

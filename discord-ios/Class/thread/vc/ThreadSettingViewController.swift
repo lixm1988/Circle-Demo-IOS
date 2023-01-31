@@ -91,7 +91,7 @@ class ThreadSettingViewController: UIViewController {
         }
         let v = BubbleMenuView(baseView: baseView)
         if canDestroy {
-            v.addMenuItem(image: UIImage(named: "server_delete")!, title: "删除子区") {
+            v.addMenuItem(image: UIImage(named: "delete")!, title: "删除子区") {
                 let vc = UIAlertController(title: "删除子区", message: "确认删除子区 \(thread.threadName!)？本操作不可撤销。", preferredStyle: .alert)
                 vc.addAction(UIAlertAction(title: "取消", style: .default))
                 vc.addAction(UIAlertAction(title: "确认", style: .destructive, handler: { _ in
@@ -109,7 +109,7 @@ class ThreadSettingViewController: UIViewController {
                 self.present(vc, animated: true)
             }
         }
-        v.addMenuItem(image: UIImage(named: "server_exit")!, title: "退出子区") {
+        v.addMenuItem(image: UIImage(named: "outdoor")!, title: "退出子区") {
             let vc = UIAlertController(title: "退出子区 \(thread.threadName!)", message: "确认退出子区？", preferredStyle: .alert)
             vc.addAction(UIAlertAction(title: "取消", style: .default))
             vc.addAction(UIAlertAction(title: "确认", style: .destructive, handler: { _ in

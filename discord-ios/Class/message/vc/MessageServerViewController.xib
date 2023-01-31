@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -66,10 +67,10 @@
                     </connections>
                 </button>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J3s-Nk-c0S" customClass="ServerTagListView" customModule="discord_ios" customModuleProvider="target">
-                    <rect key="frame" x="23" y="161.5" width="368" height="12"/>
+                    <rect key="frame" x="23" y="155.5" width="368" height="18"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="12" id="qJY-bk-Mhn"/>
+                        <constraint firstAttribute="height" constant="18" id="qJY-bk-Mhn"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eSt-Ce-Yfu">
@@ -81,6 +82,13 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jOd-O5-73E">
+                    <rect key="frame" x="0.0" y="155.5" width="414" height="60"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <connections>
+                        <action selector="showDetailAction" destination="-1" eventType="touchUpInside" id="aHp-Rf-Vzq"/>
+                    </connections>
+                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="grouped" separatorStyle="none" rowHeight="76" sectionHeaderHeight="36" estimatedSectionHeaderHeight="-1" sectionFooterHeight="1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="8tD-2M-HLr">
                     <rect key="frame" x="0.0" y="220.5" width="414" height="675.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -93,7 +101,7 @@
                     </connections>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <color key="backgroundColor" name="#181818"/>
             <constraints>
                 <constraint firstItem="J3s-Nk-c0S" firstAttribute="bottom" secondItem="Knx-vC-xkB" secondAttribute="bottom" constant="-8" id="785-aC-nbC"/>
                 <constraint firstItem="eSt-Ce-Yfu" firstAttribute="trailing" secondItem="Knx-vC-xkB" secondAttribute="trailing" id="DLJ-pR-zT3"/>
@@ -102,15 +110,19 @@
                 <constraint firstItem="P2D-v1-Ew5" firstAttribute="trailing" secondItem="Knx-vC-xkB" secondAttribute="trailing" constant="-6" id="StG-AM-H3m"/>
                 <constraint firstItem="Knx-vC-xkB" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="U8d-Sb-Wtk"/>
                 <constraint firstItem="8tD-2M-HLr" firstAttribute="top" secondItem="eSt-Ce-Yfu" secondAttribute="bottom" constant="5" id="V9k-kN-tYt"/>
+                <constraint firstItem="jOd-O5-73E" firstAttribute="top" secondItem="J3s-Nk-c0S" secondAttribute="top" id="X4R-t9-n0t"/>
                 <constraint firstItem="J3s-Nk-c0S" firstAttribute="trailing" secondItem="Knx-vC-xkB" secondAttribute="trailing" constant="-11" id="ZPc-R3-MAP"/>
                 <constraint firstItem="eSt-Ce-Yfu" firstAttribute="leading" secondItem="Knx-vC-xkB" secondAttribute="leading" id="cbr-bZ-jfX"/>
                 <constraint firstItem="P2D-v1-Ew5" firstAttribute="leading" secondItem="Gfz-Cd-W5K" secondAttribute="trailing" constant="8" id="cys-th-Wgk"/>
                 <constraint firstItem="T2J-85-uGZ" firstAttribute="top" secondItem="Knx-vC-xkB" secondAttribute="top" constant="10" id="eE8-df-GbI"/>
                 <constraint firstAttribute="trailing" secondItem="8tD-2M-HLr" secondAttribute="trailing" id="eLZ-Pe-poE"/>
                 <constraint firstItem="J3s-Nk-c0S" firstAttribute="leading" secondItem="Knx-vC-xkB" secondAttribute="leading" constant="11" id="gu9-Ps-Eta"/>
+                <constraint firstItem="jOd-O5-73E" firstAttribute="bottom" secondItem="eSt-Ce-Yfu" secondAttribute="bottom" id="h1c-ef-7Id"/>
                 <constraint firstItem="eSt-Ce-Yfu" firstAttribute="top" secondItem="Knx-vC-xkB" secondAttribute="bottom" constant="17" id="iZ0-MJ-ckG"/>
+                <constraint firstItem="jOd-O5-73E" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kGj-Vp-QBc"/>
                 <constraint firstItem="P2D-v1-Ew5" firstAttribute="top" secondItem="Knx-vC-xkB" secondAttribute="top" constant="8" id="lm2-ie-ufQ"/>
                 <constraint firstItem="T2J-85-uGZ" firstAttribute="leading" secondItem="Knx-vC-xkB" secondAttribute="leading" constant="12" id="nZi-5a-j9p"/>
+                <constraint firstAttribute="trailing" secondItem="jOd-O5-73E" secondAttribute="trailing" id="o7t-9E-S0U"/>
                 <constraint firstAttribute="bottom" secondItem="8tD-2M-HLr" secondAttribute="bottom" id="w1q-le-dhX"/>
                 <constraint firstAttribute="trailing" secondItem="Knx-vC-xkB" secondAttribute="trailing" constant="12" id="wfU-5A-9fW"/>
                 <constraint firstItem="8tD-2M-HLr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="yJq-i2-f9N"/>
@@ -121,8 +133,11 @@
     </objects>
     <resources>
         <image name="contact_add" width="28" height="28"/>
-        <image name="message_server_bg" width="270" height="120"/>
+        <image name="message_server_bg" width="328" height="143"/>
         <image name="more_white" width="28" height="28"/>
+        <namedColor name="#181818">
+            <color red="0.093999996781349182" green="0.093999996781349182" blue="0.093999996781349182" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

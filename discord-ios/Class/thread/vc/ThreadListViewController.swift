@@ -56,6 +56,11 @@ class ThreadListViewController: BaseViewController {
         self.loadData(refresh: true)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
     private func loadData(refresh: Bool) {
         let cursor = refresh ? nil : self.result?.cursor
         EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: self.chatType.conversationId, cursor: cursor, pageSize: 20) { result, error in

@@ -8,6 +8,7 @@
 import UIKit
 import HyphenateChat
 import Kingfisher
+import SnapKit
 
 class MessageServerListView: UIView {
 
@@ -63,17 +64,20 @@ class MessageServerListView: UIView {
             make.left.right.bottom.equalTo(0)
         }
         
+        EMClient.shared().chatManager?.add(self, delegateQueue: nil)
         EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
         EMClient.shared().addMultiDevices(delegate: self, queue: nil)
+        VoiceChatManager.shared.addDelegate(self)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvServerAddNotification(_:)), name: EMCircleDidCreateServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvServerAddNotification(_:)), name: EMCircleDidJoinedServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvExitedServerNotification(_:)), name: EMCircleDidExitedServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvUpdateServerNotification(_:)), name: EMCircleDidUpdateServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvDestroyServerNotification(_:)), name: EMCircleDidDestroyServer, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didRecvUnreadCountChangeNotification(_:)), name: EMMessageUnreadCountChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecvUnreadCountChangeNotification(_:)), name: EMChatMessageUnreadCountChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvShouldSelectedServerNotification(_:)), name: MainShouldSelectedServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvJoinChannelNotification(_:)), name: EMCircleDidJoinChannel, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecvServerMessageUnreadCountChangeNotification(_:)), name: EMCircleServerMessageUnreadCountChange, object: nil)
         
         self.loadData()
     }
@@ -93,6 +97,16 @@ class MessageServerListView: UIView {
             self.collectionView.reloadData()
             if let cursor = self.cursor, cursor.count > 0, result?.list?.count ?? 0 >= 20 {
                 self.loadData()
+            } else {
+                self.loadServerChannelMap()
+            }
+        }
+    }
+    
+    private func loadServerChannelMap() {
+        for i in 0..<self.dataList.count {
+            ServerChannelMapManager.shared.queryJoinedChannelIds(in: self.dataList[i].serverId) {
+                self.collectionView.reloadItems(at: [IndexPath(item: i + 1, section: 0)])
             }
         }
     }
@@ -202,6 +216,18 @@ class MessageServerListView: UIView {
         })
     }
     
+    @objc private func didRecvServerMessageUnreadCountChangeNotification(_ notification: Notification) {
+        guard let serverId = notification.object as? String else {
+            return
+        }
+        for i in self.collectionView.indexPathsForVisibleItems where i.item > 0 && self.dataList[i.item - 1].serverId == serverId {
+            self.collectionView.performBatchUpdates {
+                self.collectionView.reloadItems(at: [i])
+            }
+            break
+        }
+    }
+    
     deinit {
         EMClient.shared().circleManager?.remove(serverDelegate: self)
         EMClient.shared().remove(self)
@@ -234,6 +260,16 @@ extension MessageServerListView: UICollectionViewDataSource, UICollectionViewDel
                     cell.bgShow = item.serverId == serverId
                 default:
                     cell.bgShow = false
+                }
+                cell.isJoinedVoiceChannel = VoiceChatManager.shared.currentChannel?.serverId == item.serverId
+                if let channels = ServerChannelMapManager.shared.getJoinedChannelIds(in: item.serverId) {
+                    var unreadCount: Int32 = 0
+                    for channel in channels {
+                        if let conversation = EMClient.shared().chatManager?.getConversation(channel, type: .groupChat, createIfNotExist: true, isThread: false, isChannel: true) {
+                            unreadCount += conversation.unreadMessagesCount
+                        }
+                    }
+                    cell.unreadCount = unreadCount
                 }
             }
         }
@@ -315,5 +351,29 @@ extension MessageServerListView: EMMultiDevicesDelegate {
         default:
             break
         }
+    }
+}
+
+extension MessageServerListView: VoiceChatManagerDelegate {
+    func voiceManagerDidJoinChannel(channel: String) {
+        self.collectionView.reloadData()
+    }
+    
+    func voiceManagerDidLeaveChannel(channel: String) {
+        self.collectionView.reloadData()
+    }
+}
+
+extension MessageServerListView: EMChatManagerDelegate {
+    func conversationListDidUpdate(_ aConversationList: [EMConversation]) {
+        self.collectionView.reloadData()
+    }
+    
+    func onConversationRead(_ from: String, to: String) {
+        self.collectionView.reloadData()
+    }
+    
+    func messagesDidReceive(_ aMessages: [EMChatMessage]) {
+        self.collectionView.reloadData()
     }
 }

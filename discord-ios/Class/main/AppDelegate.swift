@@ -8,6 +8,7 @@
 import UIKit
 import HyphenateChat
 import Bugly
+import AgoraRtcKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,15 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        Bugly.start(withAppId: "")
+        Bugly.start(withAppId: "da7ef6efd8")
         
-        let emOptions = EMOptions(appkey: "")
+        let emOptions = EMOptions(appkey: "easemob-demo#circle")
         #if DEBUG
         emOptions.enableConsoleLog = true
         #else
         emOptions.enableConsoleLog = false
         #endif
         emOptions.isAutoLogin = true
+//        emOptions.restServer = "a1-test.easemob.com"
+//        emOptions.chatServer = "106.75.100.247"
+        emOptions.enableDnsConfig = false
+        emOptions.restServer = "aws-im-bj-web-245870899.cn-north-1.elb.amazonaws.com.cn"
+        emOptions.chatServer = "aws-im-bj-msync-dc5e2e76b0d58215.elb.cn-north-1.amazonaws.com.cn"
+        emOptions.chatPort = 6717
         EMClient.shared().initializeSDK(with: emOptions)
         
         UITextField.appearance().tintColor = UIColor(named: ColorName_27AE60)
@@ -37,8 +44,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.switchToLogin()
         }
         self.window?.makeKeyAndVisible()
-        UserOnlineManager.shared.addDelete()
-        ServerRoleManager.shared.addDelete()
+        UserOnlineManager.shared.addDelegate()
+        ServerRoleManager.shared.addDelegate()
+        ServerChannelMapManager.shared.addDelegate()
         return true
     }
 
@@ -49,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             Bugly.setUserIdentifier(userId)
         }
     }
+    
     public func switchToLogin() {
         let vc = LoginViewController()
         self.window?.rootViewController = vc

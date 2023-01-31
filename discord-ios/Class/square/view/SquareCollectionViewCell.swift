@@ -18,21 +18,23 @@ class SquareCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var tagListView: ServerTagListView!
     
     private var downloadTask: DownloadTask?
+    private var bgDownloadTask: DownloadTask?
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.headImageView.layer.borderColor = UIColor(named: ColorName_282828)?.cgColor
+        self.headImageView.layer.borderWidth = 4
+    }
     
     public var server: EMCircleServer? {
         didSet {
             self.downloadTask?.cancel()
+            self.bgDownloadTask?.cancel()
             self.downloadTask = self.headImageView.setImage(withUrl: server?.icon, placeholder: "server_head_placeholder")
+            self.bgDownloadTask = self.bgImageView.setImage(withUrl: server?.background, placeholder: "message_server_bg")
             self.nameLabel.text = server?.name
             self.descLabel.text = server?.desc
-            let index = (self.server?.serverId.last?.asciiValue ?? 0) % 9 + 1
-            self.bgImageView.image = UIImage(named: "cover0\(index)")
             self.tagListView.setTags(server?.tags, itemHeight: self.tagListView.bounds.height)
         }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        self.bgImageView.image = UIImage(named: "server_bg")
     }
 }

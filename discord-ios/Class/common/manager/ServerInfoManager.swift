@@ -8,12 +8,8 @@
 import UIKit
 import HyphenateChat
 
-class ServerInfoManager: NSObject {
+class ServerInfoManager {
 
-    private override init() {
-        super.init()
-    }
-    
     static public let shared = ServerInfoManager()
     
     var serverMap: [String: EMCircleServer] = [:]

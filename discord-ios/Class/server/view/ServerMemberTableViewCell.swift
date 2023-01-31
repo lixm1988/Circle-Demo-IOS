@@ -41,9 +41,14 @@ class ServerMemberTableViewCell: UITableViewCell {
         self.downloadTask = self.iconImageView.setImage(withUrl: userInfo?.avatarUrl, placeholder: "head_placeholder")
     }
     
-    var state: UserStatusView.Status = .offline {
+    var state: UserStatusView.Status? = .offline {
         didSet {
-            self.onlineView.status = self.state
+            if let state = self.state {
+                self.onlineView.status = state
+                self.onlineView.isHidden = false
+            } else {
+                self.onlineView.isHidden = true
+            }
         }
     }
     

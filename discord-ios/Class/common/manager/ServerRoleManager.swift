@@ -14,7 +14,7 @@ class ServerRoleManager: NSObject {
     
     private var roleMap: [String: EMCircleUserRole] = [:]
     
-    func addDelete() {
+    func addDelegate() {
         EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
     }
     

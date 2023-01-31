@@ -9,17 +9,28 @@ import UIKit
 
 class BubbleMenuView: UIView {
 
+    enum ItemType {
+        case normal
+        case selected
+    }
+    
     private let contentView = UIView()
     
-    private var menuItem: [(UIImage, String, () -> Void)] = []
+    private var menuItem: [(UIImage?, String, () -> Void, ItemType)] = []
     private let baseView: UIView
+    
+    var willRemoveHandle: (() -> Void)?
     
     class BubbleMenuItem: UIButton {
         override func layoutSubviews() {
             super.layoutSubviews()
             let y = (self.bounds.height - 24) / 2
-            self.imageView?.frame = CGRect(x: 6, y: y, width: 24, height: 24)
-            self.titleLabel?.frame = CGRect(x: 34, y: 0, width: self.bounds.width - 34, height: self.bounds.height)
+            if self.imageView?.image != nil {
+                self.imageView?.frame = CGRect(x: 6, y: y, width: 24, height: 24)
+                self.titleLabel?.frame = CGRect(x: 34, y: 0, width: self.bounds.width - 34, height: self.bounds.height)
+            } else {
+                self.titleLabel?.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+            }
         }
     }
     
@@ -52,17 +63,23 @@ class BubbleMenuView: UIView {
         self.contentView.frame = CGRect(x: x, y: y, width: w, height: h)
     }
 
-    public func addMenuItem(image: UIImage, title: String, handle: @escaping () -> Void) {
-        self.menuItem.append((image, title, handle))
+    public func addMenuItem(image: UIImage?, title: String, itemType: ItemType = .normal, handle: @escaping () -> Void) {
+        self.menuItem.append((image, title, handle, itemType))
     }
     
     public func show() {
         for i in 0..<self.menuItem.count {
             let btn = BubbleMenuView.BubbleMenuItem(type: .custom)
-            btn.setImage(self.menuItem[i].0, for: .normal)
+            if let image = self.menuItem[i].0 {
+                btn.setImage(image, for: .normal)
+                btn.titleLabel?.textAlignment = .left
+            } else {
+                btn.titleLabel?.textAlignment = .center
+            }
             btn.setTitle(self.menuItem[i].1, for: .normal)
+            let color: UIColor? = self.menuItem[i].3 == .normal ? .black : UIColor(named: ColorName_34B76B)
+            btn.setTitleColor(color, for: .normal)
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-            btn.setTitleColor(UIColor.black, for: .normal)
             btn.frame = CGRect(x: 0, y: i * 44, width: 104, height: 44)
             btn.addTarget(self, action: #selector(clickAction(_:)), for: .touchUpInside)
             btn.tag = i
@@ -75,10 +92,12 @@ class BubbleMenuView: UIView {
     
     @objc private func clickAction(_ sender: UIButton) {
         self.menuItem[sender.tag].2()
+        self.willRemoveHandle?()
         self.removeFromSuperview()
     }
     
     @objc private func tapAction() {
+        self.willRemoveHandle?()
         self.removeFromSuperview()
     }
 }

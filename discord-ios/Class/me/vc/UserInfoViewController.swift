@@ -126,7 +126,7 @@ class UserInfoViewController: UIViewController {
         let vc = BubbleMenuView(baseView: sender)
         switch self.showType {
         case .me:
-            vc.addMenuItem(image: UIImage(named: "server_exit")!, title: "退出登录") {[unowned self] in
+            vc.addMenuItem(image: UIImage(named: "outdoor")!, title: "退出登录") {[unowned self] in
                 let vc = UIAlertController(title: "退出登录", message: "确认退出吗？下次见哦！", preferredStyle: .alert)
                 vc.addAction(UIAlertAction(title: "取消", style: .default))
                 vc.addAction(UIAlertAction(title: "确认", style: .default, handler: { _ in
@@ -142,7 +142,7 @@ class UserInfoViewController: UIViewController {
                 self.present(vc, animated: true)
             }
         case .other(userId: let userId):
-            vc.addMenuItem(image: UIImage(named: "server_delete")!, title: "删除好友") {[unowned self] in
+            vc.addMenuItem(image: UIImage(named: "delete")!, title: "删除好友") {[unowned self] in
                 let vc = UIAlertController(title: "删除好友", message: "确认删除 \(self.nicknameLabel.text ?? userId)？此操作不可撤回。", preferredStyle: .alert)
                 vc.addAction(UIAlertAction(title: "取消", style: .default))
                 vc.addAction(UIAlertAction(title: "确认", style: .destructive, handler: { _ in

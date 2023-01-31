@@ -18,8 +18,18 @@ class ServerTagListView: UIView {
     
     private var tags: [EMCircleServerTag]?
     private var itemHeight: CGFloat = 0
-    private var showDelete = false
-    private var newLine = false
+    private var showType: ServerTagView.ShowType = .simple
+    private lazy var moreButton: UIButton = {
+        let btn = UIButton(type: .custom)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
+        btn.setTitleColor(.white, for: .normal)
+        btn.setTitle("...", for: .normal)
+        btn.addTarget(self, action: #selector(moreAction), for: .touchUpInside)
+        self.addSubview(btn)
+        return btn
+    }()
+    
+    var moreHandle: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,6 +48,7 @@ class ServerTagListView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         guard let tags = self.tags, tags.count > 0 else {
+            self.moreButton.isHidden = true
             self.clearAll()
             return
         }
@@ -47,11 +58,14 @@ class ServerTagListView: UIView {
         
         var beginX: CGFloat = 0
         var beginY: CGFloat = 0
-        let space: CGFloat = self.showDelete ? 12 : 8
+        let space: CGFloat = self.showType == .delete ? 12 : 4
+        let right = self.showType == .simple ? 13.0 : 0
         for i in 0..<tags.count {
-            if ServerTagView.minWidth(showDelete: self.showDelete) + beginX > self.bounds.width {
-                if !newLine {
+            if ServerTagView.minWidth(showDelete: self.showType == .delete) + beginX + right > self.bounds.width {
+                if self.showType == .simple {
                     self.removeTagViews(fromIndex: i)
+                    self.moreButton.isHidden = false
+                    self.moreButton.frame = CGRect(x: beginX, y: beginY, width: 13, height: self.itemHeight)
                     break
                 }
             }
@@ -63,7 +77,6 @@ class ServerTagListView: UIView {
                 if tagView == nil {
                     tagView = ServerTagView()
                 }
-                tagView.showDelete = showDelete
                 self.tagViews.append(tagView)
                 self.addSubview(tagView)
             }
@@ -75,24 +88,27 @@ class ServerTagListView: UIView {
                     }
                 }
             }
-            
-            if newLine && beginX + tagView.maxWidth > self.bounds.width {
+            tagView.showType = self.showType
+            if self.showType != .simple && beginX + tagView.maxWidth > self.bounds.width {
                 beginY += self.itemHeight + 4
                 beginX = 0
             }
-            let width = beginX + tagView.maxWidth > self.bounds.width ? self.bounds.width - beginX : tagView.maxWidth
+            let width = beginX + tagView.maxWidth > (self.bounds.width - right) ? self.bounds.width - beginX - right : tagView.maxWidth
             tagView.frame = CGRect(x: beginX, y: beginY, width: width, height: itemHeight)
-            beginX += tagView.maxWidth + space
+            beginX += width + space
+            
+            if i == tags.count - 1, self.showType == .simple {
+                self.moreButton.isHidden = true
+            }
         }
         
         self.heightChangeHandle?(self.tagViews.last?.frame.maxY ?? 0)
     }
     
-    public func setTags(_ tags: [EMCircleServerTag]?, itemHeight: CGFloat, showDelete: Bool = false, newLine: Bool = false) {
+    public func setTags(_ tags: [EMCircleServerTag]?, itemHeight: CGFloat, showType: ServerTagView.ShowType = .simple) {
         self.tags = tags
         self.itemHeight = itemHeight
-        self.showDelete = showDelete
-        self.newLine = newLine
+        self.showType = showType
         self.setNeedsLayout()
     }
     
@@ -113,5 +129,9 @@ class ServerTagListView: UIView {
         if self.tagViews.count > fromIndex {
             self.tagViews.removeSubrange(fromIndex..<self.tagViews.count)
         }
+    }
+    
+    @objc private func moreAction() {
+        self.moreHandle?()
     }
 }

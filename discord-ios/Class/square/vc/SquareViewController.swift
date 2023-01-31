@@ -36,18 +36,15 @@ class SquareViewController: UIViewController {
                 return
             }
             
-            EMClient.shared().circleManager?.fetchServers(withKeyword: text) { [weak self] servers, error in
-                guard let self = self else {
-                    return
-                }
+            EMClient.shared().circleManager?.fetchServers(with: self.searchView.searchType == .name ? .name : .tag, keyword: text, limit: 20, cursor: nil, completion: { servers, error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                     return
                 }
-                self.searchResult = servers
+                self.searchResult = servers?.list
                 self.collectionView.reloadData()
                 self.noDataView.isHidden = (self.searchResult?.count ?? 0) > 0
-            }
+            })
         }
         
         self.searchView.didCancelSearch = { [unowned self] in
@@ -70,8 +67,8 @@ class SquareViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if let layout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            let w = (self.collectionView.bounds.width - 20 * 2 - 12) / 2
-            let h = w / 154 * 222
+            let w = (self.collectionView.bounds.width - 16 * 2 - 8) / 2
+            let h = w / 160 * 210
             layout.itemSize = CGSize(width: w, height: h)
         }
         self.updateCollectionViewContentInset()
@@ -88,7 +85,8 @@ class SquareViewController: UIViewController {
     }
     
     private func loadRecommendServer() {
-        guard let baseUrl = HTTP.baseUrlWithAppKey, let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
+        guard let url = URL(string: "http://aws-im-bj-web-245870899.cn-north-1.elb.amazonaws.com.cn/easemob-demo/circle/circle/server/recommend/list") else {
+//        guard let baseUrl = HTTP.baseUrlWithAppKey, let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
             return
         }
         let session = URLSession(configuration: URLSessionConfiguration.default)
@@ -213,9 +211,9 @@ extension SquareViewController: UICollectionViewDataSource, UICollectionViewDele
                 if isIn {
                     self.gotoHomePage(serverId: server.serverId)
                 } else {
-                    let vc = ServerJoinAlertViewController(showType: .joinServer(server: server, joinHandle: { server in
+                    let vc = ServerDetailAlertViewController(server: server) { server in
                         self.gotoHomePage(serverId: server.serverId)
-                    }))
+                    }
                     self.present(vc, animated: true)
                 }
             }

@@ -6,13 +6,19 @@ inhibit_all_warnings!
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'discord-ios' do
+  post_install do |installer|
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
+  end
   pod 'SnapKit'
   pod 'Kingfisher'
   pod 'PKHUD'
   pod 'SwiftLint'
   pod 'MJRefresh'
   pod 'TZImagePickerController'
-  pod 'HyphenateChat_Circle'
+  pod 'AgoraRtcEngine_iOS/RtcBasic', '4.1.0'
+#  pod 'HyphenateChat_Circle'
   pod 'Bugly'
 end
 
