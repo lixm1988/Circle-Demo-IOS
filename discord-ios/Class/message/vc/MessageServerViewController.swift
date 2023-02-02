@@ -407,7 +407,10 @@ class MessageServerViewController: UIViewController {
     }
     
     private func addMember(channel: String, member: EMCircleUser) {
-        if self.memberMap[channel] != nil {
+        if let userList = self.memberMap[channel] {
+            for i in userList where i.0.userId == member.userId {
+                return
+            }
             UserInfoManager.share.queryUserInfo(userId: member.userId, loadCache: true) { userInfo, error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
@@ -546,6 +549,12 @@ class MessageServerViewController: UIViewController {
         if channel.type == .private {
             self.addChannel(channel)
         }
+        if let currentUsername = EMClient.shared().currentUsername {
+            ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
+                let user = EMCircleUser(userId: currentUsername, role: role)
+                self.addMember(channel: channel.channelId, member: user)
+            }
+        }
     }
     
     @objc private func didCreateCategoryNotification(_ notification: Notification) {
@@ -586,10 +595,20 @@ class MessageServerViewController: UIViewController {
     }
     
     @objc private func didLeftChannelNotification(_ notification: Notification) {
-        if let data = notification.object as? (String, String), data.0 == self.serverId, let channel = self.channel(channelId: data.1), channel.type == .private {
-            ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
-                if channel.serverId == self.serverId && role == .user {
-                    self.removeChannel(channelId: data.1)
+        if let data = notification.object as? (String, String), data.0 == self.serverId, let channel = self.channel(channelId: data.1) {
+            if channel.type == .private {
+                ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
+                    if channel.serverId == self.serverId && role == .user {
+                        self.removeChannel(channelId: data.1)
+                    } else {
+                        if let currentUsername = EMClient.shared().currentUsername {
+                            self.removeMembers(channel: data.1, members: [currentUsername])
+                        }
+                    }
+                }
+            } else {
+                if let currentUsername = EMClient.shared().currentUsername {
+                    self.removeMembers(channel: data.1, members: [currentUsername])
                 }
             }
         }
@@ -642,6 +661,7 @@ class MessageServerViewController: UIViewController {
     }
 }
 
+// MARK: UITableViewDataSource
 extension MessageServerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let category = self.categorys?.list?[section]
@@ -724,7 +744,7 @@ extension MessageServerViewController: UITableViewDataSource {
                     cell.isFold = false
                     if item.mode == .chat {
                         if let value = self.threadMap[item.channelId], let list = value.list {
-                            cell.setThreads(threads: list, hasNoMoreData: value.cursor?.count ?? 0 > 0)
+                            cell.setThreads(threads: list, hasNoMoreData: value.cursor?.count ?? 0 <= 0)
                         }
                     } else if item.mode == .voice {
                         if let value = self.memberMap[item.channelId] {
@@ -764,12 +784,9 @@ extension MessageServerViewController: UITableViewDataSource {
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if isJoined {
-                    if let conversation = EMClient.shared.chatManager?.getConversation(channel.channelId, type: .groupChat, createIfNotExist: true, isThread: false, isChannel: true) {
-                        conversation.markAllMessages(asRead: nil)
-                        self.tableView.reloadRows(at: [indexPath], with: .fade)
-                    }
                     let vc = ChatViewController(chatType: .channel(serverId: channel.serverId, channelId: channel.channelId))
                     self.navigationController?.pushViewController(vc, animated: true)
+                    NotificationCenter.default.post(name: EMCircleServerMessageUnreadCountChange, object: self.serverId)
                 } else {
                     self.showChatChannelJoinAlert(serverId: channel.serverId, channelId: channel.channelId)
                 }

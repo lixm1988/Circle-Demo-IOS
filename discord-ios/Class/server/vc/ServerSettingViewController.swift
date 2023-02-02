@@ -34,7 +34,7 @@ class ServerSettingViewController: ServerBaseSettingViewController {
         
         self.titleLabel.text = self.serverId
         self.collectionViewDataSource = [
-            (image: "invite_friends", title: "邀请好友", handle: self.inviteAction),
+            (image: "invite_friends", title: "邀请好友", handle: self.inviteAction)
 //            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction)
         ]
         self.tableViewDataSource = [

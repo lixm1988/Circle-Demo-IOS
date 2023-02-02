@@ -62,11 +62,11 @@ class ContactsTableViewCell: UITableViewCell {
     var showType: ShowType? {
         didSet {
             switch showType {
-            case .chat(chatHandle: _):
+            case .chat:
                 self.chatButton.isHidden = false
                 self.refuseButton.isHidden = true
                 self.rightButton.isHidden = true
-            case .add(addHandle: _):
+            case .add:
                 self.chatButton.isHidden = true
                 self.refuseButton.isHidden = true
                 self.rightButton.isHidden = false
@@ -87,7 +87,7 @@ class ContactsTableViewCell: UITableViewCell {
                 self.rightButton.setTitle("添加中", for: .normal)
                 self.rightButton.backgroundColor = UIColor(named: ColorName_3E3F40)
                 self.rightButton.setTitleColor(UIColor(named: ColorName_F2F2F2)?.withAlphaComponent(0.4), for: .normal)
-            case .inviteCMD(acceptHandle: _, refuseHandle: _):
+            case .inviteCMD:
                 self.chatButton.isHidden = true
                 self.refuseButton.isHidden = false
                 self.rightButton.isHidden = false

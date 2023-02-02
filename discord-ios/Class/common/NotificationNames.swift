@@ -32,5 +32,6 @@ let EMCircleDidDestroyCategory = Notification.Name("EMCircleDidDestroyCategory")
 let EMCircleDidUpdateCategory = Notification.Name("EMCircleDidUpdateCategory")
 let EMCircleDidTransferChannelCategory = Notification.Name("EMCircleDidTransferChannelCategory")
 
+let EMChatMarkAllMessagesAsRead = Notification.Name("EMChatMarkAllMessagesAsRead")
 let EMChatMessageUnreadCountChange = Notification.Name("EMChatMessageUnreadCountChange")
 let EMCircleServerMessageUnreadCountChange = Notification.Name("EMCircleServerMessageUnreadCountChange")

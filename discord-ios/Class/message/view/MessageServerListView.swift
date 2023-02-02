@@ -247,10 +247,12 @@ extension MessageServerListView: UICollectionViewDataSource, UICollectionViewDel
                 cell.image = UIImage(named: "message_item_conversation")
                 cell.bgShow = self.selectType == .conversation
                 cell.unreadCount = self.unreadCount
+                cell.isJoinedVoiceChannel = false
             } else if indexPath.item > self.dataList.count {
                 cell.image = UIImage(named: "message_server_add")
                 cell.bgShow = false
                 cell.unreadCount = nil
+                cell.isJoinedVoiceChannel = false
             } else {
                 let item = self.dataList[indexPath.item - 1]
                 cell.imageUrl = item.icon

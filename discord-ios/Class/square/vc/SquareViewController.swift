@@ -132,6 +132,7 @@ class SquareViewController: UIViewController {
                 server.desc = item["description"] as? String
                 server.ext = item["custom"] as? String
                 server.icon = item["icon_url"] as? String
+                server.background = item["background_url"] as? String
                 var tags: [EMCircleServerTag] = []
                 if let tagsList = item["tags"] as? [[String: String]] {
                     for item in tagsList {

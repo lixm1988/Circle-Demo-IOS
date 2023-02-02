@@ -186,6 +186,9 @@ class ServerJoinAlertViewController: UIViewController {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let channel = channel {
                     Toast.show("加入成功", duration: 2)
+                    if channel.mode == .voice {
+                        VoiceChatManager.shared.joinChannel(serverId: channel.serverId, channel: channel.channelId)
+                    }
                     NotificationCenter.default.post(name: EMCircleDidJoinChannel, object: channel)
                     self.sendJoinChannelMessage(serverId: inviteInfo.serverId, channelId: inviteInfo.channelId, serverName: inviteInfo.serverName, channelName: inviteInfo.channelName)
                     handle(channel)

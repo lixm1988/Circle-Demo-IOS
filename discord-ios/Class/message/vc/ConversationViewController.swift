@@ -23,6 +23,8 @@ class ConversationViewController: UIViewController {
         self.tableView.separatorColor = UIColor.clear
         self.tableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "cell")
         
+        NotificationCenter.default.addObserver(self, selector: #selector(didRecvMarkAllMessagesAsReadNotification(_:)), name: EMChatMarkAllMessagesAsRead, object: nil)
+        
         EMClient.shared().chatManager?.add(self, delegateQueue: nil)
         EMClient.shared().presenceManager?.add(self, delegateQueue: nil)
         self.reloadData()
@@ -56,9 +58,14 @@ class ConversationViewController: UIViewController {
         NotificationCenter.default.post(name: EMChatMessageUnreadCountChange, object: unreadCount)
     }
     
+    @objc private func didRecvMarkAllMessagesAsReadNotification(_ notification: Notification) {
+        self.reloadData()
+    }
+    
     deinit {
         EMClient.shared().chatManager?.remove(self)
         EMClient.shared().presenceManager?.remove(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
@@ -87,8 +94,6 @@ extension ConversationViewController: UITableViewDataSource, UITableViewDelegate
             chatType = .single(userId: userId)
         }
         if let chatType = chatType {
-            item?.markAllMessages(asRead: nil)
-            self.reloadData()
             let vc = ChatViewController(chatType: chatType)
             self.navigationController?.pushViewController(vc, animated: true)
         }

@@ -31,6 +31,7 @@ class VoiceChannelViewController: UIViewController {
     private let fromViewController: UIViewController
     
     private var result: EMCursorResult<EMCircleUser>?
+    private var server: EMCircleServer?
     private var channel: EMCircleChannel?
     
     init(showType: ShowType, fromViewController: UIViewController) {
@@ -54,10 +55,12 @@ class VoiceChannelViewController: UIViewController {
         case .detail(server: let server, channel: let channel):
             self.channelNameLabel.text = channel.name
             self.serverNameLabel.text = server.name
+            self.server = server
             self.channel = channel
         case .id(serverId: let serverId, channelId: let channelId, closeHandle: _):
             ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
                 self.serverNameLabel.text = server?.name ?? ""
+                self.server = server
             }
             EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId, completion: { channel, _ in
                 self.channelNameLabel.text = channel?.name ?? ""
@@ -67,18 +70,13 @@ class VoiceChannelViewController: UIViewController {
         
         self.tableView.register(UINib(nibName: "VoiceChannelMemberTableViewCell", bundle: nil), forCellReuseIdentifier: "cell")
         
-        if VoiceChatManager.shared.currentChannel?.channelId != self.showType.channelId {
-            self.joinButton.isHidden = false
-            self.muteButton.isHidden = true
-            self.leaveButton.isHidden = true
-        } else {
-            self.joinButton.isHidden = true
-            self.muteButton.isHidden = false
-            self.leaveButton.isHidden = false
-            self.muteButton.isSelected = VoiceChatManager.shared.isMuted()
-        }
-        self.inviteButton.isHidden = self.showType.channelId != VoiceChatManager.shared.currentChannel?.channelId
-        
+        let isJoined = VoiceChatManager.shared.currentChannel?.channelId == self.showType.channelId
+        self.joinButton.isHidden = isJoined
+        self.muteButton.isHidden = !isJoined
+        self.leaveButton.isHidden = !isJoined
+        self.muteButton.isSelected = VoiceChatManager.shared.isMuted()
+        self.inviteButton.isHidden = !isJoined
+
         EMClient.shared.circleManager?.fetchChannelMembers(self.showType.serverId, channelId: self.showType.channelId, limit: 20, cursor: nil, completion: { result, error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
@@ -147,6 +145,16 @@ class VoiceChannelViewController: UIViewController {
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else {
+                    let body = EMCustomMessageBody(event: "invite_channel", customExt: [
+                        "server_id": self.showType.serverId,
+                        "server_name": self.server?.name ?? "",
+                        "icon": self.server?.icon ?? "",
+                        "channel_id": self.showType.channelId,
+                        "desc": self.channel?.desc ?? "",
+                        "channel_name": self.channel?.name ?? ""
+                    ])
+                    let message = EMChatMessage(conversationID: userId, from: EMClient.shared().currentUsername!, to: userId, body: body, ext: nil)
+                    EMClient.shared().chatManager?.send(message, progress: nil)
                     complete(true)
                 }
             })
@@ -161,9 +169,23 @@ class VoiceChannelViewController: UIViewController {
     }
     
     @IBAction func joinAction() {
+        if let current = VoiceChatManager.shared.currentChannel {
+            EMClient.shared().circleManager?.leaveChannel(current.serverId, channelId: current.channelId, completion: { error in
+                if let error = error {
+                    Toast.show(error.errorDescription, duration: 2)
+                } else {
+                    NotificationCenter.default.post(name: EMCircleDidExitedChannel, object: (current.serverId, current.channelId))
+                }
+            })
+        }
+        
         EMClient.shared().circleManager?.joinChannel(self.showType.serverId, channelId: self.showType.channelId, completion: { channel, error in
             if let error = error {
-                Toast.show(error.errorDescription, duration: 2)
+                if error.code == .reachLimit {
+                    Toast.show("语聊房已满", duration: 2)
+                } else {
+                    Toast.show(error.errorDescription, duration: 2)
+                }
             } else {
                 self.joinButton.isHidden = true
                 self.muteButton.isHidden = false

@@ -86,6 +86,8 @@ class ChatViewController: BaseViewController {
                 self.loadMessage()
             })
         }
+
+        self.markAllMessagesAsRead()
     }
     
     override func viewDidLayoutSubviews() {
@@ -373,6 +375,18 @@ class ChatViewController: BaseViewController {
         }
     }
     
+    private func markAllMessagesAsRead() {
+        self.currentConversation?.markAllMessages(asRead: nil)
+        switch self.chatType {
+        case .channel(serverId: let serverId, channelId: _):
+            NotificationCenter.default.post(name: EMCircleServerMessageUnreadCountChange, object: serverId)
+        case .group, .single:
+            NotificationCenter.default.post(name: EMChatMarkAllMessagesAsRead, object: nil)
+        default:
+            break
+        }
+    }
+    
     deinit {
         EMClient.shared().chatManager?.remove(self)
         EMClient.shared().circleManager?.remove(serverDelegate: self)
@@ -486,8 +500,10 @@ extension ChatViewController: UITableViewDataSource {
                                 channelInvite.channelName = channelName
                                 channelInvite.channelDesc = desc
                                 let vc = ServerJoinAlertViewController(showType: .inviteChannel(inviteInfo: channelInvite, inviter: message.from, joinHandle: { channel in
-                                    let chatVc = ChatViewController(chatType: .channel(serverId: channel.serverId, channelId: channel.channelId))
-                                    self.navigationController?.pushViewController(chatVc, animated: true)
+                                    if channel.mode == .chat {
+                                        let chatVc = ChatViewController(chatType: .channel(serverId: channel.serverId, channelId: channel.channelId))
+                                        self.navigationController?.pushViewController(chatVc, animated: true)
+                                    }
                                 }))
                                 self.present(vc, animated: true)
                             }
@@ -655,7 +671,7 @@ extension ChatViewController: EMChatManagerDelegate {
                 self.tableView.scrollToRow(at: last, at: .bottom, animated: true)
             }
         }
-        self.currentConversation?.markAllMessages(asRead: nil)
+        self.markAllMessagesAsRead()
     }
     
     func messageReactionDidChange(_ changes: [EMMessageReactionChange]) {

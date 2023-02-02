@@ -396,3 +396,10 @@ extension ContactsViewController: EMMultiDevicesDelegate {
         }
     }
 }
+
+extension ContactsViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.textField.resignFirstResponder()
+        return true
+    }
+}

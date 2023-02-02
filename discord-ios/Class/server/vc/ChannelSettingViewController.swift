@@ -114,7 +114,7 @@ class ChannelSettingViewController: ServerBaseSettingViewController {
                         self.collectionViewDataSource = [
                             (image: "invite_friends", title: "邀请好友", handle: self.inviteAction),
                             (image: "#_channel_setting", title: "子区", handle: self.threadAction),
-                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction),
+                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction)
                         ]
                         self.tableViewDataSource = [
                             (image: "server_make_read", title: "标记为已读", handle: self.makeAllReadAction),

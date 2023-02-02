@@ -22,6 +22,7 @@ class MessageImageCell: MessageBaseCell {
     override func setupContentView(_ view: UIView) {
         self.button.addTarget(self, action: #selector(onClickAction), for: .touchUpInside)
         self.contentImageView.contentMode = .scaleAspectFill
+        self.contentImageView.layer.masksToBounds = true
         view.addSubview(self.contentImageView)
         self.contentImageView.snp.makeConstraints { make in
             make.left.top.bottom.equalTo(0)

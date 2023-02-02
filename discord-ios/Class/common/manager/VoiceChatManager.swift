@@ -22,7 +22,7 @@ class VoiceChatManager: NSObject {
     
     private var isMute = false
     private var speakMap: [String: CFTimeInterval] = [:]
-    private var muteSet = Set<String>()
+    private var muteSet = Set<UInt>()
     private var timer: Timer?
     
     private lazy var voiceChannelMiniView: VoiceChannelMiniView = {
@@ -105,9 +105,9 @@ class VoiceChatManager: NSObject {
         self.voiceChannelMiniView.isMuted = mute
         if let currentUser = EMClient.shared().currentUsername, let channelId = self.currentChannel?.channelId {
             if mute {
-                self.muteSet.insert(currentUser)
+                self.muteSet.insert(self.agoraUid)
             } else {
-                self.muteSet.remove(currentUser)
+                self.muteSet.remove(self.agoraUid)
             }
             for i in self.delegates {
                 i.voiceManagerDidAudioMuted(channel: channelId, username: currentUser, muted: mute)
@@ -117,7 +117,12 @@ class VoiceChatManager: NSObject {
     
     func isMuted(username: String? = nil) -> Bool {
         if let username = username {
-            return self.muteSet.contains(username)
+            if let userIdMap = self.userIdMap {
+                for (key, value) in userIdMap where username == value {
+                    return self.muteSet.contains(key)
+                }
+            }
+            return false
         }
         return self.isMute
     }
@@ -198,6 +203,11 @@ class VoiceChatManager: NSObject {
                     }
                 }
                 self.userIdMap = map
+                for (key, value) in map {
+                    for i in self.delegates {
+                        i.voiceManagerDidAudioMuted(channel: channelName, username: value, muted: self.muteSet.contains(key))
+                    }
+                }
             }
         })
     }
@@ -246,17 +256,19 @@ extension VoiceChatManager: AgoraRtcEngineDelegate {
     }
     
     func rtcEngine(_ engine: AgoraRtcEngineKit, didAudioMuted muted: Bool, byUid uid: UInt) {
-        guard let currentChannel = self.currentChannel, let username = self.userIdMap?[uid] else {
+        guard let currentChannel = self.currentChannel else {
             return
         }
         DispatchQueue.main.async {
             if muted {
-                self.muteSet.insert(username)
+                self.muteSet.insert(uid)
             } else {
-                self.muteSet.remove(username)
+                self.muteSet.remove(uid)
             }
-            for i in self.delegates {
-                i.voiceManagerDidAudioMuted(channel: currentChannel.channelId, username: username, muted: muted)
+            if let username = self.userIdMap?[uid] {
+                for i in self.delegates {
+                    i.voiceManagerDidAudioMuted(channel: currentChannel.channelId, username: username, muted: muted)
+                }
             }
         }
     }
