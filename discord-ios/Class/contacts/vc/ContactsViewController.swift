@@ -383,14 +383,18 @@ extension ContactsViewController: EMPresenceManagerDelegate {
 
 extension ContactsViewController: EMMultiDevicesDelegate {
     func multiDevicesContactEventDidReceive(_ aEvent: EMMultiDevicesEvent, username aUsername: String, ext aExt: String?) {
+        let username: String? = aUsername
+        guard let username = username else {
+            return
+        }
         switch aEvent {
         case .contactRemove:
-            self.friendshipDidRemove(byUser: aUsername)
+            self.friendshipDidRemove(byUser: username)
         case .contactAccept:
-            self.removeFriendInvite(userId: aUsername)
-            self.addContact(userId: aUsername)
+            self.removeFriendInvite(userId: username)
+            self.addContact(userId: username)
         case .contactDecline:
-            self.removeFriendInvite(userId: aUsername)
+            self.removeFriendInvite(userId: username)
         default:
             break
         }

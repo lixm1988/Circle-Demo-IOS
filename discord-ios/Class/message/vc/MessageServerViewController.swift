@@ -381,8 +381,8 @@ class MessageServerViewController: UIViewController {
                 if let cursor = publicResult.cursor, cursor.count > 0 {
                     return
                 }
-                publicResult.list?.append(channel)
                 if let list = publicResult.list {
+                    publicResult.list?.append(channel)
                     index = IndexPath(row: list.count - 1, section: section)
                 }
             } else if channel.type == .private {
@@ -392,8 +392,8 @@ class MessageServerViewController: UIViewController {
                 if let cursor = privateResult.cursor, cursor.count > 0 {
                     return
                 }
-                privateResult.list?.append(channel)
                 if let list = privateResult.list {
+                    privateResult.list?.append(channel)
                     index = IndexPath(row: (list.count - 1) + Int(publicResult.count), section: section)
                 }
             }
