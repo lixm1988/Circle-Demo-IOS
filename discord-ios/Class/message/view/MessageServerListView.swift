@@ -220,7 +220,7 @@ class MessageServerListView: UIView {
         guard let serverId = notification.object as? String else {
             return
         }
-        for i in self.collectionView.indexPathsForVisibleItems where i.item > 0 && self.dataList[i.item - 1].serverId == serverId {
+        for i in self.collectionView.indexPathsForVisibleItems where i.item > 0 && i.item <= self.dataList.count && self.dataList[i.item - 1].serverId == serverId {
             self.collectionView.performBatchUpdates {
                 self.collectionView.reloadItems(at: [i])
             }

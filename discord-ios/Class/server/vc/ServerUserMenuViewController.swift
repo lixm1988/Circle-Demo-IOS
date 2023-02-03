@@ -69,7 +69,7 @@ class ServerUserMenuViewController: UIViewController {
         
         var isServer = false
         switch self.showType {
-        case .server(serverId: _):
+        case .server:
             self.kickButton.setTitle("踢出社区", for: .normal)
             isServer = true
             self.updateRoleLabel()
@@ -91,7 +91,7 @@ class ServerUserMenuViewController: UIViewController {
                     }
                 }
             }
-        case .thread(threadId: _):
+        case .thread:
             self.kickButton.isHidden = true
             self.setManagerButton.isHidden = true
             self.muteButton.isHidden = true

@@ -9,7 +9,7 @@ import UIKit
 import HyphenateChat
 
 class MessageReactionListView: UIView {
-
+    
     private static var viewPool: Set<MessageReactionItemView> = Set()
     
     private var views: [MessageReactionItemView] = []
@@ -58,17 +58,7 @@ class MessageReactionListView: UIView {
         var beginX: CGFloat = 0
         var beginY: CGFloat = 8
         for i in 0..<reactions.count {
-            var view: MessageReactionItemView!
-            if i < self.views.count {
-                view = self.views[i]
-            } else {
-                view = MessageReactionListView.viewPool.popFirst()
-                if view == nil {
-                    view = MessageReactionItemView()
-                }
-                self.views.append(view)
-                self.addSubview(view)
-            }
+            let view = self.view(index: i)
             let reaction = reactions[i]
             if let reactionName = emojiImageName(text: reaction.reaction ?? "") {
                 view.setReaction(reactionName, count: reaction.count, isAdded: reaction.isAddedBySelf)
@@ -106,6 +96,20 @@ class MessageReactionListView: UIView {
     @objc private func addEmojiAction() {
         if let message = message {
             self.didClickEmoji?(message)
+        }
+    }
+    
+    private func view(index: Int) -> MessageReactionItemView {
+        if index < self.views.count {
+            return self.views[index]
+        } else {
+            var view: MessageReactionItemView! = MessageReactionListView.viewPool.popFirst()
+            if view == nil {
+                view = MessageReactionItemView()
+            }
+            self.views.append(view)
+            self.addSubview(view)
+            return view
         }
     }
 }

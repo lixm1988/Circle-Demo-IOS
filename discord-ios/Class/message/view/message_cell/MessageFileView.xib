@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -39,7 +39,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfr-dy-QIV">
-                    <rect key="frame" x="68" y="8" width="35.5" height="24"/>
+                    <rect key="frame" x="68" y="8" width="204" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="LMW-gA-Heu"/>
                     </constraints>
@@ -48,7 +48,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i0B-rj-10Z">
-                    <rect key="frame" x="68" y="32" width="35.5" height="24"/>
+                    <rect key="frame" x="68" y="32" width="204" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="qMD-1y-Qvp"/>
                     </constraints>
@@ -64,6 +64,8 @@
                 <constraint firstItem="bQl-I5-YKQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="Xt2-cK-o2K"/>
                 <constraint firstItem="i0B-rj-10Z" firstAttribute="leading" secondItem="wfr-dy-QIV" secondAttribute="leading" id="hgi-4a-mbn"/>
                 <constraint firstItem="bQl-I5-YKQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="jlr-n4-fHa"/>
+                <constraint firstAttribute="trailing" secondItem="wfr-dy-QIV" secondAttribute="trailing" constant="12" id="mnX-MA-vXx"/>
+                <constraint firstItem="i0B-rj-10Z" firstAttribute="trailing" secondItem="wfr-dy-QIV" secondAttribute="trailing" id="rh5-Al-72b"/>
                 <constraint firstItem="i0B-rj-10Z" firstAttribute="bottom" secondItem="bQl-I5-YKQ" secondAttribute="bottom" id="x1A-LW-6E7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

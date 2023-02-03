@@ -175,14 +175,14 @@ class ChatViewController: BaseViewController {
         EMClient.shared().chatManager?.add(self, delegateQueue: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(currentUserInfoUpdateNotification(_:)), name: EMCurrentUserInfoUpdate, object: nil)
         switch self.chatType {
-        case .single(userId: _):
+        case .single:
             NotificationCenter.default.addObserver(self, selector: #selector(userInfoUpdateNotification(_:)), name: EMUserInfoUpdate, object: nil)
-        case .channel(serverId: _, channelId: _):
+        case .channel:
             NotificationCenter.default.addObserver(self, selector: #selector(didUpdateChannelNotification(_:)), name: EMCircleDidUpdateChannel, object: nil)
             EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
             EMClient.shared().circleManager?.add(channelDelegate: self, queue: nil)
             EMClient.shared().threadManager?.add(self, delegateQueue: nil)
-        case .thread(threadId: _):
+        case .thread:
             EMClient.shared().threadManager?.add(self, delegateQueue: nil)
         default:
             break
@@ -323,7 +323,7 @@ class ChatViewController: BaseViewController {
                 self.present(vc, animated: true)
             }
             v.show()
-        case .group(groupId: _):
+        case .group:
             break
         case .channel(serverId: let serverId, channelId: let channelId):
             let vc = ChannelSettingViewController(serverId: serverId, channelId: channelId, fromViewController: self)
@@ -513,9 +513,7 @@ extension ChatViewController: UITableViewDataSource {
                 return circleInviteCell
             }
         } else if event == "join_server" || event == "join_channel" {
-            if let textCell = tableView.dequeueReusableCell(withIdentifier: "text", for: indexPath) as? MessageTextCell {
-                return textCell
-            }
+            return tableView.dequeueReusableCell(withIdentifier: "text", for: indexPath) as? MessageTextCell
         }
         return nil
     }
@@ -559,13 +557,8 @@ extension ChatViewController: UITableViewDataSource {
         }
         cell.didClickHeadHandle = { [unowned self] message in
             self.chatInputView.resignFirstResponder()
-            if message.from == EMClient.shared().currentUsername {
-                let vc = UserInfoViewController(showType: .me)
-                self.navigationController?.pushViewController(vc, animated: true)
-            } else {
-                let vc = UserInfoViewController(showType: .other(userId: message.from))
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
+            let vc = UserInfoViewController(showType: message.from == EMClient.shared().currentUsername ? .me : .other(userId: message.from))
+            self.navigationController?.pushViewController(vc, animated: true)
         }
         cell.didClickThreadHandle = { [unowned self] message in
             self.chatInputView.resignFirstResponder()
@@ -582,7 +575,7 @@ extension ChatViewController: UITableViewDataSource {
         }
         
         switch self.chatType {
-        case .channel(serverId: _, channelId: _), .group(groupId: _):
+        case .channel, .group:
             switch message.body.type {
             case .text, .image, .file:
                 menuItems.append(.thread)
@@ -740,7 +733,7 @@ extension ChatViewController: ChatBottomMenuViewDelegate {
     private func didClickThreadItem(message: EMChatMessage) {
         if let thread = message.chatThread {
             if let threadId = thread.threadId {
-                EMClient.shared().threadManager?.joinChatThread(threadId) { [weak self] thread, error in
+                EMClient.shared().threadManager?.joinChatThread(threadId) { [weak self] _, error in
                     guard let self = self else {
                         return
                     }

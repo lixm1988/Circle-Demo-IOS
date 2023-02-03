@@ -18,6 +18,21 @@ class ServerChannelMapManager: NSObject {
         EMClient.shared().circleManager?.add(channelDelegate: self, queue: nil)
     }
     
+    func append(serverId: String, channelId: String) {
+        if self.map[serverId] == nil {
+            self.map[serverId] = Set<String>()
+        }
+        self.map[serverId]?.insert(channelId)
+    }
+    
+    func remove(serverId: String, channelId: String? = nil) {
+        if let channelId = channelId {
+            self.map[serverId]?.remove(channelId)
+        } else {
+            self.map.removeValue(forKey: serverId)
+        }
+    }
+    
     func getJoinedChannelIds(in serverId: String) -> Set<String>? {
         return self.map[serverId]
     }

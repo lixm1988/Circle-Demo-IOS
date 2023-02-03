@@ -71,6 +71,7 @@ class ServerDetailAlertViewController: UIViewController {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let server = server {
                 Toast.show("加入成功", duration: 2)
+                ServerChannelMapManager.shared.append(serverId: server.serverId, channelId: server.defaultChannelId)
                 NotificationCenter.default.post(name: EMCircleDidJoinedServer, object: server)
                 self.joinHandle?(server)
             }

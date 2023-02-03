@@ -158,6 +158,7 @@ class ServerJoinAlertViewController: UIViewController {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let channel = channel {
                     Toast.show("加入成功", duration: 2)
+                    ServerChannelMapManager.shared.append(serverId: serverId, channelId: channelId)
                     HUD.show(.progress, onView: self.view)
                     ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
                         EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, _ in
@@ -186,6 +187,7 @@ class ServerJoinAlertViewController: UIViewController {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let channel = channel {
                     Toast.show("加入成功", duration: 2)
+                    ServerChannelMapManager.shared.append(serverId: inviteInfo.serverId, channelId: inviteInfo.channelId)
                     if channel.mode == .voice {
                         VoiceChatManager.shared.joinChannel(serverId: channel.serverId, channel: channel.channelId)
                     }
@@ -202,6 +204,7 @@ class ServerJoinAlertViewController: UIViewController {
     
     private func didJoinServer(serverId: String, server: EMCircleServer) {
         Toast.show("加入成功", duration: 2)
+        ServerChannelMapManager.shared.append(serverId: server.serverId, channelId: server.defaultChannelId)
         NotificationCenter.default.post(name: EMCircleDidJoinedServer, object: server)
         ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
             if let channelId = server?.defaultChannelId {
