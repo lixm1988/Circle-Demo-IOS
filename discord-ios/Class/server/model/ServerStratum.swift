@@ -11,3 +11,12 @@ enum ServerStratum {
     case server(serverId: String)
     case channel(serverId: String, channelId: String)
 }
+
+extension ServerStratum {
+    var serverId: String {
+        switch self {
+        case .server(serverId: let serverId), .channel(serverId: let serverId, channelId: _):
+            return serverId
+        }
+    }
+}

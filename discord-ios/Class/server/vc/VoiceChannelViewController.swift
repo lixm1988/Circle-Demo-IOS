@@ -353,14 +353,14 @@ extension VoiceChannelViewController: VoiceChatManagerDelegate {
 }
 
 extension VoiceChannelViewController: EMCircleManagerChannelDelegate {
-    func onMemberLeftChannel(_ serverId: String, channelId: String, member: String) {
+    func onMemberLeftChannel(_ serverId: String, categoryId: String, channelId: String, member: String) {
         if channelId != self.showType.channelId {
             return
         }
         self.removeMember(member)
     }
     
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         if channelId != self.showType.channelId {
             return
         }
@@ -372,14 +372,14 @@ extension VoiceChannelViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberJoinedChannel(_ serverId: String, channelId: String, member: EMCircleUser) {
+    func onMemberJoinedChannel(_ serverId: String, categoryId: String, channelId: String, member: EMCircleUser) {
         if channelId != self.showType.channelId {
             return
         }
         self.addMember(member)
     }
     
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         if channelId == self.showType.channelId {
             self.dismiss()
         }

@@ -26,6 +26,7 @@ class ServerInfoEditViewController: BaseViewController {
     private var tagLengthLabel = UILabel()
     
     private let serverId: String
+    private var server: EMCircleServer?
     
     init(serverId: String) {
         self.serverId = serverId
@@ -62,7 +63,7 @@ class ServerInfoEditViewController: BaseViewController {
         }
         
         HUD.show(.progress, onView: self.view)
-        ServerInfoManager.shared.getServerInfo(serverId: self.serverId, refresh: false) { [weak self] server, error in
+        ServerInfoManager.shared.getServerInfo(serverId: self.serverId, refresh: true) { [weak self] server, error in
             HUD.hide()
             guard let self = self else {
                 return
@@ -71,6 +72,7 @@ class ServerInfoEditViewController: BaseViewController {
                 Toast.show(error.errorDescription, duration: 2)
                 return
             }
+            self.server = server
             if self.serverId != server?.serverId {
                 return
             }
@@ -148,6 +150,13 @@ class ServerInfoEditViewController: BaseViewController {
         vc.addAction(UIAlertAction(title: "取消", style: .default))
         vc.addAction(UIAlertAction(title: "确认", style: .default, handler: { _ in
             if let tag = vc.textFields?[0].text {
+                if let tags = self.server?.tags {
+                    for i in tags where i.name == tag {
+                        Toast.show("社区标签已存在", duration: 2)
+                        return
+                    }
+                }
+                
                 EMClient.shared().circleManager?.addTags(toServer: self.serverId, tags: [tag]) { tags, error in
                     if let error = error {
                         Toast.show(error.errorDescription, duration: 2)

@@ -70,7 +70,7 @@ class ChannelSettingViewController: ServerBaseSettingViewController {
                         self.collectionViewDataSource = [
                             (image: "invite_friends", title: "邀请好友", handle: self.inviteAction),
                             (image: "#_channel_setting", title: "子区", handle: self.threadAction),
-                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction),
+//                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction),
                             (image: "server_setting", title: "编辑频道", handle: self.editAction)
                         ]
                         self.tableViewDataSource = [
@@ -93,7 +93,7 @@ class ChannelSettingViewController: ServerBaseSettingViewController {
                         self.collectionViewDataSource = [
                             (image: "invite_friends", title: "邀请好友", handle: self.inviteAction),
                             (image: "#_channel_setting", title: "子区", handle: self.threadAction),
-                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction),
+//                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction),
                             (image: "server_setting", title: "编辑频道", handle: self.editAction)
                         ]
                         self.tableViewDataSource = [
@@ -113,8 +113,8 @@ class ChannelSettingViewController: ServerBaseSettingViewController {
                     } else {
                         self.collectionViewDataSource = [
                             (image: "invite_friends", title: "邀请好友", handle: self.inviteAction),
-                            (image: "#_channel_setting", title: "子区", handle: self.threadAction),
-                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction)
+                            (image: "#_channel_setting", title: "子区", handle: self.threadAction)
+//                            (image: "notification_setting", title: "通知设置", handle: self.notificationSettingAction)
                         ]
                         self.tableViewDataSource = [
                             (image: "server_make_read", title: "标记为已读", handle: self.makeAllReadAction),
@@ -220,14 +220,14 @@ class ChannelSettingViewController: ServerBaseSettingViewController {
 }
 
 extension ChannelSettingViewController: EMCircleManagerChannelDelegate {
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         if channelId == self.channelId, member == EMClient.shared().currentUsername {
             Toast.show("你已经从频道中踢出", duration: 2)
             self.dismiss(animated: true)
         }
     }
     
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         if channelId == self.channelId {
             Toast.show("频道已经被解散", duration: 2)
             self.dismiss(animated: true)

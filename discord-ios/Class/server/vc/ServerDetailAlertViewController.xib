@@ -34,7 +34,7 @@
                     <color key="backgroundColor" red="0.078431372549019607" green="0.078431372549019607" blue="0.078431372549019607" alpha="0.73999999999999999" colorSpace="custom" customColorSpace="calibratedRGB"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H9I-ai-Aus">
-                    <rect key="frame" x="0.0" y="153" width="393" height="699"/>
+                    <rect key="frame" x="0.0" y="153" width="393" height="679"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QeB-eC-uIO">
                             <rect key="frame" x="174.66666666666666" y="8" width="44" height="4"/>
@@ -175,7 +175,7 @@
             <constraints>
                 <constraint firstItem="H9I-ai-Aus" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="0cF-kG-CIU"/>
                 <constraint firstItem="uzO-hP-U4Z" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="1x1-WN-lcj"/>
-                <constraint firstAttribute="bottom" secondItem="H9I-ai-Aus" secondAttribute="bottom" id="74f-fq-4Me"/>
+                <constraint firstAttribute="bottom" secondItem="H9I-ai-Aus" secondAttribute="bottom" constant="20" symbolic="YES" id="74f-fq-4Me"/>
                 <constraint firstItem="IiE-zO-1p9" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" constant="-32" id="7nj-vp-xvY"/>
                 <constraint firstAttribute="trailing" secondItem="uzO-hP-U4Z" secondAttribute="trailing" id="9Mr-Oe-bFk"/>
                 <constraint firstItem="H9I-ai-Aus" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="CBQ-bM-zNc"/>

@@ -327,13 +327,13 @@ extension VoiceChatManager: EMChatroomManagerDelegate {
 }
 
 extension VoiceChatManager: EMCircleManagerChannelDelegate {
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         if channelId == self.currentChannel?.channelId {
             self.leaveChannel()
         }
     }
     
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         if channelId == self.currentChannel?.channelId, member == EMClient.shared().currentUsername {
             self.leaveChannel()
         }

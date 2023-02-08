@@ -889,7 +889,7 @@ extension ChatViewController: EMCircleManagerServerDelegate {
 }
 
 extension ChatViewController: EMCircleManagerChannelDelegate {
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         switch self.chatType {
         case .channel(serverId: _, channelId: let cId):
             if channelId == cId {
@@ -901,7 +901,7 @@ extension ChatViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onChannelUpdated(_ serverId: String, channelId: String, name: String, desc: String, initiator: String) {
+    func onChannelUpdated(_ serverId: String, categoryId: String, channelId: String, name: String, desc: String, seatCount: UInt, initiator: String) {
         switch self.chatType {
         case .channel(serverId: _, channelId: let cId):
             if channelId == cId {
@@ -915,7 +915,7 @@ extension ChatViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         switch self.chatType {
         case .channel(serverId: _, channelId: let cId):
             if channelId == cId, member == EMClient.shared().currentUsername {

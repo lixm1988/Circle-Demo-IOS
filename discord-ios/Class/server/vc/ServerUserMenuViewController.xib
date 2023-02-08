@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ServerUserMenuViewController" customModule="discord_ios" customModuleProvider="target">
             <connections>
                 <outlet property="accountLabel" destination="5Mz-0b-Gpi" id="4ye-vH-b4v"/>
+                <outlet property="chatButton" destination="goZ-GH-IaI" id="MdM-zR-eyy"/>
                 <outlet property="headImageView" destination="CPP-gJ-eJF" id="Zt3-pz-9fM"/>
                 <outlet property="kickButton" destination="yxo-YR-9eq" id="FsT-U6-oRv"/>
                 <outlet property="muteButton" destination="UBf-GS-5j7" id="bD8-BO-dJW"/>
@@ -102,11 +103,9 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="goZ-GH-IaI" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="116" width="103.5" height="66"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="66" id="uLY-n9-r0C"/>
-                            </constraints>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="goZ-GH-IaI" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
+                            <rect key="frame" x="-10" y="116" width="106" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="发起私聊" image="user_menu_chat">
@@ -116,8 +115,9 @@
                                 <action selector="chatAction" destination="-1" eventType="touchUpInside" id="Iz7-Pa-rGn"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBf-GS-5j7" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
-                            <rect key="frame" x="103.5" y="116" width="103.5" height="66"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBf-GS-5j7" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
+                            <rect key="frame" x="124" y="116" width="92" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="成员禁言" image="user_menu_mute">
@@ -128,8 +128,9 @@
                                 <action selector="muteAction" destination="-1" eventType="touchUpInside" id="eRS-ia-uRd"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikZ-sl-vON" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
-                            <rect key="frame" x="207" y="116" width="103.5" height="66"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikZ-sl-vON" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
+                            <rect key="frame" x="216" y="116" width="106" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="设为管理员" image="user_menu_set_manager">
@@ -140,8 +141,9 @@
                                 <action selector="setManagerAction" destination="-1" eventType="touchUpInside" id="81I-FJ-L1c"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxo-YR-9eq" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
-                            <rect key="frame" x="310.5" y="116" width="103.5" height="66"/>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yxo-YR-9eq" customClass="ServerEditItemButton" customModule="discord_ios" customModuleProvider="target">
+                            <rect key="frame" x="322" y="116" width="92" height="36"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="踢出频道" image="user_menu_kick"/>
@@ -152,33 +154,18 @@
                     </subviews>
                     <color key="backgroundColor" name="#1F1F1F"/>
                     <constraints>
-                        <constraint firstItem="ikZ-sl-vON" firstAttribute="centerY" secondItem="UBf-GS-5j7" secondAttribute="centerY" id="1UN-cN-kjK"/>
-                        <constraint firstAttribute="trailing" secondItem="yxo-YR-9eq" secondAttribute="trailing" id="1nq-TY-Eb3"/>
-                        <constraint firstItem="ikZ-sl-vON" firstAttribute="leading" secondItem="UBf-GS-5j7" secondAttribute="trailing" id="60E-nA-Rla"/>
-                        <constraint firstItem="yxo-YR-9eq" firstAttribute="centerY" secondItem="ikZ-sl-vON" secondAttribute="centerY" id="6fe-w0-wvr"/>
-                        <constraint firstItem="goZ-GH-IaI" firstAttribute="leading" secondItem="klR-d9-5Lm" secondAttribute="leading" id="7vT-5v-YPj"/>
-                        <constraint firstItem="ikZ-sl-vON" firstAttribute="width" secondItem="goZ-GH-IaI" secondAttribute="width" priority="750" id="8no-2o-JEc"/>
                         <constraint firstItem="n7c-tq-y7u" firstAttribute="leading" secondItem="gGq-Sd-4Zl" secondAttribute="trailing" constant="30" id="A62-yo-rHv"/>
-                        <constraint firstItem="UBf-GS-5j7" firstAttribute="width" secondItem="goZ-GH-IaI" secondAttribute="width" priority="750" id="CBd-mb-Enp"/>
-                        <constraint firstItem="yxo-YR-9eq" firstAttribute="width" secondItem="goZ-GH-IaI" secondAttribute="width" priority="750" id="CYR-B1-gH8"/>
-                        <constraint firstItem="yxo-YR-9eq" firstAttribute="height" secondItem="ikZ-sl-vON" secondAttribute="height" id="EAt-Dv-qo8"/>
                         <constraint firstItem="n7c-tq-y7u" firstAttribute="centerY" secondItem="gGq-Sd-4Zl" secondAttribute="centerY" id="IBN-cA-Wxb"/>
-                        <constraint firstItem="yxo-YR-9eq" firstAttribute="leading" secondItem="ikZ-sl-vON" secondAttribute="trailing" id="KOx-fx-USm"/>
                         <constraint firstItem="iqK-H1-KLo" firstAttribute="centerY" secondItem="gGq-Sd-4Zl" secondAttribute="centerY" id="Yvj-RX-UAt"/>
                         <constraint firstItem="5Mz-0b-Gpi" firstAttribute="centerY" secondItem="baG-fF-Qmm" secondAttribute="centerY" id="ZSX-Lk-yMF"/>
                         <constraint firstItem="gGq-Sd-4Zl" firstAttribute="leading" secondItem="CPP-gJ-eJF" secondAttribute="trailing" constant="12" id="coP-V4-C9g"/>
-                        <constraint firstItem="UBf-GS-5j7" firstAttribute="height" secondItem="goZ-GH-IaI" secondAttribute="height" id="dB4-dW-V0H"/>
                         <constraint firstItem="baG-fF-Qmm" firstAttribute="leading" secondItem="gGq-Sd-4Zl" secondAttribute="leading" id="dUX-wV-b37"/>
                         <constraint firstItem="5Mz-0b-Gpi" firstAttribute="leading" secondItem="baG-fF-Qmm" secondAttribute="trailing" constant="8" symbolic="YES" id="ev9-W3-LQj"/>
-                        <constraint firstItem="UBf-GS-5j7" firstAttribute="centerY" secondItem="goZ-GH-IaI" secondAttribute="centerY" id="g0u-3g-p2N"/>
-                        <constraint firstItem="goZ-GH-IaI" firstAttribute="top" secondItem="CPP-gJ-eJF" secondAttribute="bottom" constant="32" id="hvR-Th-G80"/>
-                        <constraint firstItem="UBf-GS-5j7" firstAttribute="leading" secondItem="goZ-GH-IaI" secondAttribute="trailing" id="mzk-HE-Hlh"/>
                         <constraint firstItem="CPP-gJ-eJF" firstAttribute="leading" secondItem="klR-d9-5Lm" secondAttribute="leading" constant="16" id="rLA-fe-BXg"/>
                         <constraint firstItem="CPP-gJ-eJF" firstAttribute="top" secondItem="klR-d9-5Lm" secondAttribute="top" constant="24" id="sHy-1G-IbG"/>
                         <constraint firstItem="iqK-H1-KLo" firstAttribute="leading" secondItem="gGq-Sd-4Zl" secondAttribute="trailing" constant="4" id="tpz-Mq-v1X"/>
                         <constraint firstItem="gGq-Sd-4Zl" firstAttribute="top" secondItem="klR-d9-5Lm" secondAttribute="top" constant="30" id="waa-Xy-Ute"/>
                         <constraint firstItem="baG-fF-Qmm" firstAttribute="top" secondItem="gGq-Sd-4Zl" secondAttribute="bottom" constant="4" id="xvG-aP-SGL"/>
-                        <constraint firstItem="ikZ-sl-vON" firstAttribute="height" secondItem="UBf-GS-5j7" secondAttribute="height" id="ygK-HF-fEa"/>
                     </constraints>
                 </view>
             </subviews>

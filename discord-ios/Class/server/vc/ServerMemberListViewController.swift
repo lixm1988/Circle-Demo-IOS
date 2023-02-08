@@ -288,10 +288,29 @@ extension ServerMemberListViewController: EMCircleManagerServerDelegate {
             break
         }
     }
+    
+    func onServerRoleAssigned(_ serverId: String, member: String, role: EMCircleUserRole) {
+        if serverId == self.showType.serverId {
+            if member == EMClient.shared().currentUsername {
+                self.role = role
+                if role == .moderator {
+                    self.loadMuteList()
+                }
+            }
+            if let list = self.result?.list {
+                for i in 0..<list.count where list[i].userId == member {
+                    list[i].role = role
+                    self.tableView.performBatchUpdates {
+                        self.tableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .fade)
+                    }
+                }
+            }
+        }
+    }
 }
 
 extension ServerMemberListViewController: EMCircleManagerChannelDelegate {
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         switch self.showType {
         case .channel(serverId: let sId, channelId: let cId):
             if serverId == sId, channelId == cId {
@@ -303,7 +322,7 @@ extension ServerMemberListViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberLeftChannel(_ serverId: String, channelId: String, member: String) {
+    func onMemberLeftChannel(_ serverId: String, categoryId: String, channelId: String, member: String) {
         switch self.showType {
         case .channel(serverId: let sId, channelId: let cId):
             if serverId == sId, channelId == cId {
@@ -314,7 +333,7 @@ extension ServerMemberListViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         switch self.showType {
         case .channel(serverId: let sId, channelId: let cId):
             if serverId == sId, channelId == cId {
@@ -330,7 +349,7 @@ extension ServerMemberListViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberMuteChange(inChannel serverId: String, channelId: String, muted isMuted: Bool, members: [String]) {
+    func onMemberMuteChange(inChannel serverId: String, categoryId: String, channelId: String, muted isMuted: Bool, members: [String]) {
         switch self.showType {
         case .channel(serverId: let sId, channelId: let cId):
             if serverId == sId, channelId == cId {

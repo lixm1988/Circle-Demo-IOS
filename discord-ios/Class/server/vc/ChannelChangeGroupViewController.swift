@@ -18,7 +18,7 @@ class ChannelChangeGroupViewController: BaseViewController {
     private var categoryId: String?
     private let channelId: String
     
-    private var result: EMCursorResult<EMCircleChannelCategory>?
+    private var result: EMCursorResult<EMCircleCategory>?
     
     init(serverId: String, channelId: String) {
         self.serverId = serverId
@@ -72,7 +72,7 @@ class ChannelChangeGroupViewController: BaseViewController {
     }
     
     private func loadData(refresh: Bool) {
-        EMClient.shared().circleManager?.fetchCategory(inServer: self.serverId, limit: 20, cursor: refresh ? nil : self.result?.cursor, completion: { result, error in
+        EMClient.shared().circleManager?.fetchCategories(inServer: self.serverId, limit: 20, cursor: refresh ? nil : self.result?.cursor, completion: { result, error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let result = result {
@@ -117,7 +117,7 @@ extension ChannelChangeGroupViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let category = self.result?.list?[indexPath.row] {
             HUD.show(.progress)
-            EMClient.shared().circleManager?.transferCategory(self.serverId, channelId: self.channelId, newCategoryId: category.categoryId, completion: { error in
+            EMClient.shared().circleManager?.transferChannel(self.serverId, channelId: self.channelId, newCategoryId: category.categoryId, completion: { error in
                 HUD.hide()
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)

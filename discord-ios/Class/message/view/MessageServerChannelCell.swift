@@ -18,12 +18,14 @@ class MessageServerChannelCell: UITableViewCell {
     @IBOutlet private weak var channelButton: UIButton!
     @IBOutlet private weak var privateImageView: UIImageView!
     @IBOutlet private weak var nameLabel: UILabel!
+    @IBOutlet private weak var foldButton: UIButton!
     @IBOutlet private weak var foldImageView: UIImageView!
     @IBOutlet private weak var tableView: UITableView!
     @IBOutlet private weak var unreadView: UIView!
     @IBOutlet private weak var unreadCountLabel: UILabel!
     @IBOutlet private weak var sublevelLabel: UILabel!
-
+    @IBOutlet private weak var foldButtonHeightConstraints: NSLayoutConstraint!
+    
     var speakSet: Set<String>? {
         didSet {
             self.tableView.reloadData()
@@ -113,6 +115,8 @@ class MessageServerChannelCell: UITableViewCell {
     }
     
     func setThreads(threads: [EMChatThread], hasNoMoreData: Bool) {
+        self.foldButton.isHidden = threads.count <= 0
+        self.foldButtonHeightConstraints.constant = threads.count <= 0 ? 0 : 32
         self.tableView.isHidden = self.isFold
         if self.isFold {
             return
@@ -123,6 +127,8 @@ class MessageServerChannelCell: UITableViewCell {
     }
     
     func setMembers(_ members: [(EMCircleUser, EMUserInfo)]) {
+        self.foldButton.isHidden = false
+        self.foldButtonHeightConstraints.constant = 32
         self.tableView.isHidden = self.isFold
         if self.isFold {
             return

@@ -9,10 +9,10 @@ import UIKit
 
 class CategorySettingViewController: ServerBaseSettingViewController {
 
-    private let category: EMCircleChannelCategory
+    private let category: EMCircleCategory
     private let fromViewController: UIViewController
     
-    init(category: EMCircleChannelCategory, fromViewController: UIViewController) {
+    init(category: EMCircleCategory, fromViewController: UIViewController) {
         self.category = category
         self.fromViewController = fromViewController
         super.init(nibName: nil, bundle: nil)

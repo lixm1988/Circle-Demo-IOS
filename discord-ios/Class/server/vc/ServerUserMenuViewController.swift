@@ -22,6 +22,7 @@ class ServerUserMenuViewController: UIViewController {
     @IBOutlet private weak var muteStateImageView: UIImageView!
     @IBOutlet private weak var roleLabel: UILabel!
     @IBOutlet private weak var accountLabel: UILabel!
+    @IBOutlet private weak var chatButton: UIButton!
     @IBOutlet private weak var muteButton: UIButton!
     @IBOutlet private weak var setManagerButton: UIButton!
     @IBOutlet private weak var kickButton: UIButton!
@@ -29,8 +30,8 @@ class ServerUserMenuViewController: UIViewController {
     
     private let userId: String
     private let showType: ShowType
-    private let role: EMCircleUserRole
-    private let targetRole: EMCircleUserRole
+    private var role: EMCircleUserRole
+    private var targetRole: EMCircleUserRole
     private let onlineState: UserStatusView.Status
     private var isMute: Bool {
         didSet {
@@ -41,6 +42,7 @@ class ServerUserMenuViewController: UIViewController {
             }
         }
     }
+    private var isDefaultChannel: Bool?
     
     var didRoleChangeHandle: ((_ userId: String, _ role: EMCircleUserRole) -> Void)?
     var didKickHandle: ((_ userId: String) -> Void)?
@@ -66,75 +68,29 @@ class ServerUserMenuViewController: UIViewController {
         super.viewDidLoad()
         
         self.setupUserInfo()
+        self.muteStateImageView.isHidden = !self.isMute
+        self.updateShowUI()
         
-        var isServer = false
         switch self.showType {
         case .server:
             self.kickButton.setTitle("踢出社区", for: .normal)
-            isServer = true
-            self.updateRoleLabel()
+            EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
         case .channel(serverId: let serverId, channelId: let channelId):
-            if self.role != .user {
-                self.muteButton.isSelected = self.isMute
-            }
-            self.updateRoleLabel()
+            EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
             EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                     return
                 }
                 self.kickButton.setTitle("踢出频道", for: .normal)
-                self.kickButton.isHidden = self.kickButton.isHidden || (channel?.isDefault ?? true)
-                self.kickButton.snp.updateConstraints { make in
-                    if self.kickButton.isHidden {
-                        make.width.equalTo(0)
-                    }
-                }
+                self.isDefaultChannel = channel?.isDefault
+                self.updateShowUI()
             }
         case .thread:
             self.kickButton.isHidden = true
             self.setManagerButton.isHidden = true
             self.muteButton.isHidden = true
             self.roleLabel.isHidden = true
-        }
-        
-        self.muteStateImageView.isHidden = !self.isMute
-        
-        switch (self.role, self.targetRole) {
-        case (.owner, .moderator):
-            self.kickButton.isHidden = false
-            self.setManagerButton.isSelected = true
-            self.muteButton.isHidden = isServer
-            self.setManagerButton.isHidden = false
-        case (.owner, _):
-            self.kickButton.isHidden = false
-            self.setManagerButton.isSelected = false
-            self.muteButton.isHidden = isServer
-            self.setManagerButton.isHidden = false
-        case (.moderator, .user):
-            self.kickButton.isHidden = false
-            self.setManagerButton.isHidden = true
-            self.muteButton.isHidden = isServer
-        default:
-            self.kickButton.isHidden = true
-            self.setManagerButton.isHidden = true
-            self.muteButton.isHidden = true
-        }
-        
-        if self.setManagerButton.isHidden {
-            self.setManagerButton.snp.updateConstraints { make in
-                make.width.equalTo(0)
-            }
-        }
-        if self.muteButton.isHidden {
-            self.muteButton.snp.updateConstraints { make in
-                make.width.equalTo(0)
-            }
-        }
-        if self.kickButton.isHidden {
-            self.kickButton.snp.updateConstraints { make in
-                make.width.equalTo(0)
-            }
         }
     }
     
@@ -143,9 +99,11 @@ class ServerUserMenuViewController: UIViewController {
         case .owner:
             self.roleLabel.backgroundColor = UIColor(named: ColorName_27AE60)
             self.roleLabel.text = "创建者"
+            self.roleLabel.isHidden = false
         case .moderator:
             self.roleLabel.backgroundColor = UIColor(named: ColorName_6C6FF8)
             self.roleLabel.text = "管理员"
+            self.roleLabel.isHidden = false
         default:
             self.roleLabel.isHidden = true
         }
@@ -250,6 +208,98 @@ class ServerUserMenuViewController: UIViewController {
                     self.dismiss(animated: true)
                     self.didKickHandle?(self.userId)
                 }
+            }
+        default:
+            break
+        }
+    }
+    
+    private func updateShowUI() {
+        var isServer = false
+        switch self.showType {
+        case .server:
+            self.updateRoleLabel()
+            isServer = true
+        case .channel:
+            if self.role != .user {
+                self.muteButton.isSelected = self.isMute
+            }
+            self.updateRoleLabel()
+        case .thread:
+            break
+        }
+        switch (self.role, self.targetRole) {
+        case (.owner, .moderator):
+            self.kickButton.isHidden = false
+            self.setManagerButton.isSelected = true
+            self.muteButton.isHidden = isServer
+            self.setManagerButton.isHidden = false
+        case (.owner, _):
+            self.kickButton.isHidden = false
+            self.setManagerButton.isSelected = false
+            self.muteButton.isHidden = isServer
+            self.setManagerButton.isHidden = false
+        case (.moderator, .user):
+            self.kickButton.isHidden = false
+            self.setManagerButton.isHidden = true
+            self.muteButton.isHidden = isServer
+        default:
+            self.kickButton.isHidden = true
+            self.setManagerButton.isHidden = true
+            self.muteButton.isHidden = true
+        }
+        
+        if let isDefaultChannel = self.isDefaultChannel {
+            self.kickButton.isHidden = self.kickButton.isHidden || isDefaultChannel
+        }
+
+        self.chatButton.snp.remakeConstraints { make in
+            make.left.equalTo(self.view)
+            make.top.equalTo(self.headImageView.snp.bottom).offset(32)
+            make.height.equalTo(66)
+        }
+        self.muteButton.snp.remakeConstraints { make in
+            make.left.equalTo(self.chatButton.snp.right)
+            make.top.height.equalTo(self.chatButton)
+            if self.muteButton.isHidden {
+                make.width.equalTo(0)
+            } else {
+                make.width.equalTo(self.chatButton)
+            }
+        }
+        self.setManagerButton.snp.remakeConstraints { make in
+            make.left.equalTo(self.muteButton.snp.right)
+            make.top.height.equalTo(self.chatButton)
+            if self.setManagerButton.isHidden {
+                make.width.equalTo(0)
+            } else {
+                make.width.equalTo(self.chatButton)
+            }
+        }
+        self.kickButton.snp.remakeConstraints { make in
+            make.left.equalTo(self.setManagerButton.snp.right)
+            make.top.height.equalTo(self.chatButton)
+            make.right.equalTo(self.view)
+            if self.kickButton.isHidden {
+                make.width.equalTo(0)
+            } else {
+                make.width.equalTo(self.chatButton)
+            }
+        }
+    }
+}
+
+extension ServerUserMenuViewController: EMCircleManagerServerDelegate {
+    func onServerRoleAssigned(_ serverId: String, member: String, role: EMCircleUserRole) {
+        switch self.showType {
+        case .server(serverId: let sId), .channel(serverId: let sId, channelId: _):
+            if serverId == sId {
+                if member == EMClient.shared().currentUsername {
+                    self.role = role
+                } else if member == self.userId {
+                    self.targetRole = role
+                }
+                self.updateShowUI()
             }
         default:
             break

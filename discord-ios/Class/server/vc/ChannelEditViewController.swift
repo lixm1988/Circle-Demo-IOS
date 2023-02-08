@@ -45,7 +45,7 @@ class ChannelEditViewController: BaseViewController {
     }
     
     private func updateCategoryName(categoryId: String, cursor: String? = nil) {
-        EMClient.shared().circleManager?.fetchCategory(inServer: self.serverId, limit: 20, cursor: cursor, completion: { result, error in
+        EMClient.shared().circleManager?.fetchCategories(inServer: self.serverId, limit: 20, cursor: cursor, completion: { result, error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let result = result {

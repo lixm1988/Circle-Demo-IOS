@@ -19,7 +19,7 @@ class MessageServerViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     private let gradientLayer = CAGradientLayer()
 
-    private var categorys: EMCursorResult<EMCircleChannelCategory>?
+    private var categorys: EMCursorResult<EMCircleCategory>?
     private var channelMap: [String: (publicResult: EMCursorResult<EMCircleChannel>?, privateResult: EMCursorResult<EMCircleChannel>?)] = [:]
     private var threadMap: [String: EMCursorResult<EMChatThread>] = [:]
     private var memberMap: [String: [(EMCircleUser, EMUserInfo)]] = [:]
@@ -175,7 +175,7 @@ class MessageServerViewController: UIViewController {
             self.channelMap.removeAll()
             self.memberMap.removeAll()
         }
-        EMClient.shared().circleManager?.fetchCategory(inServer: self.serverId, limit: 20, cursor: refresh ? nil : self.categorys?.cursor, completion: { result, error in
+        EMClient.shared().circleManager?.fetchCategories(inServer: self.serverId, limit: 20, cursor: refresh ? nil : self.categorys?.cursor, completion: { result, error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let result = result {
@@ -220,7 +220,7 @@ class MessageServerViewController: UIViewController {
         let result = self.channelMap[categoryId]
         let isPublic = result?.publicResult == nil || (result?.publicResult?.cursor != nil && (result?.publicResult?.cursor?.count)! > 0)
         if isPublic {
-            EMClient.shared().circleManager?.fetchPublicChannel(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.publicResult?.cursor, completion: { result, error in
+            EMClient.shared().circleManager?.fetchPublicChannels(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.publicResult?.cursor, completion: { result, error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let result = result {
@@ -231,13 +231,19 @@ class MessageServerViewController: UIViewController {
                     }
                     self.tableView.reloadSections([section], with: .fade)
                     self.loadChannlsData(categoryId: categoryId)
+                    if let list = result.list, let publicResult = self.channelMap[categoryId]?.publicResult {
+                        for i in 0..<list.count {
+                            let row = Int(publicResult.count) - Int(result.count) + i
+                            self.loadThreadsData(channelId: list[i].channelId, indexPath: IndexPath(row: row, section: section), refresh: true)
+                        }
+                    }
                 }
             })
         } else {
             if let privateResult = result?.privateResult, privateResult.cursor?.count ?? 0 <= 0 {
                 return
             }
-            EMClient.shared().circleManager?.fetchVisibelPrivateChannels(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.privateResult?.cursor, completion: { result, error in
+            EMClient.shared().circleManager?.fetchPrivateChannels(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.privateResult?.cursor, completion: { result, error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let result = result {
@@ -248,6 +254,12 @@ class MessageServerViewController: UIViewController {
                             self.channelMap[categoryId] = (old.publicResult, result)
                         }
                         self.tableView.reloadSections([section], with: .fade)
+                    }
+                    if let list = result.list, let old = self.channelMap[categoryId] {
+                        for i in 0..<list.count {
+                            let row = Int(old.publicResult?.count ?? 0) + Int(old.privateResult?.count ?? 0) - Int(result.count) + i
+                            self.loadThreadsData(channelId: list[i].channelId, indexPath: IndexPath(row: row, section: section), refresh: true)
+                        }
                     }
                     if result.cursor?.count != 0 && result.count >= 20 {
                         self.loadChannlsData(categoryId: categoryId)
@@ -341,7 +353,7 @@ class MessageServerViewController: UIViewController {
         return indexPath
     }
     
-    private func addCategory(_ category: EMCircleChannelCategory) {
+    private func addCategory(_ category: EMCircleCategory) {
         if self.categorys?.cursor?.count ?? 0 > 0 {
             return
         }
@@ -349,6 +361,31 @@ class MessageServerViewController: UIViewController {
         if let count = self.categorys?.list?.count {
             self.tableView.performBatchUpdates {
                 self.tableView.insertSections([count - 1], with: .fade)
+            }
+        }
+    }
+    
+    private func loadThreadsData(channelId: String, indexPath: IndexPath, refresh: Bool) {
+        let oldResult = self.threadMap[channelId]
+        let cursor = refresh ? nil : oldResult?.cursor
+        
+        HUD.show(.progress, onView: self.view)
+        EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: channelId, cursor: cursor, pageSize: 20) { result, error in
+            HUD.hide()
+            if let error = error {
+//                Toast.show(error.errorDescription, duration: 2)
+                return
+            }
+            if let result = result, let list = result.list {
+                if list.count < 20 {
+                    result.cursor = nil
+                }
+                if let oldResult = oldResult, !refresh {
+                    oldResult.append(result)
+                } else {
+                    self.threadMap[channelId] = result
+                }
+                self.tableView.reloadRows(at: [indexPath], with: .fade)
             }
         }
     }
@@ -383,7 +420,7 @@ class MessageServerViewController: UIViewController {
                 }
                 if let list = publicResult.list {
                     publicResult.list?.append(channel)
-                    index = IndexPath(row: list.count - 1, section: section)
+                    index = IndexPath(row: list.count, section: section)
                 }
             } else if channel.type == .private {
                 guard let privateResult = result.privateResult else {
@@ -394,7 +431,7 @@ class MessageServerViewController: UIViewController {
                 }
                 if let list = privateResult.list {
                     privateResult.list?.append(channel)
-                    index = IndexPath(row: (list.count - 1) + Int(publicResult.count), section: section)
+                    index = IndexPath(row: (list.count) + Int(publicResult.count), section: section)
                 }
             }
             
@@ -505,7 +542,7 @@ class MessageServerViewController: UIViewController {
         }
     }
     
-    private func transferCategoryChannel(channelId: String, from: String, to: String) {
+    private func transferChannel(channelId: String, from: String, to: String) {
         if let channel = self.removeChannel(channelId: channelId) {
             channel.categoryId = to
             self.addChannel(channel)
@@ -548,6 +585,9 @@ class MessageServerViewController: UIViewController {
         }
         if channel.type == .private {
             self.addChannel(channel)
+            if let index = self.index(channelId: channel.channelId) {
+                self.loadThreadsData(channelId: channel.channelId, indexPath: index, refresh: true)
+            }
         }
         if let currentUsername = EMClient.shared().currentUsername {
             ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
@@ -558,7 +598,7 @@ class MessageServerViewController: UIViewController {
     }
     
     @objc private func didCreateCategoryNotification(_ notification: Notification) {
-        if let category = notification.object as? EMCircleChannelCategory, category.serverId == self.serverId {
+        if let category = notification.object as? EMCircleCategory, category.serverId == self.serverId {
             self.addCategory(category)
         }
     }
@@ -570,7 +610,7 @@ class MessageServerViewController: UIViewController {
     }
     
     @objc private func didUpdateCategoryNotification(_ notification: Notification) {
-        guard let category = notification.object as? EMCircleChannelCategory, category.serverId == self.serverId, let categorys = self.categorys?.list else {
+        guard let category = notification.object as? EMCircleCategory, category.serverId == self.serverId, let categorys = self.categorys?.list else {
             return
         }
         for i in 0..<categorys.count where categorys[i].categoryId == category.categoryId {
@@ -584,7 +624,7 @@ class MessageServerViewController: UIViewController {
     
     @objc private func didTransferChannelCategoryNotification(_ notification: Notification) {
         if let obj = notification.object as? (String, String, String, String), obj.0 == self.serverId {
-            self.transferCategoryChannel(channelId: obj.3, from: obj.1, to: obj.2)
+            self.transferChannel(channelId: obj.3, from: obj.1, to: obj.2)
         }
     }
     
@@ -664,11 +704,7 @@ class MessageServerViewController: UIViewController {
 // MARK: UITableViewDataSource
 extension MessageServerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let category = self.categorys?.list?[section]
-        if category?.isDefault == true {
-            return 1
-        }
-        return 36
+        return section == 0 ? 1 : 36
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -742,17 +778,17 @@ extension MessageServerViewController: UITableViewDataSource {
                 }
                 if self.unfoldChannelSet.contains(item.channelId) {
                     cell.isFold = false
-                    if item.mode == .chat {
-                        if let value = self.threadMap[item.channelId], let list = value.list {
-                            cell.setThreads(threads: list, hasNoMoreData: value.cursor?.count ?? 0 <= 0)
-                        }
-                    } else if item.mode == .voice {
+                    if item.mode == .voice {
                         if let value = self.memberMap[item.channelId] {
                             cell.setMembers(value)
                         }
                     }
                 } else {
                     cell.isFold = true
+                }
+                if item.mode == .chat {
+                    let value = self.threadMap[item.channelId]
+                    cell.setThreads(threads: value?.list ?? [], hasNoMoreData: value?.cursor?.count ?? 0 <= 0)
                 }
             }
             cell.channelClickHandle = { [unowned self] channel in
@@ -840,21 +876,7 @@ extension MessageServerViewController: UITableViewDataSource {
                     if self.threadMap[channel.channelId] != nil {
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                     } else {
-                        HUD.show(.progress, onView: self.view)
-                        EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: channel.channelId, cursor: nil, pageSize: 20) { result, error in
-                            HUD.hide()
-                            if let error = error {
-                                Toast.show(error.errorDescription, duration: 2)
-                                return
-                            }
-                            if let result = result, let list = result.list {
-                                if list.count < 20 {
-                                    result.cursor = nil
-                                }
-                                self.threadMap[channel.channelId] = result
-                                self.tableView.reloadRows(at: [indexPath], with: .fade)
-                            }
-                        }
+                        self.loadThreadsData(channelId: channel.channelId, indexPath: indexPath, refresh: true)
                     }
                 } else {
                     self.showChatChannelJoinAlert(serverId: channel.serverId, channelId: channel.channelId)
@@ -925,22 +947,8 @@ extension MessageServerViewController: UITableViewDataSource {
     }
     
     private func moreClickAction(channel: EMCircleChannel, indexPath: IndexPath) {
-        if self.unfoldChannelSet.contains(channel.channelId), let oldResult = self.threadMap[channel.channelId] {
-            HUD.show(.progress, onView: self.view)
-            EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: channel.channelId, cursor: oldResult.cursor, pageSize: 20) { result, error in
-                HUD.hide()
-                if let error = error {
-                    Toast.show(error.errorDescription, duration: 2)
-                    return
-                }
-                if let result = result, let list = result.list {
-                    if list.count < 20 {
-                        result.cursor = nil
-                    }
-                    oldResult.append(result)
-                    self.tableView.reloadRows(at: [indexPath], with: .fade)
-                }
-            }
+        if self.unfoldChannelSet.contains(channel.channelId) {
+            self.loadThreadsData(channelId: channel.channelId, indexPath: indexPath, refresh: false)
         }
     }
 }
@@ -949,15 +957,26 @@ extension MessageServerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let channel = self.channel(index: indexPath)
         let channelId = channel?.channelId
-        if let channelId = channelId, self.unfoldChannelSet.contains(channelId) {
-            if channel?.mode == .chat, let result = self.threadMap[channelId] {
-                if let cursor = result.cursor, cursor.count > 0 {
-                    return CGFloat(76 + 40 + result.count * 40)
-                } else {
-                    return CGFloat(76 + result.count * 40)
+        if let channelId = channelId {
+            if channel?.mode == .chat {
+                if let result = self.threadMap[channelId] {
+                    if result.count > 0 {
+                        if self.unfoldChannelSet.contains(channelId) {
+                            if let cursor = result.cursor, cursor.count > 0 {
+                                return CGFloat(76 + result.count * 40) + 40
+                            } else {
+                                return CGFloat(76 + result.count * 40)
+                            }
+                        } else {
+                            return 76
+                        }
+                    }
                 }
-            } else if channel?.mode == .voice, let members = self.memberMap[channelId] {
-                return CGFloat(76 + members.count * 40)
+                return 44
+            } else if channel?.mode == .voice {
+                if self.unfoldChannelSet.contains(channelId), let members = self.memberMap[channelId] {
+                    return CGFloat(76 + members.count * 40)
+                }
             }
         }
         return 76
@@ -969,12 +988,13 @@ extension MessageServerViewController: EMCircleManagerServerDelegate {
         if event.serverId == self.serverId {
             self.nameLabel.text = event.serverName
             self.descLabel.text = event.serverDesc
+            self.bgImageView.setImage(withUrl: event.serverBackgroundUrl, placeholder: "message_server_bg")
         }
     }
 }
 
 extension MessageServerViewController: EMCircleManagerChannelDelegate {
-    func onChannelCreated(_ serverId: String, channelId: String, creator: String) {
+    func onChannelCreated(_ serverId: String, categoryId: String, channelId: String, creator: String) {
         EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, _ in
             if let channel = channel, channel.serverId == self.serverId {
                 self.addChannel(channel)
@@ -982,14 +1002,14 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onChannelDestroyed(_ serverId: String, channelId: String, initiator: String) {
+    func onChannelDestroyed(_ serverId: String, categoryId: String, channelId: String, initiator: String) {
         if serverId != self.serverId {
             return
         }
         self.removeChannel(channelId: channelId)
     }
     
-    func onChannelUpdated(_ serverId: String, channelId: String, name: String, desc: String, initiator: String) {
+    func onChannelUpdated(_ serverId: String, categoryId: String, channelId: String, name: String, desc: String, seatCount: UInt, initiator: String) {
         if serverId != self.serverId {
             return
         }
@@ -1000,19 +1020,19 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onMemberJoinedChannel(_ serverId: String, channelId: String, member: EMCircleUser) {
+    func onMemberJoinedChannel(_ serverId: String, categoryId: String, channelId: String, member: EMCircleUser) {
         if serverId == self.serverId {
             self.addMember(channel: channelId, member: member)
         }
     }
     
-    func onMemberLeftChannel(_ serverId: String, channelId: String, member: String) {
+    func onMemberLeftChannel(_ serverId: String, categoryId: String, channelId: String, member: String) {
         if serverId == self.serverId {
             self.removeMembers(channel: channelId, members: [member])
         }
     }
     
-    func onMemberRemoved(fromChannel serverId: String, channelId: String, member: String, initiator: String) {
+    func onMemberRemoved(fromChannel serverId: String, categoryId: String, channelId: String, member: String, initiator: String) {
         if serverId == self.serverId {
             self.removeMembers(channel: channelId, members: [member])
             if member == EMClient.shared().currentUsername, let channel = self.channel(channelId: channelId), channel.type == .private {
@@ -1032,7 +1052,7 @@ extension MessageServerViewController: EMCircleManagerCategoryDelegate {
         if serverId != self.serverId {
             return
         }
-        let category = EMCircleChannelCategory()
+        let category = EMCircleCategory()
         category.serverId = serverId
         category.categoryId = categoryId
         category.name = categoryName
@@ -1053,11 +1073,11 @@ extension MessageServerViewController: EMCircleManagerCategoryDelegate {
         self.updateCategoryName(categoryId: categoryId, name: categoryName)
     }
     
-    func onCategoryTransferredChannel(_ serverId: String, from fromCategoryId: String, to toCategoryId: String, channelId: String, initiator: String) {
+    func onChannelTransfered(_ serverId: String, from fromCategoryId: String, to toCategoryId: String, channelId: String, initiator: String) {
         if serverId != self.serverId {
             return
         }
-        self.transferCategoryChannel(channelId: channelId, from: fromCategoryId, to: toCategoryId)
+        self.transferChannel(channelId: channelId, from: fromCategoryId, to: toCategoryId)
     }
 }
 
@@ -1118,7 +1138,7 @@ extension MessageServerViewController: EMMultiDevicesDelegate {
         switch aEvent {
         case .circleCategoryCreate:
             if let name = (aExt as? [String])?.first {
-                let category = EMCircleChannelCategory()
+                let category = EMCircleCategory()
                 category.serverId = serverId
                 category.categoryId = categoryId
                 category.name = name
@@ -1131,7 +1151,7 @@ extension MessageServerViewController: EMMultiDevicesDelegate {
                 self.updateCategoryName(categoryId: categoryId, name: name)
             }
         case .circleCategoryTransferChannel:
-            self.transferCategoryChannel(channelId: aChannelId, from: "", to: categoryId)
+            self.transferChannel(channelId: aChannelId, from: "", to: categoryId)
         default:
             break
         }
