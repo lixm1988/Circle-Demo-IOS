@@ -17,13 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        Bugly.start(withAppId: "da7ef6efd8")
-        
         let emOptions = EMOptions(appkey: "easemob-demo#circle")
         #if DEBUG
         emOptions.enableConsoleLog = true
         #else
         emOptions.enableConsoleLog = false
+        Bugly.start(withAppId: "da7ef6efd8")
         #endif
         emOptions.isAutoLogin = true
 //        emOptions.restServer = "a1-test.easemob.com"

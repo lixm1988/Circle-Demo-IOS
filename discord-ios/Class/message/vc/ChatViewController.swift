@@ -224,6 +224,13 @@ class ChatViewController: BaseViewController {
             guard let conversation = EMClient.shared().chatManager?.getConversation(self.chatType.conversationId, type: .groupChat, createIfNotExist: true, isThread: isThread, isChannel: isChannel) else {
                 return
             }
+            conversation.markAllMessages(asRead: nil)
+            switch self.chatType {
+            case .channel(serverId: let serverId, channelId: _):
+                NotificationCenter.default.post(name: EMCircleServerMessageUnreadCountChange, object: serverId)
+            default:
+                break
+            }
             conversation.loadMessagesStart(fromId: startMessage?.messageId, count: 20, searchDirection: direction == .up ? .up : .down) { [weak self] messages, _ in
                 guard let self = self else {
                     return

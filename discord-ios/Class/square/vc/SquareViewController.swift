@@ -136,10 +136,10 @@ class SquareViewController: UIViewController {
                 var tags: [EMCircleServerTag] = []
                 if let tagsList = item["tags"] as? [[String: String]] {
                     for item in tagsList {
-                        let tag = EMCircleServerTag()
-                        tag.tagId = item["server_tag_id"]
-                        tag.name = item["tag_name"]
-                        tags.append(tag)
+                        if let tagId = item["server_tag_id"], let name = item["tag_name"] {
+                            let tag = EMCircleServerTag(tagId: tagId, name: name)
+                            tags.append(tag)
+                        }
                     }
                 }
                 server.tags = tags
@@ -212,9 +212,9 @@ extension SquareViewController: UICollectionViewDataSource, UICollectionViewDele
                 if isIn {
                     self.gotoHomePage(serverId: server.serverId)
                 } else {
-                    let vc = ServerDetailAlertViewController(server: server) { server in
+                    let vc = ServerDetailAlertViewController(server: server, showType: .join(joinHandle: { server in
                         self.gotoHomePage(serverId: server.serverId)
-                    }
+                    }))
                     self.present(vc, animated: true)
                 }
             }

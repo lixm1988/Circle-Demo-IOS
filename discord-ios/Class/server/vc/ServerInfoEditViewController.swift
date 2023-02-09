@@ -156,7 +156,6 @@ class ServerInfoEditViewController: BaseViewController {
                         return
                     }
                 }
-                
                 EMClient.shared().circleManager?.addTags(toServer: self.serverId, tags: [tag]) { tags, error in
                     if let error = error {
                         Toast.show(error.errorDescription, duration: 2)
@@ -183,17 +182,14 @@ class ServerInfoEditViewController: BaseViewController {
     }
     
     private func deleteTag(_ tag: EMCircleServerTag) {
-        guard let tagId = tag.tagId else {
-            return
-        }
-        EMClient.shared().circleManager?.removeTags(fromServer: self.serverId, tagIds: [tagId]) { error in
+        EMClient.shared().circleManager?.removeTags(fromServer: self.serverId, tagIds: [tag.tagId]) { error in
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else {
                 Toast.show("删除成功", duration: 2)
                 if let server = ServerInfoManager.shared.getServerInfo(serverId: self.serverId) {
                     var old = server.tags ?? []
-                    for i in 0..<old.count where old[i].tagId == tagId {
+                    for i in 0..<old.count where old[i].tagId == tag.tagId {
                         old.remove(at: i)
                         break
                     }

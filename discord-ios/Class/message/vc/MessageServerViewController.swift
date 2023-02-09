@@ -28,6 +28,7 @@ class MessageServerViewController: UIViewController {
     
     private var speakSet = Set<String>()
     private var muteSet = Set<String>()
+    private var channelLoadingThreadsSet = Set<String>()
     
     var serverId: String {
         didSet {
@@ -163,7 +164,7 @@ class MessageServerViewController: UIViewController {
     
     @IBAction func showDetailAction() {
         if let server = self.server {
-            let vc = ServerDetailAlertViewController(server: server, joinHandle: nil)
+            let vc = ServerDetailAlertViewController(server: server, showType: .detail)
             self.present(vc, animated: true)
         }
     }
@@ -366,14 +367,18 @@ class MessageServerViewController: UIViewController {
     }
     
     private func loadThreadsData(channelId: String, indexPath: IndexPath, refresh: Bool) {
+        if self.channelLoadingThreadsSet.contains(channelId) {
+            return
+        }
         let oldResult = self.threadMap[channelId]
         let cursor = refresh ? nil : oldResult?.cursor
-        
-        HUD.show(.progress, onView: self.view)
+        self.channelLoadingThreadsSet.insert(channelId)
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
         EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: channelId, cursor: cursor, pageSize: 20) { result, error in
-            HUD.hide()
-            if let error = error {
-//                Toast.show(error.errorDescription, duration: 2)
+            self.channelLoadingThreadsSet.remove(channelId)
+            if error != nil {
+                // "user not in group."
+                // 错误码303
                 return
             }
             if let result = result, let list = result.list {
@@ -788,7 +793,7 @@ extension MessageServerViewController: UITableViewDataSource {
                 }
                 if item.mode == .chat {
                     let value = self.threadMap[item.channelId]
-                    cell.setThreads(threads: value?.list ?? [], hasNoMoreData: value?.cursor?.count ?? 0 <= 0)
+                    cell.setThreads(threads: value?.list ?? [], hasNoMoreData: value?.cursor?.count ?? 0 <= 0, isLoading: self.channelLoadingThreadsSet.contains(item.channelId))
                 }
             }
             cell.channelClickHandle = { [unowned self] channel in

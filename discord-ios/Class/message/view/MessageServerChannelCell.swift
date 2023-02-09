@@ -45,6 +45,8 @@ class MessageServerChannelCell: UITableViewCell {
         }
     }
     
+    var isLoading: Bool = false
+    
     var channel: EMCircleChannel? {
         didSet {
             self.nameLabel.text = channel?.name
@@ -114,13 +116,14 @@ class MessageServerChannelCell: UITableViewCell {
         }
     }
     
-    func setThreads(threads: [EMChatThread], hasNoMoreData: Bool) {
+    func setThreads(threads: [EMChatThread], hasNoMoreData: Bool, isLoading: Bool) {
         self.foldButton.isHidden = threads.count <= 0
         self.foldButtonHeightConstraints.constant = threads.count <= 0 ? 0 : 32
         self.tableView.isHidden = self.isFold
         if self.isFold {
             return
         }
+        self.isLoading = isLoading
         self.showType = .threads(threads: threads)
         self.hasNoMoreData = hasNoMoreData
         self.tableView.reloadData()
@@ -133,6 +136,7 @@ class MessageServerChannelCell: UITableViewCell {
         if self.isFold {
             return
         }
+        self.isLoading = false
         self.showType = .members(members: members)
         self.hasNoMoreData = true
         self.tableView.reloadData()
@@ -192,6 +196,7 @@ extension MessageServerChannelCell: UITableViewDataSource {
                     self.moreClickHandle?(channel)
                 }
             }
+            view.isLoading = self.isLoading
         }
         return view
     }
