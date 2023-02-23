@@ -66,9 +66,11 @@ class MessageServerChannelCell: UITableViewCell {
                     self.unreadView.isHidden = true
                 }
             } else {
+                self.foldButton.isHidden = false
+                self.foldButtonHeightConstraints.constant = 32
                 self.privateImageView.image = UIImage(named: channel?.type == .private ? "mic_channel_private" : "mic_channel_public")
                 self.sublevelLabel.text = "语聊房成员"
-                self.unreadCountLabel.text = "\((self.channel as? EMCircleVoiceChannel)?.seatCount ?? 0)"
+                self.unreadCountLabel.text = "\(self.channel?.maxUsers ?? 0)"
                 self.unreadView.isHidden = false
                 if self.channel?.channelId == VoiceChatManager.shared.currentChannel?.channelId {
                     self.unreadView.backgroundColor = UIColor(named: ColorName_14FF72)
@@ -140,7 +142,7 @@ class MessageServerChannelCell: UITableViewCell {
         self.showType = .members(members: members)
         self.hasNoMoreData = true
         self.tableView.reloadData()
-        let total = (self.channel as? EMCircleVoiceChannel)?.seatCount ?? 0
+        let total = self.channel?.maxUsers ?? 0
         let max = max(members.count, Int(total))
         self.unreadCountLabel.text = "\(members.count)/\(max)"
         self.unreadView.backgroundColor = self.channel?.channelId == VoiceChatManager.shared.currentChannel?.channelId ? UIColor(named: ColorName_14FF72) : nil

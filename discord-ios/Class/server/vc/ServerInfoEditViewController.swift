@@ -105,6 +105,7 @@ class ServerInfoEditViewController: BaseViewController {
     }
     
     @objc private func saveAction() {
+        self.view.endEditing(true)
         guard let name = self.nameTextField.text else {
             return
         }

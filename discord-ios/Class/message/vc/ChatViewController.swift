@@ -908,12 +908,12 @@ extension ChatViewController: EMCircleManagerChannelDelegate {
         }
     }
     
-    func onChannelUpdated(_ serverId: String, categoryId: String, channelId: String, name: String, desc: String, seatCount: UInt, initiator: String) {
+    func onChannelUpdated(_ channel: EMCircleChannel, initiator: String) {
         switch self.chatType {
         case .channel(serverId: _, channelId: let cId):
-            if channelId == cId {
-                self.title = name
-                if desc.count > 0 {
+            if channel.channelId == cId {
+                self.title = channel.name
+                if let desc = channel.desc, desc.count > 0 {
                     self.subtitle = desc
                 }
             }

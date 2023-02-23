@@ -30,7 +30,6 @@ class ServerSettingViewController: ServerBaseSettingViewController {
         super.viewDidLoad()
         
         EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
-        EMClient.shared().addMultiDevices(delegate: self, queue: nil)
         
         self.titleLabel.text = self.serverId
         self.collectionViewDataSource = [
@@ -171,7 +170,6 @@ class ServerSettingViewController: ServerBaseSettingViewController {
     
     deinit {
         EMClient.shared().circleManager?.remove(serverDelegate: self)
-        EMClient.shared().remove(self)
     }
 }
 
@@ -194,28 +192,6 @@ extension ServerSettingViewController: EMCircleManagerServerDelegate {
         if serverId == self.serverId, let current = EMClient.shared().currentUsername, members.contains(current) {
             Toast.show("你已被踢出社区", duration: 2)
             self.dismiss(animated: true)
-        }
-    }
-}
-
-extension ServerSettingViewController: EMMultiDevicesDelegate {
-    func multiDevicesCircleServerEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId: String, ext aExt: Any?) {
-        guard serverId == self.serverId else {
-            return
-        }
-        switch aEvent {
-        case .circleServerDestroy:
-            if serverId == self.serverId {
-                Toast.show("社区被解散", duration: 2)
-                self.dismiss(animated: true)
-            }
-        case .circleServerExit:
-            if serverId == self.serverId {
-                Toast.show("你已离开社区", duration: 2)
-                self.dismiss(animated: true)
-            }
-        default:
-            break
         }
     }
 }

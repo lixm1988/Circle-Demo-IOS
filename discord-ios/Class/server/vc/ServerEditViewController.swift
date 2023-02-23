@@ -16,6 +16,7 @@ class ServerEditViewController: BaseViewController {
     
     @IBOutlet weak var bgImageView: UIImageView!
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var destroyView: UIView!
     
     init(serverId: String) {
         self.serverId = serverId
@@ -34,6 +35,10 @@ class ServerEditViewController: BaseViewController {
         ServerInfoManager.shared.getServerInfo(serverId: self.serverId, refresh: false) { server, _ in
             self.avatarImageView.setImage(withUrl: server?.icon, placeholder: "server_head_placeholder")
             self.bgImageView.setImage(withUrl: server?.background, placeholder: "message_server_bg")
+        }
+        self.destroyView.isHidden = true
+        ServerRoleManager.shared.queryServerRole(serverId: self.serverId) { role in
+            self.destroyView.isHidden = role != .owner
         }
     }
     
@@ -61,7 +66,7 @@ class ServerEditViewController: BaseViewController {
                     guard let newImage = newImage else {
                         return
                     }
-                    self.avatarImageView.image = newImage
+                    self.bgImageView.image = newImage
                     HUD.show(.progress, onView: self.view)
                     HTTP.uploadImage(image: newImage) { path, error in
                         if let error = error {
@@ -168,6 +173,7 @@ class ServerEditViewController: BaseViewController {
                     ServerInfoManager.shared.remove(serverId: self.serverId)
                     NotificationCenter.default.post(name: EMCircleDidDestroyServer, object: self.serverId)
                     self.dismiss(animated: true)
+                    self.navigationController?.popToRootViewController(animated: true)
                 }
             }
         }))

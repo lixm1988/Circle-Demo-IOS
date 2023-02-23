@@ -25,6 +25,7 @@ class VoiceChannelViewController: UIViewController {
     @IBOutlet private weak var muteButton: UIButton!
     @IBOutlet private weak var leaveButton: UIButton!
     @IBOutlet private weak var joinButton: UIButton!
+    @IBOutlet private weak var noDataView: UIView!
     private let shapeLayer = CAShapeLayer()
     
     private let showType: ShowType
@@ -92,6 +93,8 @@ class VoiceChannelViewController: UIViewController {
                     }
                 }
                 self.tableView.reloadData()
+                self.tableView.isHidden = result.count <= 0
+                self.noDataView.isHidden = result.count > 0
             }
         })
         ServerRoleManager.shared.queryServerRole(serverId: self.showType.serverId) { role in
@@ -135,7 +138,7 @@ class VoiceChannelViewController: UIViewController {
             return
         }
         self.dismiss()
-        if (self.result?.list?.count ?? 0) >= ((channel as? EMCircleVoiceChannel)?.seatCount ?? 0) {
+        if (self.result?.list?.count ?? 0) >= channel.maxUsers {
             Toast.show("语聊房已满", duration: 2)
             return
         }
@@ -170,33 +173,22 @@ class VoiceChannelViewController: UIViewController {
     
     @IBAction func joinAction() {
         if let current = VoiceChatManager.shared.currentChannel {
-            EMClient.shared().circleManager?.leaveChannel(current.serverId, channelId: current.channelId, completion: { error in
-                if let error = error {
-                    Toast.show(error.errorDescription, duration: 2)
-                } else {
-                    NotificationCenter.default.post(name: EMCircleDidExitedChannel, object: (current.serverId, current.channelId))
-                }
-            })
+            let alertVc = UIAlertController(title: nil, message: "您已经在一个语聊房频道内了，确认要切换到 \(self.channelNameLabel.text ?? "") 吗", preferredStyle: .alert)
+            alertVc.addAction(UIAlertAction(title: "我再想想", style: .cancel))
+            alertVc.addAction(UIAlertAction(title: "确认", style: .default, handler: { _ in
+                EMClient.shared().circleManager?.leaveChannel(current.serverId, channelId: current.channelId, completion: { error in
+                    if let error = error {
+                        Toast.show(error.errorDescription, duration: 2)
+                    } else {
+                        NotificationCenter.default.post(name: EMCircleDidExitedChannel, object: (current.serverId, current.channelId))
+                    }
+                })
+                self.joinChannel()
+            }))
+            self.present(alertVc, animated: true)
+        } else {
+            self.joinChannel()
         }
-        
-        EMClient.shared().circleManager?.joinChannel(self.showType.serverId, channelId: self.showType.channelId, completion: { channel, error in
-            if let error = error {
-                if error.code == .reachLimit {
-                    Toast.show("语聊房已满", duration: 2)
-                } else {
-                    Toast.show(error.errorDescription, duration: 2)
-                }
-            } else {
-                self.joinButton.isHidden = true
-                self.muteButton.isHidden = false
-                self.leaveButton.isHidden = false
-                self.inviteButton.isHidden = false
-                VoiceChatManager.shared.joinChannel(serverId: self.showType.serverId, channel: self.showType.channelId)
-                if let channel = channel {
-                    NotificationCenter.default.post(name: EMCircleDidJoinChannel, object: channel)
-                }
-            }
-        })
     }
     
     @IBAction func muteAction() {
@@ -263,11 +255,42 @@ class VoiceChannelViewController: UIViewController {
             self.tableView.reloadData()
             break
         }
+        self.tableView.isHidden = list.count <= 0
+        self.noDataView.isHidden = list.count > 0
     }
     
     private func addMember(_ member: EMCircleUser) {
         self.result?.list?.append(member)
         self.tableView.reloadData()
+        
+        self.tableView.isHidden = false
+        self.noDataView.isHidden = true
+    }
+    
+    private func joinChannel() {
+        EMClient.shared().circleManager?.joinChannel(self.showType.serverId, channelId: self.showType.channelId, completion: { channel, error in
+            if let error = error {
+                if error.code == .reachLimit {
+                    Toast.show("语聊房已满", duration: 2)
+                } else {
+                    Toast.show(error.errorDescription, duration: 2)
+                }
+            } else {
+                self.joinButton.isHidden = true
+                self.muteButton.isHidden = false
+                self.leaveButton.isHidden = false
+                self.inviteButton.isHidden = false
+                VoiceChatManager.shared.joinChannel(serverId: self.showType.serverId, channel: self.showType.channelId)
+                if let channel = channel {
+                    NotificationCenter.default.post(name: EMCircleDidJoinChannel, object: channel)
+                }
+            }
+        })
+    }
+    
+    @IBAction private func goServerAction() {
+        self.dismiss()
+        NotificationCenter.default.post(name: MainShouldSelectedServer, object: self.showType.serverId)
     }
     
     deinit {
@@ -316,13 +339,15 @@ extension VoiceChannelViewController: UITableViewDelegate {
                     }
                 }
                 DispatchQueue.main.async {
-                    let vc = ServerUserMenuViewController(userId: member.userId, showType: .channel(serverId: self.showType.serverId, channelId: self.showType.channelId), role: role, targetRole: member.role, onlineState: state, isMute: false)
+                    let vc = ServerUserMenuViewController(userId: member.userId, showType: .voiceChannel(serverId: self.showType.serverId, channelId: self.showType.channelId), role: role, targetRole: member.role, onlineState: state, isMute: false)
                     vc.didKickHandle = { userId in
                         for i in 0..<members.count where member.userId == userId {
                             self.result?.list?.remove(at: i)
                             self.tableView.reloadData()
                             break
                         }
+                        self.tableView.isHidden = self.result?.count ?? 0 <= 0
+                        self.noDataView.isHidden = self.result?.count ?? 0 > 0
                     }
                     self.present(vc, animated: true)
                 }

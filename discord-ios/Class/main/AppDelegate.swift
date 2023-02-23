@@ -17,7 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let emOptions = EMOptions(appkey: "easemob-demo#circle")
+//        let emOptions = EMOptions(appkey: "easemob-demo#circle")
+        let emOptions = EMOptions(appkey: "easemob-demo#jzz1")
         #if DEBUG
         emOptions.enableConsoleLog = true
         #else
@@ -27,9 +28,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         emOptions.isAutoLogin = true
 //        emOptions.restServer = "a1-test.easemob.com"
 //        emOptions.chatServer = "106.75.100.247"
-        emOptions.enableDnsConfig = false
-        emOptions.restServer = "aws-im-bj-web-245870899.cn-north-1.elb.amazonaws.com.cn"
-        emOptions.chatServer = "aws-im-bj-msync-dc5e2e76b0d58215.elb.cn-north-1.amazonaws.com.cn"
+//        emOptions.enableDnsConfig = false
+//        emOptions.restServer = "a1.easemob.com"
+//        emOptions.chatServer = "msync-im-aws-bj.easemob.com"
         emOptions.chatPort = 6717
         EMClient.shared().initializeSDK(with: emOptions)
         

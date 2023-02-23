@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="avatarImageView" destination="N4W-jw-1vz" id="Tf6-c4-CP0"/>
                 <outlet property="bgImageView" destination="DDK-EW-bBN" id="tv3-gF-RGd"/>
+                <outlet property="destroyView" destination="MdW-Xz-MaI" id="XhZ-hc-6mE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

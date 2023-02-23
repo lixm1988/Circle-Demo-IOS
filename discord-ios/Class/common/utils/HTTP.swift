@@ -12,11 +12,11 @@ class HTTP: NSObject {
     
     class var baseUrlWithAppKey: String? {
         var baseUrl: String?
-//        if EMClient.shared().options.enableDnsConfig {
-            baseUrl = "aws-im-bj-web-245870899.cn-north-1.elb.amazonaws.com.cn"
-//        } else {
-//            baseUrl = EMClient.shared().options.restServer
-//        }
+        if EMClient.shared().options.enableDnsConfig {
+            baseUrl = "a1.easemob.com"
+        } else {
+            baseUrl = EMClient.shared().options.restServer
+        }
         guard var baseUrl = baseUrl, let appkey = EMClient.shared().options.appkey else {
             return nil
         }

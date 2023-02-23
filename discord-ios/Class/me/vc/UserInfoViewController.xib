@@ -61,7 +61,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOF-AV-wdn">
-                    <rect key="frame" x="16" y="61" width="32" height="22.5"/>
+                    <rect key="frame" x="16" y="60.5" width="32" height="23"/>
                     <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="16"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -104,8 +104,8 @@
                             <color key="textColor" white="1" alpha="0.73999999999999999" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="DcJ-hY-amA">
-                            <rect key="frame" x="0.0" y="109" width="414" height="597"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_data" translatesAutoresizingMaskIntoConstraints="NO" id="DcJ-hY-amA">
+                            <rect key="frame" x="0.0" y="109" width="414" height="537"/>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iB5-CV-HLK">
                             <rect key="frame" x="0.0" y="706" width="414" height="0.0"/>
@@ -166,7 +166,7 @@
                         <constraint firstItem="iB5-CV-HLK" firstAttribute="top" secondItem="hdm-Ud-cSV" secondAttribute="bottom" constant="40" id="QSb-lY-Dfm"/>
                         <constraint firstItem="QJx-CG-gW8" firstAttribute="height" secondItem="hdm-Ud-cSV" secondAttribute="height" id="WPv-Pb-bYR"/>
                         <constraint firstItem="QJx-CG-gW8" firstAttribute="top" secondItem="hdm-Ud-cSV" secondAttribute="top" id="Xrz-44-mnE"/>
-                        <constraint firstAttribute="bottom" secondItem="DcJ-hY-amA" secondAttribute="bottom" id="mgU-5l-p7D"/>
+                        <constraint firstAttribute="bottom" secondItem="DcJ-hY-amA" secondAttribute="bottom" constant="60" id="mgU-5l-p7D"/>
                         <constraint firstItem="BcH-eO-3tp" firstAttribute="leading" secondItem="dfr-KT-33Z" secondAttribute="leading" constant="24" id="obk-2M-M03"/>
                         <constraint firstItem="A3u-dt-hOw" firstAttribute="leading" secondItem="0pa-Bk-swM" secondAttribute="trailing" id="riH-06-bYO"/>
                         <constraint firstItem="hdm-Ud-cSV" firstAttribute="leading" secondItem="dfr-KT-33Z" secondAttribute="leading" constant="24" id="rjD-iy-huj"/>
@@ -233,9 +233,9 @@
     </objects>
     <resources>
         <image name="back_white" width="28" height="28"/>
-        <image name="head_placeholder" width="800" height="800"/>
+        <image name="head_placeholder" width="200" height="200"/>
         <image name="more_white" width="28" height="28"/>
-        <image name="placeholder" width="212" height="214"/>
+        <image name="no_data" width="180" height="120"/>
         <image name="setting" width="36" height="36"/>
         <image name="vc_top_bg" width="360" height="200"/>
         <namedColor name="#181818">

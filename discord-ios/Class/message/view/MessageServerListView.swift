@@ -66,7 +66,6 @@ class MessageServerListView: UIView {
         
         EMClient.shared().chatManager?.add(self, delegateQueue: nil)
         EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
-        EMClient.shared().addMultiDevices(delegate: self, queue: nil)
         VoiceChatManager.shared.addDelegate(self)
         
         NotificationCenter.default.addObserver(self, selector: #selector(didRecvServerAddNotification(_:)), name: EMCircleDidCreateServer, object: nil)
@@ -145,10 +144,7 @@ class MessageServerListView: UIView {
     
     @objc private func didRecvServerAddNotification(_ notification: Notification) {
         if let server = notification.object as? EMCircleServer {
-            self.dataList.append(server)
-            self.collectionView.performBatchUpdates {
-                self.collectionView.insertItems(at: [IndexPath(item: self.dataList.count, section: 0)])
-            }
+            self.appendServer(server)
         }
     }
     
@@ -189,7 +185,7 @@ class MessageServerListView: UIView {
             for i in 0..<self.dataList.count where self.dataList[i].serverId == serverId {
                 self._selectType = .serverItem(serverId: serverId)
                 self.didSelectedItem?(self._selectType)
-                self.collectionView.reloadData()
+                self.collectionView.reloadSections(IndexSet(integer: 0))
                 self.collectionView.scrollToItem(at: IndexPath(item: i + 1, section: 0), at: .centeredVertically, animated: false)
                 break
             }
@@ -208,10 +204,7 @@ class MessageServerListView: UIView {
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let server = server {
-                self.dataList.append(server)
-                self.collectionView.performBatchUpdates {
-                    self.collectionView.insertItems(at: [IndexPath(item: self.dataList.count, section: 0)])
-                }
+                self.appendServer(server)
             }
         })
     }
@@ -228,9 +221,16 @@ class MessageServerListView: UIView {
         }
     }
     
+    private func appendServer(_ server: EMCircleServer) {
+        for s in self.dataList where s.serverId == server.serverId {
+            return
+        }
+        self.dataList.append(server)
+        self.collectionView.insertItems(at: [IndexPath(item: self.dataList.count, section: 0)])
+    }
+    
     deinit {
         EMClient.shared().circleManager?.remove(serverDelegate: self)
-        EMClient.shared().remove(self)
         NotificationCenter.default.removeObserver(self)
     }
 }
@@ -309,9 +309,29 @@ extension MessageServerListView.SelectType {
 }
 
 extension MessageServerListView: EMCircleManagerServerDelegate {
+    func onServerCreated(_ server: EMCircleServer) {
+        self.appendServer(server)
+    }
+    
     func onServerDestroyed(_ serverId: String, initiator: String) {
         self.removeServer(serverId: serverId)
         ServerInfoManager.shared.remove(serverId: serverId)
+    }
+    
+    func onMemberJoinedServer(_ serverId: String, member: String) {
+        if member == EMClient.shared().currentUsername {
+            ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: true) { server, _ in
+                if let server = server {
+                    self.appendServer(server)
+                }
+            }
+        }
+    }
+    
+    func onMemberLeftServer(_ serverId: String, member: String) {
+        if member == EMClient.shared().currentUsername {
+            self.removeServer(serverId: serverId)
+        }
     }
     
     func onMemberRemoved(fromServer serverId: String, members: [String]) {
@@ -330,29 +350,6 @@ extension MessageServerListView: EMCircleManagerServerDelegate {
             break
         }
         self.collectionView.reloadData()
-    }
-}
-
-extension MessageServerListView: EMMultiDevicesDelegate {
-    func multiDevicesCircleServerEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId: String, ext aExt: Any?) {
-        switch aEvent {
-        case .circleServerCreate, .circleServerJoin:
-            ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
-                if let server = server {
-                    self.dataList.append(server)
-                    self.collectionView.performBatchUpdates {
-                        self.collectionView.insertItems(at: [IndexPath(item: self.dataList.count, section: 0)])
-                    }
-                }
-            }
-        case .circleServerDestroy:
-            self.removeServer(serverId: serverId)
-            ServerInfoManager.shared.remove(serverId: serverId)
-        case .circleServerExit:
-            self.removeServer(serverId: serverId)
-        default:
-            break
-        }
     }
 }
 

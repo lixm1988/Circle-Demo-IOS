@@ -89,6 +89,9 @@ class MainViewController: UITabBarController {
 
 extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChannelDelegate {
     func onReceiveServerInvitation(_ event: EMCircleServerEvent, inviter: String) {
+        if inviter == EMClient.shared().currentUsername {
+            return
+        }
         let showType = ServerJoinAlertViewController.ShowType.inviteServer(serverId: event.serverId, inviter: inviter) { [unowned self] _ in
             self.currentShowType = nil
             self.showNext()
@@ -101,6 +104,9 @@ extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChan
     }
 
     func onReceiveChannelInvitation(_ invite: EMCircleChannelExt, inviter: String) {
+        if inviter == EMClient.shared().currentUsername {
+            return
+        }
         let showType = ServerJoinAlertViewController.ShowType.inviteChannel(inviteInfo: invite, inviter: inviter) { [unowned self] _ in
             self.currentShowType = nil
             self.showNext()
@@ -110,6 +116,24 @@ extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChan
         }
         self.inviteQueue.append(showType)
         self.showNext()
+    }
+    
+    func onServerInvitationBeAccepted(_ serverId: String, invitee: String) {
+        if invitee == EMClient.shared().currentUsername {
+            self.removeServerInvite(serverId: serverId)
+        }
+    }
+    
+    func onServerInvitationBeDeclined(_ serverId: String, invitee: String) {
+        if invitee == EMClient.shared().currentUsername {
+            self.removeServerInvite(serverId: serverId)
+        }
+    }
+    
+    func onMemberJoinedServer(_ serverId: String, member: String) {
+        if member == EMClient.shared().currentUsername {
+            self.removeServerInvite(serverId: serverId)
+        }
     }
     
     private func showNext() {
@@ -142,6 +166,7 @@ extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChan
         case .inviteServer(serverId: let sId, inviter: _, joinHandle: _, refuseHandle: _):
             if serverId == sId {
                 self.dismiss(animated: true)
+                self.currentShowType = nil
                 self.showNext()
             }
         default:
@@ -165,6 +190,7 @@ extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChan
         case .inviteChannel(inviteInfo: let channelExt, inviter: _, joinHandle: _, refuseHandle: _):
             if channelId == channelExt.channelId {
                 self.dismiss(animated: true)
+                self.currentShowType = nil
                 self.showNext()
             }
         default:
@@ -174,15 +200,6 @@ extension MainViewController: EMCircleManagerServerDelegate, EMCircleManagerChan
 }
 
 extension MainViewController: EMMultiDevicesDelegate {
-    func multiDevicesCircleServerEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId aServerId: String, ext aExt: Any?) {
-        switch aEvent {
-        case .circleServerInviteBeAccepted, .circleServerInviteBeDeclined, .circleServerJoin:
-            self.removeServerInvite(serverId: aServerId)
-        default:
-            break
-        }
-    }
-    
     func multiDevicesCircleChannelEventDidReceive(_ aEvent: EMMultiDevicesEvent, channelId aChannelId: String, ext aExt: Any?) {
         switch aEvent {
         case .circleChannelInviteBeAccepted, .circleChannelInviteBeDeclined, .circleChannelJoin:

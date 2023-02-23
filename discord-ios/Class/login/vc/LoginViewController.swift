@@ -158,13 +158,13 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func serviceAction() {
-        if let url = URL(string: "http://www.easemob.com/protocol") {
+        if let url = URL(string: "http://www.easemob.com/agreement") {
             UIApplication.shared.open(url)
         }
     }
     
     @IBAction func privateAction() {
-        if let url = URL(string: "http://www.easemob.com/agreement") {
+        if let url = URL(string: "http://www.easemob.com/protocol") {
             UIApplication.shared.open(url)
         }
     }

@@ -16,7 +16,7 @@ class VoiceChannelMiniView: UIView {
     
     var isMuted = false {
         didSet {
-            self.muteImageView.image = UIImage(named: isMuted ? "mic_slash_white" : "mic2")
+            self.muteImageView.image = UIImage(named: isMuted ? "mic_slash_gray" : "mic_slash_white")
         }
     }
     
@@ -51,7 +51,7 @@ class VoiceChannelMiniView: UIView {
         self.button.addTarget(self, action: #selector(onClick), for: .touchUpInside)
         self.imageView.layer.borderColor = UIColor(named: ColorName_14FF72)?.cgColor
         self.imageView.layer.masksToBounds = true
-        self.muteImageView.image = UIImage(named: "mic2")
+        self.muteImageView.image = UIImage(named: "mic_slash_white")
         
         self.addSubview(self.button)
         self.addSubview(self.imageView)

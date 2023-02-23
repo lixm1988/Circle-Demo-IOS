@@ -14,6 +14,7 @@ class ServerUserMenuViewController: UIViewController {
     enum ShowType {
         case server(serverId: String)
         case channel(serverId: String, channelId: String)
+        case voiceChannel(serverId: String, channelId: String)
         case thread(threadId: String)
     }
     
@@ -75,7 +76,7 @@ class ServerUserMenuViewController: UIViewController {
         case .server:
             self.kickButton.setTitle("踢出社区", for: .normal)
             EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
-        case .channel(serverId: let serverId, channelId: let channelId):
+        case .channel(serverId: let serverId, channelId: let channelId), .voiceChannel(serverId: let serverId, channelId: let channelId):
             EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
             EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, error in
                 if let error = error {
@@ -86,11 +87,8 @@ class ServerUserMenuViewController: UIViewController {
                 self.isDefaultChannel = channel?.isDefault
                 self.updateShowUI()
             }
-        case .thread:
-            self.kickButton.isHidden = true
-            self.setManagerButton.isHidden = true
-            self.muteButton.isHidden = true
-            self.roleLabel.isHidden = true
+        default:
+            break
         }
     }
     
@@ -200,7 +198,8 @@ class ServerUserMenuViewController: UIViewController {
                     self.didKickHandle?(self.userId)
                 }
             }
-        case .channel(serverId: let serverId, channelId: let channelId):
+        case .channel(serverId: let serverId, channelId: let channelId),
+             .voiceChannel(serverId: let serverId, channelId: let channelId):
             EMClient.shared().circleManager?.removeUser(fromChannel: serverId, channelId: channelId, userId: self.userId) { error in
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
@@ -215,44 +214,95 @@ class ServerUserMenuViewController: UIViewController {
     }
     
     private func updateShowUI() {
-        var isServer = false
         switch self.showType {
         case .server:
-            self.updateRoleLabel()
-            isServer = true
+            self.updateServerShow()
         case .channel:
-            if self.role != .user {
-                self.muteButton.isSelected = self.isMute
-            }
-            self.updateRoleLabel()
+            self.updateChannelShow()
+        case .voiceChannel:
+            self.updateVoiceChannelShow()
         case .thread:
-            break
+            self.updateThreadShow()
         }
+        self.updateLayout()
+    }
+    
+    private func updateServerShow() {
+        self.updateRoleLabel()
         switch (self.role, self.targetRole) {
         case (.owner, .moderator):
             self.kickButton.isHidden = false
             self.setManagerButton.isSelected = true
-            self.muteButton.isHidden = isServer
+            self.muteButton.isHidden = true
             self.setManagerButton.isHidden = false
         case (.owner, _):
             self.kickButton.isHidden = false
             self.setManagerButton.isSelected = false
-            self.muteButton.isHidden = isServer
+            self.muteButton.isHidden = true
             self.setManagerButton.isHidden = false
         case (.moderator, .user):
             self.kickButton.isHidden = false
             self.setManagerButton.isHidden = true
-            self.muteButton.isHidden = isServer
+            self.muteButton.isHidden = true
         default:
             self.kickButton.isHidden = true
             self.setManagerButton.isHidden = true
             self.muteButton.isHidden = true
         }
-        
-        if let isDefaultChannel = self.isDefaultChannel {
-            self.kickButton.isHidden = self.kickButton.isHidden || isDefaultChannel
+    }
+    
+    private func updateChannelShow() {
+        if self.role != .user {
+            self.muteButton.isSelected = self.isMute
         }
-
+        self.updateRoleLabel()
+        
+        switch (self.role, self.targetRole) {
+        case (.owner, .moderator):
+            self.kickButton.isHidden = self.isDefaultChannel ?? false
+            self.setManagerButton.isSelected = true
+            self.muteButton.isHidden = false
+            self.setManagerButton.isHidden = false
+        case (.owner, _):
+            self.kickButton.isHidden = self.isDefaultChannel ?? false
+            self.setManagerButton.isSelected = false
+            self.muteButton.isHidden = false
+            self.setManagerButton.isHidden = false
+        case (.moderator, .user):
+            self.kickButton.isHidden = self.isDefaultChannel ?? false
+            self.setManagerButton.isHidden = true
+            self.muteButton.isHidden = false
+        default:
+            self.kickButton.isHidden = true
+            self.setManagerButton.isHidden = true
+            self.muteButton.isHidden = true
+        }
+    }
+    
+    private func updateVoiceChannelShow() {
+        self.updateRoleLabel()
+        
+        self.muteButton.isHidden = true
+        self.setManagerButton.isHidden = true
+        switch (self.role, self.targetRole) {
+        case (.owner, .moderator):
+            self.kickButton.isHidden = false
+        case (.owner, _):
+            self.kickButton.isHidden = false
+        case (.moderator, .user):
+            self.kickButton.isHidden = false
+        default:
+            self.kickButton.isHidden = true
+        }
+    }
+    
+    private func updateThreadShow() {
+        self.kickButton.isHidden = true
+        self.muteButton.isHidden = true
+        self.setManagerButton.isHidden = true
+    }
+    
+    private func updateLayout() {
         self.chatButton.snp.remakeConstraints { make in
             make.left.equalTo(self.view)
             make.top.equalTo(self.headImageView.snp.bottom).offset(32)

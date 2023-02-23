@@ -20,10 +20,10 @@ class ServerCreateIconButton: UIButton {
         didSet {
             switch showType {
             case .create:
-                self.setTitle("社区封面", for: .normal)
+                self.setTitle("社区头像", for: .normal)
                 self.setImage(UIImage(named: "add_white"), for: .normal)
             case .update:
-                self.setTitle("更换封面", for: .normal)
+                self.setTitle("更换头像", for: .normal)
                 self.setImage(UIImage(named: "server_icon_change"), for: .normal)
             case .none:
                 break

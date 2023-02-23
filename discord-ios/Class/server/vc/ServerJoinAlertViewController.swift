@@ -90,10 +90,6 @@ class ServerJoinAlertViewController: UIViewController {
             break
         }
     }
-
-    @IBAction func tapAction() {
-        self.dismiss(animated: true)
-    }
     
     @IBAction func thinkAction() {
         switch self.showType {

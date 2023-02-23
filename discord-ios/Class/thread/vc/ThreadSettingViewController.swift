@@ -195,11 +195,11 @@ extension ThreadSettingViewController: UITableViewDataSource {
 
 extension ThreadSettingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let userId = self.result?.list?[indexPath.row] as? String, userId != EMClient.shared().currentUsername {
-            let onlineState = self.userOnlineStateCache.getUserStatus(userId) ?? .offline
-            let vc = ServerUserMenuViewController(userId: userId, showType: .thread(threadId: self.threadId.threadId), role: .user, targetRole: .user, onlineState: onlineState)
-            self.present(vc, animated: true)
-        }
+//        if let userId = self.result?.list?[indexPath.row] as? String, userId != EMClient.shared().currentUsername {
+//            let onlineState = self.userOnlineStateCache.getUserStatus(userId) ?? .offline
+//            let vc = ServerUserMenuViewController(userId: userId, showType: .thread(threadId: self.threadId.threadId), role: .user, targetRole: .user, onlineState: onlineState)
+//            self.present(vc, animated: true)
+//        }
     }
 }
 

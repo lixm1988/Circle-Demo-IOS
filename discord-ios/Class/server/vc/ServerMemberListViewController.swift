@@ -8,6 +8,7 @@
 import UIKit
 import MJRefresh
 import HyphenateChat
+import PKHUD
 
 class ServerMemberListViewController: BaseViewController {
 
@@ -18,6 +19,8 @@ class ServerMemberListViewController: BaseViewController {
     private var role: EMCircleUserRole?
     private var muteStateMap: [String: NSNumber]?
     private let userOnlineStateCache = UserOnlineStateCache()
+    
+    private var isVoiceChannel = false
     
     init(showType: ServerStratum) {
         self.showType = showType
@@ -60,6 +63,21 @@ class ServerMemberListViewController: BaseViewController {
                     break
                 }
             }
+        }
+        
+        switch self.showType {
+        case .channel(serverId: let serverId, channelId: let channelId):
+            HUD.show(.progress)
+            EMClient.shared.circleManager?.fetchChannelDetail(serverId, channelId: channelId, completion: { channel, error in
+                HUD.hide()
+                if let error = error {
+                    Toast.show(error.errorDescription, duration: 2)
+                } else if let channel = channel {
+                    self.isVoiceChannel = channel.mode == .voice
+                }
+            })
+        default:
+            break
         }
         
         EMClient.shared().circleManager?.add(serverDelegate: self, queue: nil)
@@ -202,7 +220,11 @@ extension ServerMemberListViewController: UITableViewDelegate {
         case .server(serverId: let serverId):
             vc = ServerUserMenuViewController(userId: userInfo.userId, showType: .server(serverId: serverId), role: role, targetRole: userInfo.role, onlineState: onlineState)
         case .channel(serverId: let serverId, channelId: let channelId):
-            vc = ServerUserMenuViewController(userId: userInfo.userId, showType: .channel(serverId: serverId, channelId: channelId), role: role, targetRole: userInfo.role, onlineState: onlineState, isMute: self.isMute(userId: userInfo.userId))
+            if self.isVoiceChannel {
+                vc = ServerUserMenuViewController(userId: userInfo.userId, showType: .voiceChannel(serverId: serverId, channelId: channelId), role: role, targetRole: userInfo.role, onlineState: onlineState, isMute: self.isMute(userId: userInfo.userId))
+            } else {
+                vc = ServerUserMenuViewController(userId: userInfo.userId, showType: .channel(serverId: serverId, channelId: channelId), role: role, targetRole: userInfo.role, onlineState: onlineState, isMute: self.isMute(userId: userInfo.userId))
+            }
             vc.didMuteHandle = { userId, duration in
                 if let duration = duration {
                     let number = (TimeInterval(duration) + Date().timeIntervalSince1970) * 1000
@@ -263,7 +285,12 @@ extension ServerMemberListViewController: EMCircleManagerServerDelegate {
         switch self.showType {
         case .server(serverId: let sId):
             if serverId == sId {
-                self.removeMembers(members: [member])
+                if member == EMClient.shared().currentUsername {
+                    Toast.show("你已离开社区", duration: 2)
+                    self.dismiss(animated: true)
+                } else {
+                    self.removeMembers(members: [member])
+                }
             }
         default:
             break
@@ -362,31 +389,6 @@ extension ServerMemberListViewController: EMCircleManagerChannelDelegate {
 }
 
 extension ServerMemberListViewController: EMMultiDevicesDelegate {
-    func multiDevicesCircleServerEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId aServerId: String, ext aExt: Any?) {
-        switch self.showType {
-        case .server(serverId: let sId):
-            if aServerId != sId {
-                return
-            }
-        default:
-            return
-        }
-        switch aEvent {
-        case .circleServerRemoveUser:
-            if let members = aExt as? [String] {
-                self.removeMembers(members: members)
-            }
-        case .circleServerDestroy:
-            Toast.show("社区被解散", duration: 2)
-            self.dismiss(animated: true)
-        case .circleServerExit:
-            Toast.show("你已离开社区", duration: 2)
-            self.dismiss(animated: true)
-        default:
-            break
-        }
-    }
-    
     func multiDevicesCircleChannelEventDidReceive(_ aEvent: EMMultiDevicesEvent, channelId aChannelId: String, ext aExt: Any?) {
         switch self.showType {
         case .channel(serverId: _, channelId: let cId):

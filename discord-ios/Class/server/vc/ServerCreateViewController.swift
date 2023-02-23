@@ -123,15 +123,17 @@ class ServerCreateViewController: BaseViewController {
             } else if let server = server {
                 Toast.show("创建成功", duration: 2)
                 NotificationCenter.default.post(name: EMCircleDidCreateServer, object: server)
-                let vc = ChatViewController(chatType: .channel(serverId: server.serverId, channelId: server.defaultChannelId))
-                self.navigationController?.pushViewController(vc, animated: true)
-                let vcs = self.navigationController?.viewControllers
-                if var vcs = vcs, vcs.count > 2 {
-                    vcs.remove(at: vcs.count - 2)
-                    self.navigationController?.viewControllers = vcs
-                }
+                self.navigationController?.popToRootViewController(animated: true)
+                self.gotoHomePage(serverId: server.serverId)
             }
         }
+    }
+    
+    private func gotoHomePage(serverId: String) {
+        if let tabBarController = UIApplication.shared.keyWindow?.rootViewController as? UITabBarController {
+            tabBarController.selectedIndex = 0
+        }
+        NotificationCenter.default.post(name: MainShouldSelectedServer, object: serverId)
     }
 }
 

@@ -176,7 +176,13 @@ class MessageServerViewController: UIViewController {
             self.channelMap.removeAll()
             self.memberMap.removeAll()
         }
-        EMClient.shared().circleManager?.fetchCategories(inServer: self.serverId, limit: 20, cursor: refresh ? nil : self.categorys?.cursor, completion: { result, error in
+        let serverId = self.serverId
+        HUD.show(.progress)
+        EMClient.shared().circleManager?.fetchCategories(inServer: serverId, limit: 20, cursor: refresh ? nil : self.categorys?.cursor, completion: { result, error in
+            HUD.hide()
+            if self.serverId != serverId {
+                return
+            }
             if let error = error {
                 Toast.show(error.errorDescription, duration: 2)
             } else if let result = result {
@@ -220,8 +226,12 @@ class MessageServerViewController: UIViewController {
         }
         let result = self.channelMap[categoryId]
         let isPublic = result?.publicResult == nil || (result?.publicResult?.cursor != nil && (result?.publicResult?.cursor?.count)! > 0)
+        let serverId = self.serverId
         if isPublic {
-            EMClient.shared().circleManager?.fetchPublicChannels(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.publicResult?.cursor, completion: { result, error in
+            EMClient.shared().circleManager?.fetchPublicChannels(inCategory: serverId, categoryId: categoryId, limit: 20, cursor: result?.publicResult?.cursor, completion: { result, error in
+                if serverId != self.serverId {
+                    return
+                }
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let result = result {
@@ -235,7 +245,8 @@ class MessageServerViewController: UIViewController {
                     if let list = result.list, let publicResult = self.channelMap[categoryId]?.publicResult {
                         for i in 0..<list.count {
                             let row = Int(publicResult.count) - Int(result.count) + i
-                            self.loadThreadsData(channelId: list[i].channelId, indexPath: IndexPath(row: row, section: section), refresh: true)
+                            let channel = list[i]
+                            self.loadThreadsData(serverId: channel.serverId, channelId: channel.channelId, refresh: true)
                         }
                     }
                 }
@@ -245,6 +256,9 @@ class MessageServerViewController: UIViewController {
                 return
             }
             EMClient.shared().circleManager?.fetchPrivateChannels(inCategory: self.serverId, categoryId: categoryId, limit: 20, cursor: result?.privateResult?.cursor, completion: { result, error in
+                if serverId != self.serverId {
+                    return
+                }
                 if let error = error {
                     Toast.show(error.errorDescription, duration: 2)
                 } else if let result = result {
@@ -259,7 +273,8 @@ class MessageServerViewController: UIViewController {
                     if let list = result.list, let old = self.channelMap[categoryId] {
                         for i in 0..<list.count {
                             let row = Int(old.publicResult?.count ?? 0) + Int(old.privateResult?.count ?? 0) - Int(result.count) + i
-                            self.loadThreadsData(channelId: list[i].channelId, indexPath: IndexPath(row: row, section: section), refresh: true)
+                            let channel = list[i]
+                            self.loadThreadsData(serverId: channel.serverId, channelId: channel.channelId, refresh: true)
                         }
                     }
                     if result.cursor?.count != 0 && result.count >= 20 {
@@ -366,15 +381,20 @@ class MessageServerViewController: UIViewController {
         }
     }
     
-    private func loadThreadsData(channelId: String, indexPath: IndexPath, refresh: Bool) {
+    private func loadThreadsData(serverId: String, channelId: String, refresh: Bool) {
         if self.channelLoadingThreadsSet.contains(channelId) {
             return
         }
         let oldResult = self.threadMap[channelId]
         let cursor = refresh ? nil : oldResult?.cursor
         self.channelLoadingThreadsSet.insert(channelId)
-        self.tableView.reloadRows(at: [indexPath], with: .fade)
+        if let indexPath = self.index(channelId: channelId) {
+            self.tableView.reloadRows(at: [indexPath], with: .fade)
+        }
         EMClient.shared().threadManager?.getChatThreadsFromServer(withParentId: channelId, cursor: cursor, pageSize: 20) { result, error in
+            if serverId != self.serverId {
+                return
+            }
             self.channelLoadingThreadsSet.remove(channelId)
             if error != nil {
                 // "user not in group."
@@ -390,7 +410,9 @@ class MessageServerViewController: UIViewController {
                 } else {
                     self.threadMap[channelId] = result
                 }
-                self.tableView.reloadRows(at: [indexPath], with: .fade)
+                if let indexPath = self.index(channelId: channelId) {
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
             }
         }
     }
@@ -590,9 +612,7 @@ class MessageServerViewController: UIViewController {
         }
         if channel.type == .private {
             self.addChannel(channel)
-            if let index = self.index(channelId: channel.channelId) {
-                self.loadThreadsData(channelId: channel.channelId, indexPath: index, refresh: true)
-            }
+            self.loadThreadsData(serverId: channel.serverId, channelId: channel.channelId, refresh: true)
         }
         if let currentUsername = EMClient.shared().currentUsername {
             ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
@@ -641,21 +661,20 @@ class MessageServerViewController: UIViewController {
     
     @objc private func didLeftChannelNotification(_ notification: Notification) {
         if let data = notification.object as? (String, String), data.0 == self.serverId, let channel = self.channel(channelId: data.1) {
-            if channel.type == .private {
-                ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
-                    if channel.serverId == self.serverId && role == .user {
-                        self.removeChannel(channelId: data.1)
-                    } else {
-                        if let currentUsername = EMClient.shared().currentUsername {
-                            self.removeMembers(channel: data.1, members: [currentUsername])
-                        }
-                    }
-                }
-            } else {
-                if let currentUsername = EMClient.shared().currentUsername {
-                    self.removeMembers(channel: data.1, members: [currentUsername])
-                }
+            if let currentUsername = EMClient.shared().currentUsername {
+                self.removeMembers(channel: channel.channelId, members: [currentUsername])
             }
+//            if channel.type == .private {
+//                ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
+//                    if channel.serverId == self.serverId && role == .user {
+//                        self.removeChannel(channelId: data.1)
+//                    } else {
+//                        if let currentUsername = EMClient.shared().currentUsername {
+//                            self.removeMembers(channel: data.1, members: [currentUsername])
+//                        }
+//                    }
+//                }
+//            }
         }
     }
     
@@ -809,7 +828,7 @@ extension MessageServerViewController: UITableViewDataSource {
                 self.threadClickAction(thread: thread, channel: item)
             }
             cell.moreClickHandle = { [unowned self] channel in
-                self.moreClickAction(channel: channel, indexPath: indexPath)
+                self.moreClickAction(channel: channel)
             }
             cell.channelLongPressHandle = { [unowned self] channel in
                 let vc = ChannelSettingViewController(serverId: channel.serverId, channelId: channel.channelId, fromViewController: self)
@@ -829,13 +848,47 @@ extension MessageServerViewController: UITableViewDataSource {
                     self.navigationController?.pushViewController(vc, animated: true)
                     NotificationCenter.default.post(name: EMCircleServerMessageUnreadCountChange, object: self.serverId)
                 } else {
-                    self.showChatChannelJoinAlert(serverId: channel.serverId, channelId: channel.channelId)
+                    self.checkChannelVisiable(channel: channel) { visiable in
+                        if visiable {
+                            self.showChatChannelJoinAlert(serverId: channel.serverId, channelId: channel.channelId)
+                        } else {
+                            Toast.show("此频道为私有频道，您需要被邀请才能加入", duration: 2)
+                        }
+                    }
                 }
             }
         } else if channel.mode == .voice {
             if let server = self.server {
-                let vc = VoiceChannelViewController(showType: .detail(server: server, channel: channel), fromViewController: self)
-                self.present(vc, animated: true)
+                self.checkChannelVisiable(channel: channel) { visiable in
+                    if visiable {
+                        let vc = VoiceChannelViewController(showType: .detail(server: server, channel: channel), fromViewController: self)
+                        self.present(vc, animated: true)
+                    } else {
+                        Toast.show("此频道为私有频道，您需要被邀请才能加入", duration: 2)
+                    }
+                }
+            }
+        }
+    }
+    
+    private func checkChannelVisiable(channel: EMCircleChannel, handle: @escaping (_ visiable: Bool) -> Void) {
+        if channel.type == .public {
+            handle(true)
+        } else {
+            ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
+                if role != .user {
+                    handle(true)
+                } else {
+                    EMClient.shared().circleManager?.checkSelfIsInChannel(serverId: channel.serverId, channelId: channel.channelId, completion: { isIn, error in
+                        if let error = error {
+                            Toast.show(error.errorDescription, duration: 2)
+                        } else if isIn {
+                            handle(true)
+                        } else {
+                            handle(false)
+                        }
+                    })
+                }
             }
         }
     }
@@ -854,7 +907,7 @@ extension MessageServerViewController: UITableViewDataSource {
                     }
                 }
                 DispatchQueue.main.async {
-                    let vc = ServerUserMenuViewController(userId: member.0.userId, showType: .channel(serverId: channel.serverId, channelId: channel.channelId), role: role, targetRole: member.0.role, onlineState: state, isMute: false)
+                    let vc = ServerUserMenuViewController(userId: member.0.userId, showType: .voiceChannel(serverId: channel.serverId, channelId: channel.channelId), role: role, targetRole: member.0.role, onlineState: state, isMute: false)
                     vc.didKickHandle = { userId in
                         self.removeMembers(channel: channel.channelId, members: [userId])
                     }
@@ -881,7 +934,7 @@ extension MessageServerViewController: UITableViewDataSource {
                     if self.threadMap[channel.channelId] != nil {
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                     } else {
-                        self.loadThreadsData(channelId: channel.channelId, indexPath: indexPath, refresh: true)
+                        self.loadThreadsData(serverId: channel.serverId, channelId: channel.channelId, refresh: true)
                     }
                 } else {
                     self.showChatChannelJoinAlert(serverId: channel.serverId, channelId: channel.channelId)
@@ -951,9 +1004,9 @@ extension MessageServerViewController: UITableViewDataSource {
         }
     }
     
-    private func moreClickAction(channel: EMCircleChannel, indexPath: IndexPath) {
+    private func moreClickAction(channel: EMCircleChannel) {
         if self.unfoldChannelSet.contains(channel.channelId) {
-            self.loadThreadsData(channelId: channel.channelId, indexPath: indexPath, refresh: false)
+            self.loadThreadsData(serverId: channel.serverId, channelId: channel.channelId, refresh: false)
         }
     }
 }
@@ -999,11 +1052,9 @@ extension MessageServerViewController: EMCircleManagerServerDelegate {
 }
 
 extension MessageServerViewController: EMCircleManagerChannelDelegate {
-    func onChannelCreated(_ serverId: String, categoryId: String, channelId: String, creator: String) {
-        EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, _ in
-            if let channel = channel, channel.serverId == self.serverId {
-                self.addChannel(channel)
-            }
+    func onChannelCreated(_ channel: EMCircleChannel, creator: String) {
+        if channel.serverId == self.serverId {
+            self.addChannel(channel)
         }
     }
     
@@ -1014,14 +1065,41 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
         self.removeChannel(channelId: channelId)
     }
     
-    func onChannelUpdated(_ serverId: String, categoryId: String, channelId: String, name: String, desc: String, seatCount: UInt, initiator: String) {
-        if serverId != self.serverId {
+    func onChannelUpdated(_ channel: EMCircleChannel, initiator: String) {
+        guard let result = self.channelMap[channel.categoryId] else {
             return
         }
-        if let channel = self.channel(channelId: channelId) {
-            channel.name = name
-            channel.desc = desc
-            self.reloadChannel(channelId: channelId)
+        var section: Int = 0
+        if let list = self.categorys?.list {
+            for i in 0..<list.count where channel.categoryId == list[i].categoryId {
+                section = i
+                break
+            }
+        }
+        var isReplace = false
+        var row: Int = 0
+        if let publicChannels = result.publicResult?.list {
+            for i in 0..<publicChannels.count where publicChannels[i].channelId == channel.channelId {
+                result.publicResult?.list?.remove(at: i)
+                result.publicResult?.list?.insert(channel, at: i)
+                isReplace = true
+                row = i
+                break
+            }
+        }
+        if !isReplace, let privateChannels = result.privateResult?.list {
+            for i in 0..<privateChannels.count where privateChannels[i].channelId == channel.channelId {
+                result.privateResult?.list?.remove(at: i)
+                result.privateResult?.list?.insert(channel, at: i)
+                isReplace = true
+                row = i + Int(result.publicResult?.count ?? 0)
+                break
+            }
+        }
+        if isReplace {
+            self.tableView.performBatchUpdates {
+                self.tableView.reloadRows(at: [IndexPath(row: row, section: section)], with: .fade)
+            }
         }
     }
     
@@ -1043,7 +1121,9 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
             if member == EMClient.shared().currentUsername, let channel = self.channel(channelId: channelId), channel.type == .private {
                 ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
                     if channel.serverId == self.serverId && role == .user {
-                        self.removeChannel(channelId: channelId)
+                        self.threadMap[channelId] = nil
+                        self.unfoldChannelSet.remove(channelId)
+                        self.reloadChannel(channelId: channelId)
                     }
                 }
             }
@@ -1053,15 +1133,10 @@ extension MessageServerViewController: EMCircleManagerChannelDelegate {
 
 // MARK: - EMCircleManagerCategoryDelegate
 extension MessageServerViewController: EMCircleManagerCategoryDelegate {
-    func onCategoryCreated(_ serverId: String, categoryId: String, categoryName: String) {
-        if serverId != self.serverId {
-            return
+    func onCategoryCreated(_ category: EMCircleCategory, creator: String) {
+        if category.serverId == self.serverId {
+            self.addCategory(category)
         }
-        let category = EMCircleCategory()
-        category.serverId = serverId
-        category.categoryId = categoryId
-        category.name = categoryName
-        self.addCategory(category)
     }
     
     func onCategoryDestroyed(_ serverId: String, categoryId: String, initiator: String) {
@@ -1071,11 +1146,10 @@ extension MessageServerViewController: EMCircleManagerCategoryDelegate {
         self.removeCategory(categoryId: categoryId)
     }
     
-    func onCategoryUpdated(_ serverId: String, categoryId: String, categoryName: String, initiator: String) {
-        if serverId != self.serverId {
-            return
+    func onCategoryUpdated(_ category: EMCircleCategory, initiator: String) {
+        if category.serverId == self.serverId {
+            self.updateCategoryName(categoryId: category.categoryId, name: category.name)
         }
-        self.updateCategoryName(categoryId: categoryId, name: categoryName)
     }
     
     func onChannelTransfered(_ serverId: String, from fromCategoryId: String, to toCategoryId: String, channelId: String, initiator: String) {
@@ -1124,44 +1198,6 @@ extension MessageServerViewController: EMThreadManagerDelegate {
 
 // MARK: - EMMultiDevicesDelegate
 extension MessageServerViewController: EMMultiDevicesDelegate {
-    func multiDevicesCircleServerEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId: String, ext aExt: Any?) {
-        if serverId != self.serverId {
-            return
-        }
-        switch aEvent {
-        case .circleServerUpdate:
-            self.updateServerDetail(refresh: true)
-        default:
-            break
-        }
-    }
-    
-    func multiDevicesCircleCategoryEventDidReceive(_ aEvent: EMMultiDevicesEvent, serverId aServerId: String, categoryId: String, channelId aChannelId: String, ext aExt: Any?) {
-        if serverId != self.serverId {
-            return
-        }
-        switch aEvent {
-        case .circleCategoryCreate:
-            if let name = (aExt as? [String])?.first {
-                let category = EMCircleCategory()
-                category.serverId = serverId
-                category.categoryId = categoryId
-                category.name = name
-                self.addCategory(category)
-            }
-        case .circleCategoryDestroy:
-            self.removeCategory(categoryId: categoryId)
-        case .circleCategoryUpdate:
-            if let name = (aExt as? [String])?.first {
-                self.updateCategoryName(categoryId: categoryId, name: name)
-            }
-        case .circleCategoryTransferChannel:
-            self.transferChannel(channelId: aChannelId, from: "", to: categoryId)
-        default:
-            break
-        }
-    }
-    
     func multiDevicesCircleChannelEventDidReceive(_ aEvent: EMMultiDevicesEvent, channelId: String, ext aExt: Any?) {
         switch aEvent {
         case .circleChannelDestroy:
@@ -1182,11 +1218,14 @@ extension MessageServerViewController: EMMultiDevicesDelegate {
             })
         case .circleChannelExit:
             if let channel = self.channel(channelId: channelId), channel.type == .private {
-                ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
-                    if channel.serverId == self.serverId && role == .user {
-                        self.removeChannel(channelId: channelId)
-                    }
+                if let currentUser = EMClient.shared().currentUsername {
+                    self.removeMembers(channel: channelId, members: [currentUser])
                 }
+//                ServerRoleManager.shared.queryServerRole(serverId: channel.serverId) { role in
+//                    if channel.serverId == self.serverId && role == .user {
+//                        self.removeChannel(channelId: channelId)
+//                    }
+//                }
             }
         case .circleChannelRemoveUser:
             if let channel = self.channel(channelId: channelId), channel.mode == .voice, let members = aExt as? [String] {

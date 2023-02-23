@@ -55,8 +55,8 @@ class ServerPermissionSettingViewController: BaseViewController {
                     if channel?.mode == .voice, let channel = channel as? EMCircleVoiceChannel {
                         self.voiceChannelSeatCountView.isHidden = false
                         self.voiceChannelSeatCountViewHeightContraints.constant = 92
-                        self.slider.value = Float(channel.seatCount)
-                        self.sliderValueLabel.text = "\(UInt(channel.seatCount))"
+                        self.slider.value = Float(channel.maxUsers)
+                        self.sliderValueLabel.text = "\(channel.maxUsers)"
                     }
                 }
             })
@@ -90,7 +90,7 @@ class ServerPermissionSettingViewController: BaseViewController {
             let attr = EMCircleChannelAttribute()
             attr.type = self.changeSwitch.isOn ? .public : .private
             if !self.voiceChannelSeatCountView.isHidden {
-                attr.seatCount = UInt8(self.slider.value)
+                attr.maxUsers = Int32(self.slider.value)
             }
             HUD.show(.progress)
             EMClient.shared().circleManager?.updateChannel(serverId, channelId: channelId, attribute: attr, completion: { channel, error in

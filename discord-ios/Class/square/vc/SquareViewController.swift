@@ -85,8 +85,7 @@ class SquareViewController: UIViewController {
     }
     
     private func loadRecommendServer() {
-        guard let url = URL(string: "http://aws-im-bj-web-245870899.cn-north-1.elb.amazonaws.com.cn/easemob-demo/circle/circle/server/recommend/list") else {
-//        guard let baseUrl = HTTP.baseUrlWithAppKey, let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
+        guard let baseUrl = HTTP.baseUrlWithAppKey, let url = URL(string: "https://\(baseUrl)/circle/server/recommend/list") else {
             return
         }
         let session = URLSession(configuration: URLSessionConfiguration.default)
