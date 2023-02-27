@@ -438,6 +438,15 @@ extension VoiceChannelViewController: EMMultiDevicesDelegate {
     }
 }
 
+extension VoiceChannelViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        if touch.view?.superview is UITableViewCell {
+            return false
+        }
+        return true
+    }
+}
+
 extension VoiceChannelViewController.ShowType {
     var serverId: String {
         switch self {

@@ -163,9 +163,13 @@ class MessageServerViewController: UIViewController {
     }
     
     @IBAction func showDetailAction() {
-        if let server = self.server {
-            let vc = ServerDetailAlertViewController(server: server, showType: .detail)
-            self.present(vc, animated: true)
+        ServerInfoManager.shared.getServerInfo(serverId: self.serverId, refresh: false) { server, error in
+            if let error = error {
+                Toast.show(error.errorDescription, duration: 2)
+            } else if let server = server {
+                let vc = ServerDetailAlertViewController(server: server, showType: .detail)
+                self.present(vc, animated: true)
+            }
         }
     }
     

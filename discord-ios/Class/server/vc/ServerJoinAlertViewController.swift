@@ -156,14 +156,15 @@ class ServerJoinAlertViewController: UIViewController {
                     Toast.show("加入成功", duration: 2)
                     ServerChannelMapManager.shared.append(serverId: serverId, channelId: channelId)
                     HUD.show(.progress, onView: self.view)
-                    ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
-                        EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, _ in
-                            HUD.hide()
-                            self.sendJoinChannelMessage(serverId: serverId, channelId: channelId, serverName: server?.name ?? "", channelName: channel?.name ?? "")
-                        }
-                    }
                     if channel.mode == .voice {
                         VoiceChatManager.shared.joinChannel(serverId: channel.serverId, channel: channel.channelId)
+                    } else if channel.mode == .chat {
+                        ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: false) { server, _ in
+                            EMClient.shared().circleManager?.fetchChannelDetail(serverId, channelId: channelId) { channel, _ in
+                                HUD.hide()
+                                self.sendJoinChannelMessage(serverId: serverId, channelId: channelId, serverName: server?.name ?? "", channelName: channel?.name ?? "")
+                            }
+                        }
                     }
                     handle(channel)
                 }
@@ -186,9 +187,10 @@ class ServerJoinAlertViewController: UIViewController {
                     ServerChannelMapManager.shared.append(serverId: inviteInfo.serverId, channelId: inviteInfo.channelId)
                     if channel.mode == .voice {
                         VoiceChatManager.shared.joinChannel(serverId: channel.serverId, channel: channel.channelId)
+                    } else if channel.mode == .chat {
+                        self.sendJoinChannelMessage(serverId: inviteInfo.serverId, channelId: inviteInfo.channelId, serverName: inviteInfo.serverName, channelName: inviteInfo.channelName)
                     }
                     NotificationCenter.default.post(name: EMCircleDidJoinChannel, object: channel)
-                    self.sendJoinChannelMessage(serverId: inviteInfo.serverId, channelId: inviteInfo.channelId, serverName: inviteInfo.serverName, channelName: inviteInfo.channelName)
                     handle(channel)
                 }
                 self.dismiss(animated: true)

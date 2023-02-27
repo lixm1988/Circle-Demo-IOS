@@ -243,13 +243,14 @@
                 <constraint firstAttribute="bottom" secondItem="8PS-vj-gMs" secondAttribute="bottom" id="eTt-z8-fMr"/>
             </constraints>
             <connections>
-                <outletCollection property="gestureRecognizers" destination="5ct-uB-Mg2" appends="YES" id="7UQ-AW-LNg"/>
+                <outletCollection property="gestureRecognizers" destination="jy8-fS-67Y" appends="YES" id="cYi-FE-j32"/>
             </connections>
             <point key="canvasLocation" x="138" y="20"/>
         </view>
-        <tapGestureRecognizer id="5ct-uB-Mg2">
+        <tapGestureRecognizer id="jy8-fS-67Y">
             <connections>
-                <action selector="tapAction" destination="-1" id="RyW-B8-cy4"/>
+                <action selector="tapAction" destination="-1" id="dl4-RJ-CEP"/>
+                <outlet property="delegate" destination="-1" id="lta-rL-qJW"/>
             </connections>
         </tapGestureRecognizer>
     </objects>
