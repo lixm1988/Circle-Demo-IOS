@@ -18,20 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
 //        let emOptions = EMOptions(appkey: "easemob-demo#circle")
-        let emOptions = EMOptions(appkey: "easemob-demo#jzz1")
+        let emOptions = EMOptions(appkey: "")
         #if DEBUG
         emOptions.enableConsoleLog = true
         #else
         emOptions.enableConsoleLog = false
-        Bugly.start(withAppId: "da7ef6efd8")
+        Bugly.start(withAppId: "")
         #endif
         emOptions.isAutoLogin = true
-//        emOptions.restServer = "a1-test.easemob.com"
-//        emOptions.chatServer = "106.75.100.247"
-//        emOptions.enableDnsConfig = false
-//        emOptions.restServer = "a1.easemob.com"
-//        emOptions.chatServer = "msync-im-aws-bj.easemob.com"
-        emOptions.chatPort = 6717
         EMClient.shared().initializeSDK(with: emOptions)
         
         UITextField.appearance().tintColor = UIColor(named: ColorName_27AE60)

@@ -12,11 +12,12 @@ class HTTP: NSObject {
     
     class var baseUrlWithAppKey: String? {
         var baseUrl: String?
-        if EMClient.shared().options.enableDnsConfig {
+        
+//        if EMClient.shared().options.enableDnsConfig {
             baseUrl = "a1.easemob.com"
-        } else {
-            baseUrl = EMClient.shared().options.restServer
-        }
+//        } else {
+//            baseUrl = EMClient.shared().options.restServer
+//        }
         guard var baseUrl = baseUrl, let appkey = EMClient.shared().options.appkey else {
             return nil
         }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import HyphenateChat
 
 class CategorySettingViewController: ServerBaseSettingViewController {
 

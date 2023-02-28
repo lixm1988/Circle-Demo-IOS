@@ -29,8 +29,6 @@
 		5D4EFDC6296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDC5296BF0220044BF6C /* VoiceChatManagerDelegate+Default.swift */; };
 		5D4EFDCA296D134D0044BF6C /* ServerChannelMapManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDC9296D134D0044BF6C /* ServerChannelMapManager.swift */; };
 		5D4EFDCC296D44C20044BF6C /* MessageServerViewController+Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDCB296D44C20044BF6C /* MessageServerViewController+Common.swift */; };
-		5D4EFDCF296FBB170044BF6C /* HyphenateChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D969DCE2876E8E5008BEBC2 /* HyphenateChat.framework */; };
-		5D4EFDD0296FBB170044BF6C /* HyphenateChat.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5D969DCE2876E8E5008BEBC2 /* HyphenateChat.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5D4EFDD329768C390044BF6C /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4EFDD229768C390044BF6C /* NavigationTitleView.swift */; };
 		5D521D092872C18900BD9A43 /* EmojiListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D082872C18900BD9A43 /* EmojiListView.swift */; };
 		5D521D0C2872C38800BD9A43 /* EmojiKeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D521D0B2872C38800BD9A43 /* EmojiKeyboardLayout.swift */; };
@@ -181,20 +179,6 @@
 		5DFC4412286C27A900FB4483 /* ServerInfoEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFC4410286C27A900FB4483 /* ServerInfoEditViewController.swift */; };
 		5DFC4413286C27A900FB4483 /* ServerInfoEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DFC4411286C27A900FB4483 /* ServerInfoEditViewController.xib */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		5D4EFDD1296FBB170044BF6C /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5D4EFDD0296FBB170044BF6C /* HyphenateChat.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		5D055D3628801FE00069D580 /* NotificationNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNames.swift; sourceTree = "<group>"; };
@@ -394,7 +378,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D96270B28BCBF9B00A4F615 /* Pods_discord_ios.framework in Frameworks */,
-				5D4EFDCF296FBB170044BF6C /* HyphenateChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -927,7 +910,6 @@
 				5DF53CA1284EE6110007EEED /* Resources */,
 				F6EC55447CA9E8A182237AE1 /* [CP] Embed Pods Frameworks */,
 				5D88B1E228A5F8A300117F03 /* Run Script */,
-				5D4EFDD1296FBB170044BF6C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
