@@ -721,6 +721,8 @@ class MessageServerViewController: UIViewController {
     }
     
     deinit {
+        EMClient.shared().circleManager?.remove(serverDelegate: self)
+        EMClient.shared().circleManager?.remove(categoryDelegate: self)
         EMClient.shared().circleManager?.remove(channelDelegate: self)
         EMClient.shared().remove(self)
         EMClient.shared().chatManager?.remove(self)
