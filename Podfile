@@ -18,7 +18,7 @@ target 'discord-ios' do
   pod 'MJRefresh'
   pod 'TZImagePickerController'
   pod 'AgoraRtcEngine_iOS/RtcBasic', '4.1.0'
-  pod 'HyphenateChat_Circle'#, :path=>"../emclient-ios/cocoapods/HyphenateChat_Circle.podspec"
+  pod 'HyphenateChat_Circle', "3.9.9.1"
   pod 'Bugly'
 end
 
