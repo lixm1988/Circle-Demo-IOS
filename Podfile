@@ -23,7 +23,7 @@ target 'discord-ios' do
   pod 'MJRefresh'
   pod 'TZImagePickerController'
   pod 'AgoraRtcEngine_iOS/RtcBasic', '4.1.0'
-  pod 'HyphenateChat_Circle', "3.9.9.2"
+  pod 'HyphenateChat_Circle', "4.7.0.1"
   pod 'Bugly'
 end
 
