@@ -686,7 +686,7 @@ extension ChatViewController: EMChatManagerDelegate {
     
     func messagesInfoDidRecall(_ aRecallMessagesInfo: [EMRecallMessageInfo]) {
         for info in aRecallMessagesInfo {
-            self.didRecallMessage(messageId: info.recallMessage.messageId)
+            self.didRecallMessage(messageId: info.recallMessageId)
         }
     }
 }

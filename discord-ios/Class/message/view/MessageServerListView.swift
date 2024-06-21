@@ -123,8 +123,8 @@ class MessageServerListView: UIView {
     private func removeServer(serverId: String) {
         for i in 0..<self.dataList.count where self.dataList[i].serverId == serverId {
             self.dataList.remove(at: i)
-            self.collectionView.performBatchUpdates {
-                self.collectionView.deleteItems(at: [IndexPath(item: i + 1, section: 0)])
+            self.collectionView.performBatchUpdates { [weak self] in
+                self?.collectionView.deleteItems(at: [IndexPath(item: i + 1, section: 0)])
             }
             break
         }
@@ -132,8 +132,10 @@ class MessageServerListView: UIView {
         case .serverItem(serverId: let sid):
             if serverId == sid {
                 self._selectType = .conversation
-                self.collectionView.performBatchUpdates {
-                    self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+                self.collectionView.performBatchUpdates { [weak self] in
+                    if let collectionView = self?.collectionView {
+                        collectionView.reloadItems(at: collectionView.indexPathsForVisibleItems)
+                    }
                 }
                 self.didSelectedItem?(.conversation)
             }
@@ -152,8 +154,8 @@ class MessageServerListView: UIView {
         if let server = notification.object as? EMCircleServer {
             for i in 0..<self.dataList.count where self.dataList[i].serverId == server.serverId {
                 self.dataList[i].icon = server.icon
-                self.collectionView.performBatchUpdates {
-                    self.collectionView.reloadItems(at: [IndexPath(item: i + 1, section: 0)])
+                self.collectionView.performBatchUpdates { [weak self] in
+                    self?.collectionView.reloadItems(at: [IndexPath(item: i + 1, section: 0)])
                 }
                 break
             }
@@ -214,8 +216,8 @@ class MessageServerListView: UIView {
             return
         }
         for i in self.collectionView.indexPathsForVisibleItems where i.item > 0 && i.item <= self.dataList.count && self.dataList[i.item - 1].serverId == serverId {
-            self.collectionView.performBatchUpdates {
-                self.collectionView.reloadItems(at: [i])
+            self.collectionView.performBatchUpdates { [weak self] in
+                self?.collectionView.reloadItems(at: [i])
             }
             break
         }
@@ -320,9 +322,9 @@ extension MessageServerListView: EMCircleManagerServerDelegate {
     
     func onMemberJoinedServer(_ serverId: String, member: String) {
         if member == EMClient.shared().currentUsername {
-            ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: true) { server, _ in
+            ServerInfoManager.shared.getServerInfo(serverId: serverId, refresh: true) { [weak self] server, _ in
                 if let server = server {
-                    self.appendServer(server)
+                    self?.appendServer(server)
                 }
             }
         }
